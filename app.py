@@ -1,17 +1,15 @@
 from flask import Flask, render_template, g, request, redirect, url_for, session, flash
-from flask_sqlalchemy import SQLAlchemy
-from dotenv import load_dotenv
-
-import os, hashlib
-
-import models
+from sqlalchemy import create_engine, select, insert, update, delete
+from sqlalchemy.orm import sessionmaker
+from entities import *
+import base
+import os
 
 
 app = Flask(__name__, template_folder="templates")
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/qa.db'
-app.secret_key = os.getenv('SECRETKEY')
-db = SQLAlchemy(app)
-
+engine = create_engine('sqlite:///database/qa.db', echo = True)
+session = sessionmaker(bind=engine)()
+base.Base.metadata.create_all(engine)
 
 SALT = os.getenv('SALT')
 UPLOAD_FOLDER = 'static/images/'
@@ -19,7 +17,7 @@ UPLOAD_FOLDER = 'static/images/'
 
 @app.route('/')
 def check():
-    s = models.User.query.all()
+    s = session.query(User).all()
     return redirect(url_for('home', users = s))
 
 
