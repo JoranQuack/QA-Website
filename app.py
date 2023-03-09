@@ -1,24 +1,16 @@
 from flask import Flask, render_template, g, request, redirect, url_for, session, flash
-from sqlalchemy import create_engine, select, insert, update, delete
-from sqlalchemy.orm import sessionmaker
-from entities import *
-import base
+from environments import SECRET_KEY, SALT
+from routes import api
+import database
 import os
 
 
 app = Flask(__name__, template_folder="templates")
-engine = create_engine('sqlite:///database/qa.db', echo = True)
-session = sessionmaker(bind=engine)()
-base.Base.metadata.create_all(engine)
+app.secret_key = SECRET_KEY
 
-SALT = os.getenv('SALT')
+app.register_blueprint(api, url_prefix="/")
+
 UPLOAD_FOLDER = 'static/images/'
-
-
-@app.route('/')
-def check():
-    s = session.query(User).all()
-    return redirect(url_for('home', users = s))
 
 
 if __name__ == "__main__":
