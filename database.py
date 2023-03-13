@@ -1,11 +1,12 @@
-from sqlalchemy import create_engine, select, insert, update, delete
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+"""connect to prisma database"""
+from flask import g
+from prisma import Prisma
 
 
-Base = declarative_base()
-
-engine = create_engine('sqlite:///database/qa.db', echo = True)
-db_session = sessionmaker(bind=engine)()
-
-Base.metadata.create_all(engine)
+def get_db():
+    """connect to the database"""
+    database = getattr(g, '_database', None)
+    if database is None:
+        database = g._database = Prisma()
+        database.connect()
+    return database

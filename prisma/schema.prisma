@@ -1,0 +1,70 @@
+datasource db {
+    // could be postgresql or mysql
+    provider = "sqlite"
+    url      = "file:../database/qa.db"
+}
+
+generator db {
+    provider             = "prisma-client-py"
+    interface            = "sync"
+    recursive_type_depth = 5
+}
+
+model User {
+    id       Int      @id @default(autoincrement())
+    username String
+    password String
+    is_admin Boolean
+    events   Event[]
+    about    About[]
+    people   People[]
+    albums   Album[]
+    media    Media[]
+}
+
+model Event {
+    id          Int       @id @default(autoincrement())
+    user_id     Int
+    user        User      @relation(fields: [user_id], references: [id])
+    title       String
+    description String
+    date        DateTime
+    time        DateTime?
+}
+
+model About {
+    id          Int    @id @default(autoincrement())
+    user_id     Int
+    user        User   @relation(fields: [user_id], references: [id])
+    description String
+    location    String
+}
+
+model People {
+    id        Int     @id @default(autoincrement())
+    user_id   Int
+    user      User    @relation(fields: [user_id], references: [id])
+    reference String
+    name      String
+    role      String?
+}
+
+model Album {
+    id          Int     @id @default(autoincrement())
+    user_id     Int
+    user        User    @relation(fields: [user_id], references: [id])
+    title       String
+    description String
+    media       Media[]
+}
+
+model Media {
+    id          Int     @id @default(autoincrement())
+    user_id     Int
+    user        User    @relation(fields: [user_id], references: [id])
+    albums      Album[]
+    type        String
+    reference   String
+    on_gallery  Boolean
+    description String?
+}

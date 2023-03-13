@@ -1,6 +1,7 @@
-from dotenv import load_dotenv
-from pathlib import Path
+"""load env file variables"""
 import os
+from pathlib import Path
+from dotenv import load_dotenv
 
 load_dotenv(dotenv_path=Path('.env'))
 
