@@ -7,13 +7,234 @@
     <meta name="viewport" content="width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="{{url_for('static', filename='dist/css/output.css')}}">
+
+    <!-- CORE FILES FOR PERFECT SCROLLBAR FUNCTIONALITY
+    The Perfect Scrollbar CSS files
+    <link href="{{url_for('static', filename='dist/css/perfect-scrollbar.css')}}" rel="stylesheet">
+    The Perfect Scrollbar JS files
+    <script src="{{url_for('static', filename='dist/js/perfect-scrollbar.js')}}"></script> -->
+
 </head>
 
-<body class="h-screen bg-gradient-to-br from-blue-lighter to-blue-darker">
-    <header>
-        <img src="{{url_for('static', filename='images/website/qa-logo.png')}}" alt="qa-logo" class="h-13">
+<body class="h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16">
+
+    <header id="header"
+        class="flex flex-row items-center justify-between px-9 md:px-14 pt-7 pb-4 fixed left-0 w-screen z-10">
+        <a href="#home">
+            <img src="{{url_for('static', filename='images/website/qa-logo.png')}}" alt="qa-logo" class="h-12 md:h-14">
+        </a>
+
+        <!-- desktop menu -->
+        <div class="hidden md:flex flex-row gap-10">
+            <a class="link" href="#home">Home</a>
+            <a class="link" href="#about">About</a>
+            <a class="link" href="#upcoming">Upcoming</a>
+            <a class="link" href="#media">Media</a>
+            <a class="link" href="#contact">Contact</a>
+        </div>
+        <div class="w-14"></div>
+
+        <!-- mobile hamburger menu -->
+        <div class="menu-bg" id="menu-bg"></div>
+        <div class="md:hidden z-20 top-[3.25rem]" id="menu">
+            <div id="menu-bar" class="w-8 h-4 m-2 cursor-pointer scale-90" onclick="menuOnClick()">
+                <div id="bar1" class="bar transform -translate-y-1 mb-0.5"></div>
+                <div id="bar2" class="bar"></div>
+                <div id="bar3" class="bar transform translate-y-1 mt-0.5"></div>
+            </div>
+            <nav class="text-blue-lighter font-round font-semibold text-2xl text-right right-[3.1rem] absolute z-10"
+                id="nav">
+                <ul>
+                    <li><a href="#home" onclick="menuOnClick()">Home</a></li>
+                    <li><a href="#about" onclick="menuOnClick()">About</a></li>
+                    <li><a href="#upcoming" onclick="menuOnClick()">Upcoming</a></li>
+                    <li><a href="#media" onclick="menuOnClick()">Media</a></li>
+                    <li><a href="#contact" onclick="menuOnClick()">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <span class="text-white-qa">{{users}}</span>
+
+    <!-- welcome section -->
+    <div id="main" class="main">
+
+        <!-- spaces on desktop -->
+        <div class="md:flex justify-between items-center w-full">
+
+            <!-- welcome text -->
+            <div>
+                <span class="leading-tight text-[12vw] md:text-[4.5vw]">
+                    The Chorus <br>
+                    for
+                    <span class="text-blue-qa text drop-shadow-glow font-semibold">Everyone</span>
+                </span>
+                <div class="flex flex-row justify-center md:justify-start gap-7 mt-6 md:mt-5">
+                    <a href="https://www.instagram.com/qachorus/" target="_blank">
+                        <img class="social" src="{{url_for('static', filename='images/website/instagram.png')}}"
+                            alt="Instagram">
+                    </a>
+                    <a href="https://www.tiktok.com/@quantumacoustics" target="_blank">
+                        <img class="social" src="{{url_for('static', filename='images/website/tiktok.png')}}"
+                            alt="TikTok">
+                    </a>
+                    <a href="https://www.facebook.com/qachorus" target="_blank">
+                        <img class="social" src="{{url_for('static', filename='images/website/facebook.png')}}"
+                            alt="Facebook">
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- gallery -->
+            <div>
+                <img class="mt-10 md:mt-0 w-full h-[60vw] md:w-[32rem] md:h-[23rem] object-cover rounded-3xl"
+                    src="{{url_for('static', filename='images/uploaded/front.JPG')}}" alt="alex">
+            </div>
+        </div>
+    </div>
+
+    <!-- scroll arrow -->
+    <div class="flex flex-row justify-center">
+        <a class="arrow-link animate-bounce -mt-16" href=""><img class="arrow h-4"
+                src="{{url_for('static', filename='images/website/arrow.png')}}" alt="arrow"></a>
+    </div>
+
+    <!-- about section -->
+    <div class="md:flex flex-row justify-between gap-10">
+
+        <!-- about info -->
+        <div class="md:w-1/2 mb-10">
+            <span class="title">About Us</span>
+            <span class="block text-white-qa font-sans text-lg mt-2 leading-6">We are a Barbershop Chorus located in
+                Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet,
+                consectetur adipiscing elit. Sed maximus semper lectus fa dfaf asdfasdf cucumber f adf asdfasdfasdf asdf
+                asdf a dfasdf asdf asdfasdfringilla rhoncus. In non mauris lorem. Nullam aliquam massa porta, suscipit
+                urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec
+                elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempor vitae. In commodo risus lacus, et
+                egestas nibh lacinia vitae .</span>
+            <div id="map" class="z-0 rounded-3xl w-full h-[30vh] md:h-[50vh] mt-3"></div>
+        </div>
+
+        <!-- people -->
+        <div class="w-full md:w-1/2">
+            <span class="title">Our People</span>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-5">
+                <div class="person">
+                    <img src="{{url_for('static', filename='images/uploaded/willL.png')}}" alt="">
+                    <span class="person-name">Will Lynch</span>
+                    <span>Director, Arranger</span>
+                </div>
+                <div class="person">
+                    <img src="{{url_for('static', filename='images/uploaded/harry.png')}}" alt="">
+                    <span class="person-name">Harry Burt</span>
+                    <span>Director</span>
+                </div>
+                <div class="person">
+                    <img src="{{url_for('static', filename='images/uploaded/nick.png')}}" alt="">
+                    <span class="person-name">Nicolas Davey</span>
+                    <span>Purple President</span>
+                </div>
+                <div class="person">
+                    <img src="{{url_for('static', filename='images/uploaded/brylee.png')}}" alt="">
+                    <span class="person-name">Brylee Marrianaa</span>
+                    <span>Social Media</span>
+                </div>
+
+                <div class="person">
+                    <img src="{{url_for('static', filename='images/uploaded/pingu.png')}}" alt="">
+                    <span class="person-name">Pingu</span>
+                    <span>Mental Support</span>
+                </div>
+                <div class="person">
+                    <img src="{{url_for('static', filename='images/uploaded/willH.png')}}" alt="">
+                    <span class="person-name">Will Harris</span>
+                    <span>Choreographer</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Upcoming Events -->
+    <div class="mt-10">
+        <span class="title">Upcoming Events</span>
+        <div class="md:grid grid-cols-2 gap-9">
+            <div class="event">
+                <div class="flex flex-row justify-between">
+                    <div>
+                        <span class="">Open Night</span>
+                        <div class="flex flex-row justify-start">
+                            <img class="h-3" src="{{url_for('static', filename='images/website/location.png')}}"
+                                alt="location">
+                            <span>3 Brake Street</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span>16/02/2023</span>
+                        <span>7:00 PM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- scripts -->
+    <!-- <script src="{{url_for('static', filename='js/script.js')}}"></script> -->
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHG-KPuE8EgjE0NiC7tEfFjiTYmNFMuus&callback=initMap&v=weekly"
+        defer></script>
+
+    <script>
+        // SCROLL FUNCTIONS
+        document.documentElement.dataset.scroll_position = window.scrollY;
+
+        document.addEventListener('scroll', () => {
+            document.documentElement.dataset.scroll_position = window.scrollY;
+            if (window.scrollY > 200) {
+                document.getElementById("header").classList.remove("header-spaced");
+                document.getElementById("header").classList.add("header-condense");
+            } else {
+                document.getElementById("header").classList.remove("header-condense");
+                document.getElementById("header").classList.add("header-spaced");
+            }
+        });
+
+
+        // MOBILE MENU
+        function menuOnClick() {
+            document.getElementById("menu-bar").classList.toggle("change");
+            document.getElementById("nav").classList.toggle("change");
+            document.getElementById("menu-bg").classList.toggle("change-bg");
+        }
+
+
+        // PERFECT SCROLLBAR
+        const container = document.querySelector('#main');
+        const ps = new PerfectScrollbar(container);
+        ps.update();
+
+
+        // MAP STUFF
+        function initMap() {
+            // The location
+            const location = { lat: -43.531259, lng: 172.570716 };
+            // The map, centered
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: location,
+                mapId: "377fce5ade22f0c6",
+                disableDefaultUI: true,
+            });
+            // The marker, positioned
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+            });
+        }
+        window.initMap = initMap;
+    </script>
+
 </body>
+
 
 </html>

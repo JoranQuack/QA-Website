@@ -1,6 +1,8 @@
 """all route functions"""
 from flask import Blueprint, render_template, redirect, url_for
-from database import get_db
+from database import database
+# from environments import SALT
+# import hashlib
 
 
 api = Blueprint("", "routes")
@@ -15,9 +17,7 @@ def check():
 @api.get('/home')
 def home():
     """home page with information sections"""
-    users = get_db().user.find_first(where={
+    users = database.user.find_first(where={
         'password': 'piss',
     })
-    if users is not None:
-        users.dict()
     return render_template('home.html', users=users)

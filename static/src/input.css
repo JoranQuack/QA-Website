@@ -1,3 +1,127 @@
 @tailwind base;
+
+@layer base {
+  span {
+    @apply text-white-qa;
+  }
+
+  .link {
+    @apply hover:text-blue-qa duration-300;
+    @apply text-white-qa text-lg font-round font-medium tracking-wide;
+  }
+
+  .main {
+    @apply text-center md:text-left text-5xl md:text-7xl;
+    @apply text-white-qa font-round font-semibold tracking-wide;
+    @apply h-screen w-full flex flex-row items-center justify-center;
+  }
+
+  .title {
+    @apply text-blue-qa font-round font-semibold text-4xl block;
+  }
+
+  .social {
+    @apply hover:opacity-50 duration-300;
+    @apply h-9 md:h-[3vw];
+  }
+
+  html:not([data-scroll_position='0']) .arrow {
+    @apply transition duration-1000 opacity-0 ease-in-out;
+  }
+
+  html:not([data-scroll_position='0']) .arrow-link {
+    @apply pointer-events-none;
+  }
+
+  html:not(:not([data-scroll_position='0'])) .arrow {
+    @apply animate-delayed_fade_in;
+  }
+
+  .header-spaced {
+    @apply transform translate-y-0 transition bg-opacity-0 duration-300;
+  }
+
+  .header-condense {
+    @apply transform -translate-y-3 transition bg-opacity-60 bg-blue-darker duration-300;
+  }
+
+  .person {
+    @apply w-full;
+    @apply text-center font-round;
+  }
+
+  .person img {
+    @apply rounded-full;
+  }
+
+  .person-name {
+    @apply font-semibold mt-1.5 text-xl -mb-0.5 block leading-tight;
+  }
+
+  @font-face {
+    font-family: 'All Round Gothic';
+    src: url('/static/fonts/AllRoundGothic.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Product Sans';
+    src: url('/static/fonts/ProductSans.ttf') format('truetype');
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+
+  /* mobile hamburger menu */
+  .bar {
+    @apply h-1 w-full bg-white-qa block rounded-3xl;
+    @apply transition duration-300 ease-in-out;
+    @apply hover:bg-white-qa;
+  }
+
+  li a {
+    @apply hidden opacity-0 mt-5 hover:text-white-qa;
+  }
+
+  .menu-bg {
+    @apply transform -translate-x-[3.8rem] -translate-y-[6.8rem] scale-0 duration-300 md:hidden;
+    @apply bg-blue-qa -top-20 -right-60 h-[30rem] w-[30rem] rounded-full absolute z-0;
+  }
+
+  .change .bar {
+    @apply bg-blue-lighter;
+  }
+
+  .change #menu-bar {
+    @apply m-0;
+  }
+
+  .change #bar1 {
+    @apply transform translate-y-1.5 -rotate-45;
+  }
+
+  .change #bar2 {
+    @apply transition duration-300 opacity-0;
+  }
+
+  .change #bar3 {
+    @apply transform -translate-y-1.5 rotate-45;
+  }
+
+  /* .change nav,
+  .change li a {
+    @apply block transition duration-1000 opacity-100;
+  } */
+
+  .change li a {
+    @apply block opacity-0;
+    @apply animate-fade_in opacity-100 duration-300 delay-1000;
+  }
+
+  .change-bg {
+    @apply transform translate-x-16 translate-y-10 scale-125 duration-300;
+  }
+}
+
 @tailwind components;
 @tailwind utilities;
