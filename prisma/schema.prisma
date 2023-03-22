@@ -30,6 +30,7 @@ model Event {
     description String
     date        DateTime
     time        DateTime?
+    reference   String?
 }
 
 model About {

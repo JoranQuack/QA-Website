@@ -1,10 +1,12 @@
 @tailwind base;
 
 @layer base {
+  /* global */
   span {
     @apply text-white-qa;
   }
 
+  /* temp */
   .link {
     @apply hover:text-blue-qa duration-300;
     @apply text-white-qa text-lg font-round font-medium tracking-wide;
@@ -25,6 +27,57 @@
     @apply h-9 md:h-[3vw];
   }
 
+  .person {
+    @apply w-full;
+    @apply text-center font-round;
+  }
+
+  .person img {
+    @apply rounded-full;
+  }
+
+  .person-name {
+    @apply font-semibold mt-1.5 text-xl -mb-0.5 block leading-tight;
+  }
+
+  .event {
+    @apply border-blue-qa rounded-3xl border-[0.35rem] p-5 my-7 md:p-10 md:my-0;
+  }
+
+  .event-top {
+    @apply flex flex-row justify-between items-start;
+  }
+
+  .event-title {
+    @apply font-round text-3xl block leading-7;
+  }
+
+  .event-location {
+    @apply flex flex-row justify-start items-center gap-1.5 my-2;
+  }
+
+  .event-location img {
+    @apply h-4;
+  }
+
+  .event-datetime {
+    @apply text-right mt-0.5;
+  }
+
+  .event-text {
+    @apply md:h-32;
+  }
+
+  .event-button {
+    @apply bg-blue-qa flex justify-center items-center h-14 -m-6 mt-4 rounded-b-3xl md:rounded-full md:w-32 md:h-10 md:m-0 md:mt-3;
+    @apply transition hover:opacity-50 duration-300 cursor-pointer;
+  }
+
+  .event-button span {
+    @apply font-round font-semibold text-lg text-blue-darker;
+  }
+
+  /* dynamic */
   html:not([data-scroll_position='0']) .arrow {
     @apply transition duration-1000 opacity-0 ease-in-out;
   }
@@ -43,19 +96,6 @@
 
   .header-condense {
     @apply transform -translate-y-3 transition bg-opacity-60 bg-blue-darker duration-300;
-  }
-
-  .person {
-    @apply w-full;
-    @apply text-center font-round;
-  }
-
-  .person img {
-    @apply rounded-full;
-  }
-
-  .person-name {
-    @apply font-semibold mt-1.5 text-xl -mb-0.5 block leading-tight;
   }
 
   @font-face {
@@ -108,10 +148,10 @@
     @apply transform -translate-y-1.5 rotate-45;
   }
 
-  /* .change nav,
+  .change nav,
   .change li a {
     @apply block transition duration-1000 opacity-100;
-  } */
+  }
 
   .change li a {
     @apply block opacity-0;
