@@ -1,3 +1,4 @@
+# pylint: disable=import-error
 """all route functions"""
 from flask import Blueprint, render_template, redirect, url_for
 from environments import MAP_API_KEY
