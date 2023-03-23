@@ -41,7 +41,8 @@
   }
 
   .event {
-    @apply border-blue-qa rounded-3xl border-[0.35rem] p-5 my-7 md:p-10 md:my-0;
+    @apply border-blue-qa rounded-3xl border-[0.35rem] p-5 my-7 md:p-10 md:pb-8 md:my-0;
+    @apply flex flex-col justify-between;
   }
 
   .event-top {
@@ -62,10 +63,6 @@
 
   .event-datetime {
     @apply text-right mt-0.5;
-  }
-
-  .event-text {
-    @apply md:h-32;
   }
 
   .event-button {
