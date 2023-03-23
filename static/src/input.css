@@ -1,12 +1,22 @@
 @tailwind base;
 
 @layer base {
-  /* global */
+  /* GLOBAL */
   span {
     @apply text-white-qa;
   }
 
-  /* temp */
+  @font-face {
+    font-family: 'All Round Gothic';
+    src: url('/static/fonts/AllRoundGothic.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Product Sans';
+    src: url('/static/fonts/ProductSans.ttf') format('truetype');
+  }
+
+  /* TEMP */
   .link {
     @apply hover:text-blue-qa duration-300;
     @apply text-white-qa text-lg font-round font-medium tracking-wide;
@@ -74,7 +84,7 @@
     @apply font-round font-semibold text-lg text-blue-darker;
   }
 
-  /* dynamic */
+  /* DYNAMIC */
   html:not([data-scroll_position='0']) .arrow {
     @apply transition duration-1000 opacity-0 ease-in-out;
   }
@@ -95,21 +105,12 @@
     @apply transform -translate-y-3 transition bg-opacity-60 bg-blue-darker duration-300;
   }
 
-  @font-face {
-    font-family: 'All Round Gothic';
-    src: url('/static/fonts/AllRoundGothic.ttf') format('truetype');
-  }
-
-  @font-face {
-    font-family: 'Product Sans';
-    src: url('/static/fonts/ProductSans.ttf') format('truetype');
-  }
-
+  /* SCROLLBAR */
   ::-webkit-scrollbar {
-    width: 0;
+    @apply hidden;
   }
 
-  /* mobile hamburger menu */
+  /* MOBILE HAMBURGER MENU */
   .bar {
     @apply h-1 w-full bg-white-qa block rounded-3xl;
     @apply transition duration-300 ease-in-out;
