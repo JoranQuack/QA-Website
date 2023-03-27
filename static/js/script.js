@@ -1,3 +1,8 @@
+function pageFade() {
+    document.getElementById("body")?.classList.remove("body-unloaded");
+    document.getElementById("body")?.classList.add("body-loaded");
+}
+
 // SCROLL FUNCTIONS
 document.documentElement.dataset.scroll_position = window.scrollY.toString();
 

@@ -105,6 +105,14 @@
     @apply transform -translate-y-3 transition bg-opacity-60 bg-blue-darker duration-300;
   }
 
+  .body-unloaded {
+    @apply opacity-0;
+  }
+
+  .body-loaded {
+    @apply transition opacity-100 duration-500;
+  }
+
   /* SCROLLBAR */
   ::-webkit-scrollbar {
     @apply hidden;

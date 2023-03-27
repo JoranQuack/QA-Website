@@ -17,8 +17,8 @@
 
 </head>
 
-<body onload="document.body.style.opacity='1'"
-    class="h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] opacity-0 transition-opacity duration-500">
+<body onload="pageFade()" id="body"
+    class="h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] body-unloaded">
     <header id="header"
         class="flex flex-row items-center justify-between px-9 md:px-16 xl:px-[10vw] pt-7 pb-4 fixed left-0 w-screen z-10">
         <a href="#home">
@@ -284,13 +284,12 @@
     <!-- media -->
     <div class="mt-10 w-screen -left-9 md:-left-16 xl:-left-[10vw] relative">
         <span class="title ml-9 md:ml-16 xl:ml-[10vw]">Media</span>
-        <div class="absolute"></div>
-        <div class="owl-carousel mt-5">
-            <div class="slide"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
+        <div class="medias">
+            <div class="media"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
             </div>
-            <div class="slide"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
+            <div class="media"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
             </div>
-            <div class="slide"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
+            <div class="media"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
             </div>
         </div>
         <div class="mt-[100vh]"></div>

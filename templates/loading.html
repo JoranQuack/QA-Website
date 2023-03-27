@@ -6,49 +6,108 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='dist/css/output.css')}}">
     <!-- <link rel="icon" href="{{url_for('static', filename='images/website/qa-logo.png')}}"> -->
 
 </head>
 
-<body>
-    <div class="loader"></div>
+<body onload="document.body.style.opacity='1'" class="bg-gradient-to-br from-blue-lighter to-[#0c1622] h-screen">
+    <div class="h-screen w-screen flex justify-center items-center">
+        <div id="loading-icon" class="loading-icon animate-fade_in">
+            <div class="loading-circle">
+                <div></div>
+                <div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style type="text/css">
+        @keyframes loading-circle {
+            0% {
+                transform: rotate(0)
+            }
+
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        .loading-circle div {
+            box-sizing: border-box !important
+        }
+
+        .loading-circle>div {
+            position: absolute;
+            width: 64px;
+            height: 64px;
+            top: 18px;
+            left: 18px;
+            border-radius: 50%;
+            border: 4px solid #000;
+            border-color: #18c0de transparent #18c0de transparent;
+            animation: loading-circle 1s linear infinite;
+        }
+
+        .loading-circle>div:nth-child(2) {
+            border-color: transparent
+        }
+
+        .loading-circle>div:nth-child(2) div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: rotate(45deg);
+        }
+
+        .loading-circle>div:nth-child(2) div:before,
+        .loading-circle>div:nth-child(2) div:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            top: -4px;
+            left: 26px;
+            background: #18c0de;
+            border-radius: 50%;
+            box-shadow: 0 60px 0 0 #18c0de;
+        }
+
+        .loading-circle>div:nth-child(2) div:after {
+            left: -4px;
+            top: 26px;
+            box-shadow: 60px 0 0 0 #18c0de;
+        }
+
+        .loading-icon {
+            width: 90px;
+            height: 90px;
+            display: inline-block;
+            overflow: hidden;
+            background: none;
+        }
+
+        .loading-circle {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform: translateZ(0) scale(0.9);
+            backface-visibility: hidden;
+            transform-origin: 0 0;
+            /* see note above */
+        }
+
+        .loading-circle div {
+            box-sizing: content-box;
+        }
+    </style>
 </body>
 
-
-<style>
-    .loader {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin: -56px 0 0 -56px;
-    }
-
-    .loader:after {
-        content: " ";
-        display: block;
-        width: 110px;
-        height: 110px;
-        border-radius: 50%;
-        border: 1px solid;
-        border-color: #0aa13a transparent #47a90e transparent;
-        animation: ring 1.2s linear infinite;
-    }
-
-    @keyframes ring {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-</style>
-
 <script>
-    function navigate() {
+    setTimeout(function navigate() {
         window.location.href = 'home';
-    }
+    }, 0)
     fetch('home').then(navigate); 
 </script>
 
