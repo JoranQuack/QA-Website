@@ -13,12 +13,13 @@ module.exports = {
 
       animation: {
         delayed_fade_in: 'delayed_fade_in 5s ease-in-out',
-        fade_in: 'fade_in 0.3s ease-in-out',
+        fade_in: 'fade_in 0.5s ease-in-out forwards',
+        fade_out: 'fade_in 0.5s ease-in-out forwards reverse',
       },
 
       keyframes: theme => ({
         delayed_fade_in: {
-          '0%, 94%': { opacity: 0 },
+          '0%, 90%': { opacity: 0 },
           '100%': { opacity: 1 },
         },
         fade_in: {

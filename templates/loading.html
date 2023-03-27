@@ -7,11 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading</title>
     <link rel="stylesheet" href="{{url_for('static', filename='dist/css/output.css')}}">
-    <!-- <link rel="icon" href="{{url_for('static', filename='images/website/qa-logo.png')}}"> -->
-
+    <script>
+        setTimeout(function navigate() {
+            window.location.href = 'home';
+        }, 300)
+        fetch('home').then(navigate); 
+    </script>
 </head>
 
-<body onload="document.body.style.opacity='1'" class="bg-gradient-to-br from-blue-lighter to-[#0c1622] h-screen">
+<body class="bg-gradient-to-br from-blue-lighter to-[#0c1622] h-screen animate-fade_in">
+    <!-- <div class="w-screen h-screen z-20 bg-white animate-fade_out absolute"></div> -->
     <div class="h-screen w-screen flex justify-center items-center">
         <div id="loading-icon" class="loading-icon animate-fade_in">
             <div class="loading-circle">
@@ -22,6 +27,7 @@
             </div>
         </div>
     </div>
+
     <style type="text/css">
         @keyframes loading-circle {
             0% {
@@ -103,12 +109,5 @@
         }
     </style>
 </body>
-
-<script>
-    setTimeout(function navigate() {
-        window.location.href = 'home';
-    }, 0)
-    fetch('home').then(navigate); 
-</script>
 
 </html>
