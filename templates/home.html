@@ -7,6 +7,7 @@
     <meta name="viewport" content="initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="{{url_for('static', filename='dist/css/output.css')}}">
+    <link rel="icon" href="{{url_for('static', filename='images/website/qa-logo.png')}}">
 
     <!-- CORE FILES FOR PERFECT SCROLLBAR FUNCTIONALITY
     The Perfect Scrollbar CSS files
@@ -16,7 +17,8 @@
 
 </head>
 
-<body class="h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw]">
+<body onload="document.body.style.opacity='1'"
+    class="h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] opacity-0 transition-opacity duration-500">
     <header id="header"
         class="flex flex-row items-center justify-between px-9 md:px-16 xl:px-[10vw] pt-7 pb-4 fixed left-0 w-screen z-10">
         <a href="#home">
@@ -276,19 +278,28 @@
                     <span>Learn more</span>
                 </a>
             </div>
-
-            <!-- media -->
-            <div class="mt-10">
-                <span class="title">Media</span>
-
-            </div>
-
         </div>
     </div>
 
-    <!-- scripts -->
-    <script src="{{url_for('static', filename='js/script.js')}}"></script>
-    <script async src="https://maps.googleapis.com/maps/api/js?key={{map_api_key}}&callback=initMap&v=weekly"></script>
+    <!-- media -->
+    <div class="mt-10 w-screen -left-9 md:-left-16 xl:-left-[10vw] relative">
+        <span class="title ml-9 md:ml-16 xl:ml-[10vw]">Media</span>
+        <div class="absolute"></div>
+        <div class="owl-carousel mt-5">
+            <div class="slide"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
+            </div>
+            <div class="slide"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
+            </div>
+            <div class="slide"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
+            </div>
+        </div>
+        <div class="mt-[100vh]"></div>
+    </div>
+
 </body>
+
+<!-- scripts -->
+<script src="{{url_for('static', filename='js/script.js')}}"></script>
+<script async src="https://maps.googleapis.com/maps/api/js?key={{map_api_key}}&callback=initMap&v=weekly"></script>
 
 </html>

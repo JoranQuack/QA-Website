@@ -1,6 +1,6 @@
 # pylint: disable=import-error
 """all route functions"""
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template
 from environments import MAP_API_KEY
 from database import database
 # from environments import SALT
@@ -13,7 +13,7 @@ api = Blueprint("", "routes")
 @api.get('/')
 def check():
     """catches request to redirect to homepage"""
-    return redirect(url_for('home'))
+    return render_template('loading.html')
 
 
 @api.get('/home')
@@ -22,5 +22,4 @@ def home():
     users = database.user.find_first(where={
         'password': 'piss',
     })
-    map_api_key = MAP_API_KEY
-    return render_template('home.html', users=users, map_api_key=map_api_key)
+    return render_template('home.html', users=users, map_api_key=MAP_API_KEY)
