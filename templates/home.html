@@ -282,18 +282,43 @@
     </div>
 
     <!-- media -->
-    <div class="mt-10 w-screen -left-9 md:-left-16 xl:-left-[10vw] relative">
-        <span class="title ml-9 md:ml-16 xl:ml-[10vw]">Media</span>
-        <div class="medias">
-            <div class="media"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
+    <div class="mt-10">
+        <span class="title">Media</span>
+        <div class="grid grid-cols-2 gap-6 md:grid-cols-4 mt-5">
+            <div class="media"><img src="{{url_for('static', filename='images/uploaded/front2.jfif')}}" alt="">
             </div>
             <div class="media"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
             </div>
-            <div class="media"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt="">
+            <div class="media"><img src="{{url_for('static', filename='images/uploaded/front.JPG')}}" alt="">
+            </div>
+            <div class="media"><img src="{{url_for('static', filename='images/uploaded/front4.JPG')}}" alt="">
             </div>
         </div>
-        <div class="mt-[100vh]"></div>
+        <div class="m-3 flex justify-center">
+            <a class="button w-24"><span>+ More</span></a>
+        </div>
     </div>
+
+    <footer class="ignore-padding h-[32vw] md:h-[22vw] overflow-hidden bg-cover bg-[center_bottom_-4vw] bg-[url('/static/images/website/footer-mobile.png')] 
+        md:bg-[url('/static/images/website/footer-desktop.png')] md:bg-[length:180vw] bg-no-repeat
+        flex flex-row justify-between px-9 md:px-16 xl:px-[10vw] pt-[20vw] md:pt-[10vw]">
+        <div class="flex flex-row justify-start gap-3 -ml-5 scale-75">
+            <a href="https://www.instagram.com/qachorus/" target="_blank">
+                <img class="social" src="{{url_for('static', filename='images/website/instagram.png')}}"
+                    alt="Instagram">
+            </a>
+            <a href="https://www.tiktok.com/@quantumacoustics" target="_blank">
+                <img class="social" src="{{url_for('static', filename='images/website/tiktok.png')}}" alt="TikTok">
+            </a>
+            <a href="https://www.facebook.com/qachorus" target="_blank">
+                <img class="social" src="{{url_for('static', filename='images/website/facebook.png')}}" alt="Facebook">
+            </a>
+        </div>
+        <div class="text-right text-[2vw] mt-2 md:text-[1vw]">
+            <span>Made by Joran Le Quellec</span> <br>
+            <span>© Quantum Acoustics 2023</span>
+        </div>
+    </footer>
 
 </body>
 
