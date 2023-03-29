@@ -42,7 +42,7 @@ module.exports = {
     },
 
     dropShadow: {
-      'glow': '0 0 10px #18c0deb6'
+      'glow': '0 0 5px #18c0de'
     },
   },
   plugins: [],

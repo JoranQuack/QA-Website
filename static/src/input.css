@@ -20,10 +20,14 @@
     @apply -left-9 md:-left-16 xl:-left-[10vw] relative w-screen;
   }
 
+  .scrollable {
+    @apply pt-32 -mt-32;
+  }
+
   /* TEMP */
   .link {
     @apply hover:text-blue-qa duration-300;
-    @apply text-white-qa text-lg font-round font-medium tracking-wide;
+    @apply transition text-white-qa text-lg font-round font-medium tracking-wide duration-500;
   }
 
   .main {
@@ -106,6 +110,10 @@
   }
 
   /* DYNAMIC */
+  .active {
+    @apply transition text-blue-qa drop-shadow-glow font-medium duration-500;
+  }
+
   html:not([data-scroll_position='0']) .arrow {
     @apply transition duration-1000 opacity-0 ease-in-out;
   }
@@ -123,7 +131,7 @@
   }
 
   .header-condense {
-    @apply transform -translate-y-3 transition bg-opacity-60 bg-blue-darker duration-300;
+    @apply transform -translate-y-3 transition bg-opacity-75 bg-blue-darker duration-300;
   }
 
   .body-unloaded {
