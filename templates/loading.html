@@ -7,28 +7,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading</title>
     <link rel="stylesheet" href="{{url_for('static', filename='dist/css/output.css')}}">
-    <script>
-        setTimeout(function navigate() {
-            window.location.href = 'home';
-        }, 300)
-        fetch('home').then(navigate); 
-    </script>
 </head>
 
 <body class="bg-gradient-to-br from-blue-lighter to-[#0c1622] h-screen animate-fade_in">
     <!-- <div class="w-screen h-screen z-20 bg-white animate-fade_out absolute"></div> -->
     <div class="h-screen w-screen flex justify-center items-center">
-        <div id="loading-icon" class="loading-icon animate-fade_in">
+        <!-- <div id="loading-icon" class="loading-icon animate-fade_in">
             <div class="loading-circle">
                 <div></div>
                 <div>
                     <div></div>
                 </div>
             </div>
-        </div>
+        </div> -->
+        <div id="loading-animation" class="h-20 w-20"></div>
     </div>
 
-    <style type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js"
+        integrity="sha512-fTTVSuY9tLP+l/6c6vWz7uAQqd1rq3Q/GyKBN2jOZvJSLC5RjggSdboIFL1ox09/Ezx/AKwcv/xnDeYN9+iDDA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        // AWAITS HOMEPAGE BEING LOADED
+        setTimeout(function navigate() {
+            window.location.href = 'home';
+        }, 50000)
+        fetch('home').then(navigate);
+
+        // BODYMOVIN ANIMATION
+        var animation = bodymovin.loadAnimation({
+            container: document.getElementById('loading-animation'),
+            path: 'static/json/qa_loading.json',
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            name: "Demo Animation",
+        });
+    </script>
+
+    <!-- <style type="text/css">
         @keyframes loading-circle {
             0% {
                 transform: rotate(0)
@@ -107,7 +123,7 @@
         .loading-circle div {
             box-sizing: content-box;
         }
-    </style>
+    </style> -->
 </body>
 
 </html>
