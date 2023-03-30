@@ -4,6 +4,28 @@ function sleep(ms) {
 }
 
 
+// WAIT FOR ELEMENT TO EXIST
+function waitForElm(selector) {
+    return new Promise(resolve => {
+        if (document.querySelector(selector)) {
+            return resolve(document.querySelector(selector));
+        }
+
+        const observer = new MutationObserver(mutations => {
+            if (document.querySelector(selector)) {
+                resolve(document.querySelector(selector));
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    });
+}
+
+
 // SCROLL FUNCTIONS
 document.documentElement.dataset.scroll_position = window.scrollY.toString();
 
@@ -28,7 +50,7 @@ function menuOnClick() {
 
 
 // PERFECT SCROLLBAR
-const container = document.querySelector('#main');
+// const container = document.querySelector('#main');
 // const ps = new PerfectScrollbar(container);
 // ps.update();
 
@@ -52,20 +74,15 @@ function initMap() {
         map: map,
     });
 }
-window.initMap = initMap;
-
 
 // UPDATE NAV BAR WHEN SCROLLING
-const sections = document.querySelectorAll("section");
-const navA = document.querySelectorAll(".nav a");
-
 var scrolling = true;
 
 window.onscroll = () => {
     if (scrolling) {
         var current = "";
 
-        sections.forEach((section) => {
+        document.querySelectorAll("section").forEach((section) => {
             const sectionTop = section.offsetTop;
             if (scrollY >= sectionTop) {
                 // @ts-ignore
@@ -73,7 +90,7 @@ window.onscroll = () => {
             }
         });
 
-        navA.forEach((a) => {
+        document.querySelectorAll(".nav a").forEach((a) => {
             a.classList.remove("active");
             if (a.classList.contains(current)) {
                 a.classList.add("active");
@@ -91,5 +108,6 @@ function navOnClick(_navId) {
         inactive.classList.remove("active");
     };
     document.getElementsByClassName(_navId)[0].classList.add("active");
+    document.getElementById(_navId)?.scrollIntoView({});
     sleep(1000).then(() => { scrolling = true });
 }

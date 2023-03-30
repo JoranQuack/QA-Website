@@ -1,8 +1,8 @@
 # pylint: disable=import-error
 """all route functions"""
 from flask import Blueprint, render_template
-from environments import MAP_API_KEY
-from database import database
+# from environments import
+# from database import database
 # from environments import SALT
 # import hashlib
 
@@ -19,7 +19,15 @@ def check():
 @api.get('/home')
 def home():
     """home page with information sections"""
-    users = database.user.find_first(where={
-        'password': 'piss',
-    })
-    return render_template('home.html', users=users, map_api_key=MAP_API_KEY)
+    # users = database.user.find_first(where={
+    #     'password': 'piss',
+    # })
+    return render_template('index.html')
+
+
+@api.get('/robots.txt')
+def robots():
+    """let robots access the .txt"""
+    with open("robots.txt", encoding="utf-8") as file:
+        contents = file.read()
+    return contents

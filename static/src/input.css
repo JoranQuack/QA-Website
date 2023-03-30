@@ -101,17 +101,13 @@
     @apply font-round font-semibold text-lg text-blue-darker;
   }
 
-  /* .media {
-    @apply;
-  } */
-
   .media img {
     @apply rounded-3xl h-32 md:h-44 w-screen object-cover;
   }
 
   /* DYNAMIC */
   .active {
-    @apply transition text-blue-qa drop-shadow-glow font-medium duration-500;
+    @apply transition text-blue-qa drop-shadow-glow-intense font-medium duration-500;
   }
 
   html:not([data-scroll_position='0']) .arrow {

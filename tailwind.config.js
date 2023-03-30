@@ -14,8 +14,8 @@ module.exports = {
 
       animation: {
         delayed_fade_in: 'delayed_fade_in 5s ease-in-out',
-        fade_in: 'fade_in 0.5s ease-in-out forwards',
-        fade_out: 'fade_in 0.5s ease-in-out forwards reverse',
+        fade_in: 'fade 0.5s ease-in forwards',
+        fade_out: 'fade 0.5s ease-out forwards reverse',
       },
 
       keyframes: theme => ({
@@ -23,7 +23,7 @@ module.exports = {
           '0%, 90%': { opacity: 0 },
           '100%': { opacity: 1 },
         },
-        fade_in: {
+        fade: {
           '0%': { opacity: 0 },
           '100%': { opacity: 1 },
         },
@@ -43,7 +43,8 @@ module.exports = {
     },
 
     dropShadow: {
-      'glow': '0 0 5px #18c0de'
+      'glow-intense': '0 0 5px #18c0de',
+      'glow-light': '0 0 10px #18c0deb6'
     },
   },
   plugins: [],

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
@@ -7,21 +7,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading</title>
     <link rel="stylesheet" href="{{url_for('static', filename='dist/css/output.css')}}">
+    <link rel="icon" href="{{url_for('static', filename='images/website/qa-logo.png')}}">
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script>
-        // AWAITS HOMEPAGE BEING LOADED
-        setTimeout(function navigate() {
-            window.location.href = 'home';
-        }, 500)
-        fetch('home').then(transition);</script>
 </head>
 
-<body class="bg-gradient-to-br from-blue-lighter to-[#0c1622] h-screen animate-fade_in">
-    <div class="h-screen w-screen flex justify-center items-center">
-        <lottie-player src="https://lottie.host/90d91040-688e-4943-8951-405a809198f2/RbsDUXqEvA.json"
-            class="animate-fade_in" background="transparent" speed="1.5" style="width: 100px; height: 100px;" loop
-            autoplay></lottie-player>
+<body id="body" class="bg-gradient-to-br from-[#183041] to-[#0a131e] h-[2800px] animate-fade_in">
+
+    <!-- show loading-icon (in root) -->
+    <div id="root">
+        <div class="h-screen w-screen flex justify-center items-center fixed" id="loading-container">
+            <lottie-player src="https://lottie.host/90d91040-688e-4943-8951-405a809198f2/RbsDUXqEvA.json"
+                id="loading-icon" class="animate-fade_in" background="transparent" speed="2"
+                style="width: 100px; height: 100px;" loop autoplay></lottie-player>
+        </div>
     </div>
+
+    <!-- loading script -->
+    <script>
+        const icon = document.getElementById("loading-icon")
+        fetch('home').then((a) => a.text()).then((data) => {
+            icon.classList.remove("animate-fade_in");
+            setTimeout(() => {
+                icon.classList.add("animate-fade_out");
+                document.getElementById("body").classList.remove("animate-fade_in");
+            }, 25);
+            setTimeout(() => {
+                document.getElementById("body").className = "h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in";
+                document.getElementById("root").innerHTML = data;
+                initMap();
+            }, 500)
+        });
+    </script>
+
+    <!-- scripts -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="{{url_for('static', filename='js/script.js')}}"></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHG-KPuE8EgjE0NiC7tEfFjiTYmNFMuus&v=weekly"></script>
 </body>
 
 </html>
