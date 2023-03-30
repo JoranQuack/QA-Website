@@ -42,7 +42,7 @@
 
   .social {
     @apply hover:opacity-50 duration-300;
-    @apply h-9 md:h-[3vw];
+    @apply h-9 md:h-[3vw] 2xl:h-14;
   }
 
   .person {
