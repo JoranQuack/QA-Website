@@ -108,6 +108,5 @@ function navOnClick(_navId) {
         inactive.classList.remove("active");
     };
     document.getElementsByClassName(_navId)[0].classList.add("active");
-    document.getElementById(_navId)?.scrollIntoView({});
     sleep(1000).then(() => { scrolling = true });
 }

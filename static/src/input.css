@@ -105,6 +105,15 @@
     @apply rounded-3xl h-32 md:h-44 w-screen object-cover;
   }
 
+  .media {
+    @apply rounded-2xl md:rounded-3xl bg-cover bg-center h-[25vw] md:h-[15vw];
+  }
+
+  .media-title {
+    @apply h-full w-full flex justify-center items-center backdrop-brightness-[40%];
+    @apply text-white-qa font-round text-2xl;
+  }
+
   /* DYNAMIC */
   .active {
     @apply transition text-blue-qa drop-shadow-glow-intense font-medium duration-500;

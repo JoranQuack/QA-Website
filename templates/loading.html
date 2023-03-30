@@ -25,7 +25,7 @@
     <!-- loading script -->
     <script>
         const icon = document.getElementById("loading-icon")
-        fetch('home').then((a) => a.text()).then((data) => {
+        fetch('gethomecontents').then((a) => a.text()).then((data) => {
             icon.classList.remove("animate-fade_in");
             setTimeout(() => {
                 icon.classList.add("animate-fade_out");

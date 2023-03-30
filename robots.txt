@@ -1,2 +1,2 @@
 User-agent: *
-Disallow: /home
+Disallow: /gethomecontents
