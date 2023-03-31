@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1.0">
-    <title>Home</title>
     <link rel="stylesheet" href="{{url_for('static', filename='dist/css/output.css')}}">
     <link rel="icon" href="{{url_for('static', filename='images/website/qa-logo.png')}}">
 
@@ -88,7 +87,7 @@
 
             <!-- gallery -->
             <div>
-                <img class="mt-10 md:mt-0 w-full h-[60vw] md:w-[37vw] md:h-[28vw] 2xl:w-[27vw] 2xl:h-[18vw] object-cover rounded-3xl"
+                <img class="mt-10 md:mt-0 w-full h-[60vw] md:w-[37vw] md:h-[28vw] 2xl:w-[33vw] 2xl:h-[24vw] object-cover rounded-3xl"
                     src="{{url_for('static', filename='images/uploaded/front.JPG')}}" alt="alex">
             </div>
         </div>
@@ -284,50 +283,51 @@
     <section id="media" class="scrollable md:-mt-20">
         <span class="title">Media</span>
         <div class="grid grid-cols-2 gap-6 md:grid-cols-4 mt-5">
-            <div class="media" style="background-image: url('static/images/uploaded/front9.jpg');">
+            <a class="media-contents" style="background-image: url('static/images/uploaded/front9.jpg');"
+                href="{{url_for('album', album_id=5)}}">
                 <div class="media-title">
                     <span>Mayonnaise</span>
                 </div>
-            </div>
-            <div class="media" style="background-image: url('static/images/uploaded/front3.jpg');">
+            </a>
+            <a class="media-contents" style="background-image: url('static/images/uploaded/front3.jpg');" href="">
+                <div class="media-title">
+                    <span>Mayonnaiserialamati is being inconspicuous</span>
+                </div>
+            </a>
+            <a class="media-contents" style="background-image: url('static/images/uploaded/front.JPG');" href="">
                 <div class="media-title">
                     <span>Mayonnaise</span>
                 </div>
-            </div>
-            <div class="media" style="background-image: url('static/images/uploaded/front.JPG');">
+            </a>
+            <a class="media-contents" style="background-image: url('static/images/uploaded/front4.JPG');" href="">
                 <div class="media-title">
                     <span>Mayonnaise</span>
                 </div>
-            </div>
-            <div class="media" style="background-image: url('static/images/uploaded/front4.JPG');">
+            </a>
+            <a class="media-contents" style="background-image: url('static/images/uploaded/front11.png');" href="">
                 <div class="media-title">
                     <span>Mayonnaise</span>
                 </div>
-            </div>
-            <div class="media" style="background-image: url('static/images/uploaded/front11.png');">
+            </a>
+            <a class="media-contents" style="background-image: url('static/images/uploaded/front6.jpg');" href="">
                 <div class="media-title">
                     <span>Mayonnaise</span>
                 </div>
-            </div>
-            <div class="media" style="background-image: url('static/images/uploaded/front6.jpg');">
+            </a>
+            <a class="media-contents" style="background-image: url('static/images/uploaded/front7.jpg');" href="">
                 <div class="media-title">
                     <span>Mayonnaise</span>
                 </div>
-            </div>
-            <div class="media" style="background-image: url('static/images/uploaded/front7.jpg');">
+            </a>
+            <a class="media-contents" style="background-image: url('static/images/uploaded/front10.png');" href="">
                 <div class="media-title">
                     <span>Mayonnaise</span>
                 </div>
-            </div>
-            <div class="media" style="background-image: url('static/images/uploaded/front10.png');">
-                <div class="media-title">
-                    <span>Mayonnaise</span>
-                </div>
-            </div>
+            </a>
         </div>
-        <div class="m-3 flex justify-center">
+        <!-- <div class="m-3 flex justify-center">
             <a class="button w-24"><span>+ More</span></a>
-        </div>
+        </div> -->
     </section>
 
     <!-- footer -->

@@ -27,7 +27,7 @@
   /* TEMP */
   .link {
     @apply hover:text-blue-qa duration-300;
-    @apply transition text-white-qa text-lg font-round font-medium tracking-wide duration-500;
+    @apply transition text-white-qa text-lg font-round font-medium tracking-wide duration-300;
   }
 
   .main {
@@ -101,22 +101,22 @@
     @apply font-round font-semibold text-lg text-blue-darker;
   }
 
-  .media img {
-    @apply rounded-3xl h-32 md:h-44 w-screen object-cover;
-  }
-
-  .media {
-    @apply rounded-2xl md:rounded-3xl bg-cover bg-center h-[25vw] md:h-[15vw];
+  .media-contents {
+    @apply rounded-2xl md:rounded-3xl bg-cover bg-center h-[25vw] md:h-[13vw] overflow-hidden;
   }
 
   .media-title {
-    @apply h-full w-full flex justify-center items-center backdrop-brightness-[40%];
-    @apply text-white-qa font-round text-2xl;
+    @apply h-full w-full flex items-center justify-center backdrop-brightness-[30%] p-3;
+    @apply transition hover:backdrop-brightness-75 duration-300;
+  }
+
+  .media-title span {
+    @apply text-white-qa font-round text-sm md:text-2xl text-center w-full break-words;
   }
 
   /* DYNAMIC */
   .active {
-    @apply transition text-blue-qa drop-shadow-glow-intense font-medium duration-500;
+    @apply transition text-blue-qa drop-shadow-glow-intense font-medium duration-300;
   }
 
   html:not([data-scroll_position='0']) .arrow {
@@ -144,7 +144,7 @@
   }
 
   .body-loaded {
-    @apply transition opacity-100 duration-500;
+    @apply transition opacity-100 duration-300;
   }
 
   /* SCROLLBAR */

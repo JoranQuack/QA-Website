@@ -11,18 +11,34 @@ api = Blueprint("", "routes")
 
 
 @api.get('/')
-def main():
-    """catches request to redirect to homepage"""
-    return render_template('loading.html')
-
-
-@api.get('/gethomecontents')
 def home():
-    """home page with information sections"""
+    """navigates to home page after fetching its contents"""
+    target = "get_home_contents"
+    title = "Home"
+    return render_template('loading.html', target=target, title=title)
+
+
+@api.get('/album/<int:album_id>')
+def album(album_id: int):
+    """navigates to album page after fetching its contents"""
+    target = f"get_album_contents/{album_id}"
+    title = "Album"
+    return render_template('loading.html', target=target, title=title)
+
+
+@api.get('/get_home_contents')
+def get_home():
+    """gets home page contents"""
     # users = database.user.find_first(where={
     #     'password': 'piss',
     # })
-    return render_template('index.html')
+    return render_template('home.html')
+
+
+@api.get('/album/get_album_contents/<int:album_id>')
+def get_album(album_id: int):
+    """gets album contents"""
+    return render_template('album.html', album_id=album_id)
 
 
 @api.get('/create')
