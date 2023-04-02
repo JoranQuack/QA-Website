@@ -1,26 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static', filename='dist/css/output.css')}}">
-    <link rel="icon" href="{{url_for('static', filename='images/website/qa-logo.png')}}">
-
-    <!-- CORE FILES FOR PERFECT SCROLLBAR FUNCTIONALITY
-    The Perfect Scrollbar CSS files
-    <link href="{{url_for('static', filename='dist/css/perfect-scrollbar.css')}}" rel="stylesheet">
-    The Perfect Scrollbar JS files
-    <script src="{{url_for('static', filename='dist/js/perfect-scrollbar.js')}}"></script> -->
-</head>
-
-
 <body id="body"
-    class="h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in">
+    class="h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in overflow-x-hidden">
+
+    <!-- header -->
     <header id="header"
         class="flex flex-row items-center justify-between px-9 md:px-16 xl:px-[10vw] pt-7 pb-4 fixed left-0 w-screen z-10">
-        <a href="#home">
+        <a href="">
             <img src="{{url_for('static', filename='images/website/qa-logo.png')}}" alt="qa-logo" class="h-12 md:h-14">
         </a>
 
@@ -87,7 +74,7 @@
 
             <!-- gallery -->
             <div>
-                <img class="mt-10 md:mt-0 w-full h-[60vw] md:w-[37vw] md:h-[28vw] 2xl:w-[33vw] 2xl:h-[24vw] object-cover rounded-3xl"
+                <img class="mt-10 md:mt-0 w-full h-[60vw] md:w-[37vw] md:h-[28vw] 2xl:w-[33vw] 2xl:h-[24vw] object-cover rounded-2xl md:rounded-3xl"
                     src="{{url_for('static', filename='images/uploaded/front.JPG')}}" alt="alex">
             </div>
         </div>
@@ -112,7 +99,7 @@
                 urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec
                 elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempor vitae. In commodo risus lacus, et
                 egestas nibh lacinia vitae .</span>
-            <div id="map" class="z-0 rounded-3xl w-full h-[50vw] md:h-[20vw] mt-3"></div>
+            <div id="map" class="z-0 rounded-2xl md:rounded-3xl w-full h-[50vw] md:h-[20vw] mt-3"></div>
         </section>
 
         <!-- people -->

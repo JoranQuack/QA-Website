@@ -30,8 +30,8 @@ module.exports = {
       }),
 
       colors: {
-        'blue-lighter': '#183041',
-        'blue-darker': '#02020A',
+        'blue-lighter': '#243f53',
+        'blue-darker': '#030b13',
         'blue-qa': '#18C0DE',
         'white-qa': '#ced0de'
       }

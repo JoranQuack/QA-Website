@@ -1,14 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+<html lang="en" class="scroll-smooth">
 
 <body>
-    <span class="text-5xl">{{album_id}}</span>
+
+    <!-- header -->
+    <header id="header"
+        class="flex items-center justify-between px-9 md:px-16 xl:px-[10vw] pt-7 pb-4 fixed left-0 w-screen z-10">
+        <a href="/" class="flex items-center gap-1 opacity-100 hover:opacity-50 duration-300">
+            <img src="{{url_for('static', filename='images/website/arrow.png')}}" alt="back" class="rotate-90 h-3">
+            <span class="text-white-qa text-2xl md:text-lg font-round font-medium">Back</span>
+        </a>
+    </header>
+
+    <!-- album title -->
+    <div class="pt-24">
+        <span class="title text-white-qa mb-2">Mayonnaise</span>
+        <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil neque
+            exercitationem adipisci quod.</span>
+    </div>
+
+    <!-- album contents -->
+    <div class="mt-5 h-20 bg-cover grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front.JPG')}}" alt=""></div>
+        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front2.jfif')}}" alt=""></div>
+        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front4.jpg')}}" alt=""></div>
+        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt=""></div>
+        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front5.jpg')}}" alt=""></div>
+        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front6.jpg')}}" alt=""></div>
+        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front7.jpg')}}" alt=""></div>
+        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front8.jpg')}}" alt=""></div>
+        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front9.jpg')}}" alt=""></div>
+        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front10.png')}}" alt=""></div>
+        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front11.png')}}" alt=""></div>
+    </div>
+
+
+    <!-- random shite -->
+    <div class="h-full pt-[4000px]">
+        <div class="">
+            <span class="text-5xl">{{album_id}}</span>
+        </div>
+    </div>
 </body>
 
 </html>

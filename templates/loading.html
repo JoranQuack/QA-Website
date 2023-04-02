@@ -2,16 +2,20 @@
 <html lang="en" class="scroll-smooth">
 
 <head>
+    <title>{{title}}</title>
+
+    <!-- meta -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
+
+    <!-- links -->
     <link rel="stylesheet" href="{{url_for('static', filename='dist/css/output.css')}}">
     <link rel="icon" href="{{url_for('static', filename='images/website/qa-logo.png')}}">
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 
-<body id="body" class="bg-gradient-to-br from-[#183041] to-[#0a131e] h-[2800px] animate-fade_in">
+<body id="body" class="bg-gradient-to-br from-blue-lighter to-blue-darker h-[2800px] animate-fade_in">
 
     <!-- show loading-icon (in root) -->
     <div id="root">
@@ -30,20 +34,23 @@
             setTimeout(() => {
                 icon.classList.add("animate-fade_out");
                 document.getElementById("body").classList.remove("animate-fade_in");
-            }, 25);
+            }, 5);
             setTimeout(() => {
-                document.getElementById("body").className = "h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in";
+                document.getElementById("body").className = "antialiased h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in";
                 document.getElementById("root").innerHTML = data;
                 initMap();
-            }, 500)
+            }, 5)
         });
     </script>
 
-    <!-- scripts -->
+    <!-- other scripts -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="{{url_for('static', filename='js/script.js')}}"></script>
+    {% if title == "Home" %}
     <script async
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHG-KPuE8EgjE0NiC7tEfFjiTYmNFMuus&v=weekly"></script>
+    {% endif %}
+
 </body>
 
 </html>
