@@ -26,12 +26,21 @@ function waitForElm(selector) {
 }
 
 
+// PERFECT SCROLLBAR
+// @ts-ignore
+const ps = new PerfectScrollbar('#root', {
+    suppressScrollX: true,
+});
+
+
 // HEADER SCROLL FUNCTIONS
 document.documentElement.dataset.scroll_position = window.scrollY.toString();
+var scrollValue = 50
 
 document.addEventListener('scroll', () => {
+    ps.update();
     document.documentElement.dataset.scroll_position = window.scrollY.toString();
-    if (window.scrollY > 99) {
+    if (window.scrollY > scrollValue) {
         document.getElementById("header")?.classList.remove("header-spaced");
         document.getElementById("header")?.classList.add("header-condense");
     } else {
@@ -43,6 +52,7 @@ document.addEventListener('scroll', () => {
 
 // FUNCTIONS ONLY APPLICABLE TO HOME PAGE
 if (document.title == "Home") {
+    var scrollValue = 120
 
 
     // MOBILE MENU

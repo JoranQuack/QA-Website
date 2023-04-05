@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{url_for('static', filename='dist/css/output.css')}}">
     <link rel="icon" href="{{url_for('static', filename='images/website/qa-logo.png')}}">
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="{{url_for('static', filename='js/perfect-scrollbar.min.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/perfect-scrollbar.css')}}">
 </head>
 
 <body id="body" class="bg-gradient-to-br from-blue-lighter to-blue-darker h-[2800px] animate-fade_in">
@@ -34,22 +36,19 @@
             setTimeout(() => {
                 icon.classList.add("animate-fade_out");
                 document.getElementById("body").classList.remove("animate-fade_in");
-            }, 5);
+            }, 10);
             setTimeout(() => {
-                document.getElementById("body").className = "antialiased h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in";
+                document.getElementById("body").className = "body-loaded";
                 document.getElementById("root").innerHTML = data;
                 initMap();
-            }, 5)
+            }, 400)
         });
     </script>
 
     <!-- other scripts -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="{{url_for('static', filename='js/script.js')}}"></script>
-    {% if title == "Home" %}
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHG-KPuE8EgjE0NiC7tEfFjiTYmNFMuus&v=weekly"></script>
-    {% endif %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHG-KPuE8EgjE0NiC7tEfFjiTYmNFMuus&v=weekly"></script>
+    <script async src="{{url_for('static', filename='js/script.js')}}"></script>
 
 </body>
 

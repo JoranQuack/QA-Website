@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2048.539" height="445.227" viewBox="0 0 2048.539 445.227">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #18c0de;
+        stroke-width: 8px;
+      }
+
+      .cls-1 {
+        stroke-linecap: round;
+      }
+
+      .cls-3 {
+        filter: url(#Path_11);
+      }
+
+      .cls-4 {
+        filter: url(#Path_10);
+      }
+
+      .cls-5 {
+        filter: url(#Path_9);
+      }
+    </style>
+    <filter id="Path_9" x="0" y="48.266" width="968.492" height="395.14" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="20" result="blur"/>
+      <feFlood flood-color="#18c0de"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Path_10" x="1142.613" y="0" width="905.926" height="445.227" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="20" result="blur-2"/>
+      <feFlood flood-color="#18c0de"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Path_11" x="283.892" y="112.043" width="1511.957" height="329.827" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="20" result="blur-3"/>
+      <feFlood flood-color="#18c0de"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_24" data-name="Group 24" transform="translate(64.345 -3689.945)">
+    <g class="cls-5" transform="matrix(1, 0, 0, 1, -64.35, 3689.94)">
+      <path id="Path_9-2" data-name="Path 9" class="cls-1" d="M317,3710.742c380.472-34.514,625.9,32.247,838.493,256.954" transform="translate(-252.65 -3589.94)"/>
+    </g>
+    <g class="cls-4" transform="matrix(1, 0, 0, 1, -64.35, 3689.94)">
+      <path id="Path_10-2" data-name="Path 10" class="cls-1" d="M2237,3655.588c-437.737-21.738-701.571,178.688-776.3,314.15" transform="translate(-252.65 -3589.94)"/>
+    </g>
+    <g class="cls-3" transform="matrix(1, 0, 0, 1, -64.35, 3689.94)">
+      <path id="Path_11-2" data-name="Path 11" class="cls-2" d="M600.322,3968.916s241.738-238.11,730.614-198.452,655.779,198.452,655.779,198.452" transform="translate(-253.62 -3589.94)"/>
+    </g>
+  </g>
+</svg>

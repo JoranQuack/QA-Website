@@ -115,10 +115,14 @@
   }
 
   .album-item img {
-    @apply w-full h-[27vw] md:h-[14vw] object-cover rounded-2xl;
+    @apply w-full h-[25vw] md:h-[13vw] object-cover rounded-2xl;
   }
 
   /* DYNAMIC */
+  .body-loaded {
+    @apply antialiased h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in;
+  }
+
   .active {
     @apply transition text-blue-qa drop-shadow-glow-intense font-medium duration-300;
   }
@@ -143,17 +147,13 @@
     @apply transform -translate-y-3 transition bg-opacity-75 bg-blue-darker duration-300;
   }
 
-  .body-unloaded {
-    @apply opacity-0;
-  }
-
-  .body-loaded {
-    @apply transition opacity-100 duration-300;
-  }
-
   /* SCROLLBAR */
   ::-webkit-scrollbar {
     @apply hidden;
+  }
+
+  .ps__rail-y {
+    @apply visible h-full opacity-100;
   }
 
   /* MOBILE HAMBURGER MENU */
