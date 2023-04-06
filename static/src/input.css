@@ -42,7 +42,7 @@
 
   .social {
     @apply hover:opacity-50 duration-300;
-    @apply h-9 md:h-[3vw] 2xl:h-14;
+    @apply h-[7vw] md:h-[3vw] 2xl:h-10;
   }
 
   .person {
@@ -120,7 +120,7 @@
 
   /* DYNAMIC */
   .body-loaded {
-    @apply antialiased h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in;
+    @apply antialiased h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in overflow-x-hidden;
   }
 
   .active {
@@ -149,11 +149,16 @@
 
   /* SCROLLBAR */
   ::-webkit-scrollbar {
-    @apply hidden;
+    @apply w-[1.1vw];
   }
-
-  .ps__rail-y {
-    @apply visible h-full opacity-100;
+  ::-webkit-scrollbar-track {
+    @apply bg-blue-darker;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-blue-lighter border-[0.3vw] border-solid border-blue-darker rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-700 duration-300;
   }
 
   /* MOBILE HAMBURGER MENU */

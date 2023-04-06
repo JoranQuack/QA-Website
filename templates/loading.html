@@ -12,15 +12,12 @@
     <!-- links -->
     <link rel="stylesheet" href="{{url_for('static', filename='dist/css/output.css')}}">
     <link rel="icon" href="{{url_for('static', filename='images/website/qa-logo.png')}}">
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script src="{{url_for('static', filename='js/perfect-scrollbar.min.js')}}"></script>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/perfect-scrollbar.css')}}">
 </head>
 
 <body id="body" class="bg-gradient-to-br from-blue-lighter to-blue-darker h-[2800px] animate-fade_in">
 
     <!-- show loading-icon (in root) -->
-    <div id="root">
+    <div id="root" class="relative">
         <div class="h-screen w-screen flex justify-center items-center fixed" id="loading-container">
             <lottie-player src="https://lottie.host/90d91040-688e-4943-8951-405a809198f2/RbsDUXqEvA.json"
                 id="loading-icon" class="animate-fade_in" background="transparent" speed="2"
@@ -47,6 +44,7 @@
 
     <!-- other scripts -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHG-KPuE8EgjE0NiC7tEfFjiTYmNFMuus&v=weekly"></script>
     <script async src="{{url_for('static', filename='js/script.js')}}"></script>
 

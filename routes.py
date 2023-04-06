@@ -1,5 +1,6 @@
 # pylint: disable=import-error
 """all route functions"""
+# import time
 from flask import Blueprint, render_template, redirect, url_for
 # from environments import
 # from database import database
@@ -32,6 +33,7 @@ def get_home():
     # users = database.user.find_first(where={
     #     'password': 'piss',
     # })
+    # time.sleep(5)
     return render_template('home.html')
 
 
