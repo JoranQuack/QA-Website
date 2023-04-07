@@ -14,8 +14,8 @@ module.exports = {
 
       animation: {
         delayed_fade_in: 'delayed_fade_in 5s ease-in-out',
-        fade_in: 'fade 0.5s ease-in forwards',
-        fade_out: 'fade 0.5s ease-out forwards reverse',
+        fade_in: 'fade 0.3s ease-in forwards',
+        fade_out: 'fade 0.3s ease-out forwards reverse',
       },
 
       keyframes: theme => ({

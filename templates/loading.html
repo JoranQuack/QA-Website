@@ -33,12 +33,12 @@
             setTimeout(() => {
                 icon.classList.add("animate-fade_out");
                 document.getElementById("body").classList.remove("animate-fade_in");
-            }, 10);
+            }, 300);
             setTimeout(() => {
                 document.getElementById("body").className = "body-loaded";
                 document.getElementById("root").innerHTML = data;
                 initMap();
-            }, 400)
+            }, 800)
         });
     </script>
 
