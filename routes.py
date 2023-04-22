@@ -3,7 +3,7 @@
 # import time
 from flask import Blueprint, render_template, redirect, url_for
 # from environments import
-# from database import database
+from database import database
 # from environments import SALT
 # import hashlib
 
@@ -30,23 +30,26 @@ def album(album_id: int):
 @api.get('/get_home_contents')
 def get_home():
     """gets home page contents"""
-    # users = database.user.find_first(where={
-    #     'password': 'piss',
-    # })
-    # time.sleep(5)
-    return render_template('home.html')
+    users = database.user.find_first(where={
+        'password': 'piss',
+    })
+    # time.sleep(1)
+    return render_template('home.html', users=users)
 
 
 @api.get('/album/get_album_contents/<int:album_id>')
 def get_album(album_id: int):
     """gets album contents"""
-    return render_template('album.html', album_id=album_id)
+    album_images = ["front.JPG", "front2.jfif", "front4.jpg", "front3.jpg", "front5.jpg",
+                    "front6.jpg", "front7.jpg", "front8.jpg", "front9.jpg",
+                    "front10.png", "front11.png"]
+    return render_template('album.html', album_images=album_images, album_id=album_id)
 
 
 @api.get('/create')
 def create():
     """create temp database entries"""
-    return redirect(url_for('main'))
+    return redirect(url_for('home'))
 
 
 @api.get('/robots.txt')

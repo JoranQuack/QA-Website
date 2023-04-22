@@ -112,3 +112,41 @@ if (document.title == "Home") {
         sleep(1000).then(() => { scrolling = true });
     }
 }
+
+// FUNCTIONS ONLY APPLICABLE TO ALBUM PAGE
+if (document.title == "Album") {
+
+
+    // lightbox open
+    function lightboxOpen(src) {
+        let imgSrc = `/static/images/uploaded/${src}`
+        document.getElementById('lightbox-img')?.setAttribute('src', imgSrc);
+
+        document.getElementById('lightbox')?.classList.remove("lightbox-closed")
+        document.getElementById('lightbox')?.classList.add("lightbox-opening")
+        sleep(10).then(() => {
+            document.getElementById('lightbox')?.classList.remove("lightbox-opening")
+            document.getElementById('lightbox')?.classList.add("lightbox-opened")
+        });
+    }
+
+
+    // lightbox close
+    function lightboxClose() {
+        document.getElementById('lightbox')?.classList.remove("lightbox-opened")
+        document.getElementById('lightbox')?.classList.add("lightbox-closing")
+        sleep(300).then(() => {
+            document.getElementById('lightbox')?.classList.remove("lightbox-closing")
+            document.getElementById('lightbox')?.classList.add("lightbox-closed")
+        });
+    }
+
+
+    // closing the lightbox on pressing the Escape key.
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            lightboxClose();
+        }
+    });
+
+}

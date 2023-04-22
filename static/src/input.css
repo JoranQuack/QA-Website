@@ -114,10 +114,6 @@
     @apply text-white-qa font-round text-sm md:text-2xl text-center w-full break-words;
   }
 
-  .album-item img {
-    @apply w-full h-[25vw] md:h-[13vw] object-cover rounded-2xl;
-  }
-
   /* DYNAMIC */
   .body-loaded {
     @apply antialiased h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in overflow-x-hidden;
@@ -209,6 +205,23 @@
 
   .change-bg {
     @apply transform translate-x-16 translate-y-10 scale-125 duration-300;
+  }
+
+  /* LIGHTBOX FOR GALLERY */
+  .lightbox-opening {
+    @apply flex opacity-0;
+  }
+
+  .lightbox-opened {
+    @apply flex transition opacity-100 duration-300;
+  }
+
+  .lightbox-closing {
+    @apply flex transition opacity-0 duration-300;
+  }
+
+  .lightbox-closed {
+    @apply hidden;
   }
 }
 

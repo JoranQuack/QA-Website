@@ -7,40 +7,45 @@
     <header id="header"
         class="flex items-center justify-between px-9 md:px-16 xl:px-[10vw] pt-7 pb-4 fixed left-0 w-screen z-10">
         <a href="/" class="flex items-center gap-1 opacity-100 hover:opacity-50 duration-300">
-            <img src="{{url_for('static', filename='images/website/arrow.png')}}" alt="back" class="rotate-90 h-3">
+            <img src="{{url_for('static', filename='images/website/arrow.png')}}" alt="back" class="rotate-90 h-2.5">
             <span class="text-white-qa text-2xl md:text-lg font-round font-medium">Back</span>
         </a>
     </header>
 
-    <!-- album title -->
+    <!-- album info -->
     <div class="pt-24">
         <span class="title text-white-qa mb-2">Mayonnaise</span>
         <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil neque
             exercitationem adipisci quod.</span>
     </div>
 
-    <!-- album contents -->
-    <div class="mt-5 h-20 bg-cover grid grid-cols-2 md:grid-cols-4 gap-5">
-        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front.JPG')}}" alt=""></div>
-        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front2.jfif')}}" alt=""></div>
-        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front4.jpg')}}" alt=""></div>
-        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front3.jpg')}}" alt=""></div>
-        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front5.jpg')}}" alt=""></div>
-        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front6.jpg')}}" alt=""></div>
-        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front7.jpg')}}" alt=""></div>
-        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front8.jpg')}}" alt=""></div>
-        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front9.jpg')}}" alt=""></div>
-        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front10.png')}}" alt=""></div>
-        <div class="album-item"><img src="{{url_for('static', filename='images/uploaded/front11.png')}}" alt=""></div>
-    </div>
+    <section id="gallery" class="min-h-screen">
+        <div class="mt-5 h-20 bg-cover grid grid-cols-2 md:grid-cols-4 gap-5">
 
+            {% for image_name in album_images %}
+            <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden"
+                onclick="lightboxOpen('{{image_name}}')"><img
+                    class="hover:scale-110 duration-300 object-cover object-center h-full w-full"
+                    src="{{url_for('static', filename='images/uploaded/'+image_name)}}" alt="">
+            </div>
+            {% endfor %}
 
-    <!-- random shite -->
-    <div class="h-full pt-[4000px]">
-        <div class="">
-            <span class="text-5xl">{{album_id}}</span>
         </div>
-    </div>
+
+        <!-- Lightbox -->
+        <div id="lightbox"
+            class="fixed w-screen h-screen top-0 left-0 lightbox-closed z-20 bg-opacity-75 bg-blue-darker justify-between px-10 py-8">
+            <div class="w-8"></div>
+            <div class="w-3/4 h-full overflow-hidden flex items-center">
+                <img class="w-full h-full object-cover rounded-2xl" src="" id="lightbox-img" alt="lightbox-img">
+            </div>
+            <a class="cursor-pointer opacity-100 hover:opacity-50 duration-300 h-fit" onclick="lightboxClose()">
+                <img class="w-6 h-6" src="{{url_for('static', filename='images/website/close.png')}}"
+                    alt="close-button">
+            </a>
+        </div>
+    </section>
+
 </body>
 
 </html>
