@@ -20,26 +20,28 @@
     </div>
 
     <section id="gallery" class="min-h-screen">
-        <div class="mt-5 h-20 bg-cover grid grid-cols-2 md:grid-cols-4 gap-5">
+        <div class="mt-5 h-20 bg-cover grid grid-cols-2 md:grid-cols-4 gap-5 select-none">
 
             {% for image_name in album_images %}
-            <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden"
-                onclick="lightboxOpen('{{image_name}}')"><img
-                    class="hover:scale-110 duration-300 object-cover object-center h-full w-full"
-                    src="{{url_for('static', filename='images/uploaded/'+image_name)}}" alt="">
+            <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden bg-black"
+                onclick="lightboxOpen('{{image_name}}')">
+                <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
+                    src="{{url_for('static', filename='images/uploaded/'+image_name)}}" alt="{{image_name}}">
             </div>
             {% endfor %}
 
         </div>
+        <script>
 
+        </script>
         <!-- Lightbox -->
-        <div id="lightbox"
-            class="fixed w-screen h-screen top-0 left-0 lightbox-closed z-20 bg-opacity-75 bg-blue-darker justify-between px-10 py-8">
+        <div id="lightbox" onclick="lightboxClose()"
+            class="fixed w-screen h-screen top-0 left-0 lightbox-closed z-20 bg-opacity-75 bg-blue-darker justify-between px-10 py-8 select-none">
             <div class="w-8"></div>
-            <div class="w-3/4 h-full overflow-hidden flex items-center">
+            <div class="w-3/4 h-full overflow-hidden flex items-center" onclick="event.stopPropagation()">
                 <img class="w-full h-full object-cover rounded-2xl" src="" id="lightbox-img" alt="lightbox-img">
             </div>
-            <a class="cursor-pointer opacity-100 hover:opacity-50 duration-300 h-fit" onclick="lightboxClose()">
+            <a class="cursor-pointer opacity-100 hover:opacity-50 duration-300 h-fit">
                 <img class="w-6 h-6" src="{{url_for('static', filename='images/website/close.png')}}"
                     alt="close-button">
             </a>

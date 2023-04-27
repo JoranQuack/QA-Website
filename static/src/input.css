@@ -101,10 +101,6 @@
     @apply font-round font-semibold text-lg text-blue-darker;
   }
 
-  .media-contents {
-    @apply rounded-2xl md:rounded-3xl bg-cover bg-center h-[25vw] md:h-[13vw] overflow-hidden;
-  }
-
   .media-title {
     @apply h-full w-full flex items-center justify-center backdrop-brightness-[30%] p-3;
     @apply hover:backdrop-brightness-75 duration-300;
@@ -154,7 +150,7 @@
     @apply bg-blue-lighter border-[0.3vw] border-solid border-blue-darker rounded-full;
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-700 duration-300;
+    @apply bg-slate-300 duration-300;
   }
 
   /* MOBILE HAMBURGER MENU */

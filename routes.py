@@ -33,8 +33,11 @@ def get_home():
     users = database.user.find_first(where={
         'password': 'piss',
     })
+    images = ["front.JPG", "front2.jfif", "front4.jpg", "front3.jpg", "front5.jpg",
+              "front6.jpg", "front7.jpg", "front8.jpg", "front9.jpg",
+              "front10.png", "front11.png"]
     # time.sleep(1)
-    return render_template('home.html', users=users)
+    return render_template('home.html', users=users, images=images)
 
 
 @api.get('/album/get_album_contents/<int:album_id>')

@@ -141,7 +141,6 @@ if (document.title == "Album") {
         });
     }
 
-
     // closing the lightbox on pressing the Escape key.
     window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
