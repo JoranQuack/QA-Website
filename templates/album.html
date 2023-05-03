@@ -12,25 +12,32 @@
         </a>
     </header>
 
-    <!-- album info -->
-    <div class="pt-24">
-        <span class="title text-white-qa mb-2">Mayonnaise</span>
-        <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil neque
-            exercitationem adipisci quod.</span>
-    </div>
-
     <section id="gallery" class="min-h-screen">
-        <div class="mt-5 h-20 bg-cover grid grid-cols-2 md:grid-cols-4 gap-5 select-none">
 
-            {% for image_name in album_images %}
+        {% if has_media %}
+        <!-- album info -->
+        <div class="pt-24">
+            <span class="title text-white-qa mb-2">{{album.title}}</span>
+            <span>{{album.description}}</span>
+        </div>
+
+        <div class="my-5 h-fit bg-cover grid grid-cols-2 md:grid-cols-4 gap-5 select-none">
+
+            {% for media_item in media %}
             <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden bg-black"
-                onclick="lightboxOpen('{{image_name}}')">
+                onclick="lightboxOpen('{{media_item.reference}}')">
                 <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
-                    src="{{url_for('static', filename='images/uploaded/'+image_name)}}" alt="{{image_name}}">
+                    src="{{url_for('static', filename='images/uploaded/'+media_item.reference)}}"
+                    alt="{{media_item.reference}}">
             </div>
             {% endfor %}
 
         </div>
+
+        {% else %}
+        <div class="flex justify-center items-center h-screen w-full text-white-qa">No Media</div>
+        {% endif %}
+
         <script>
 
         </script>

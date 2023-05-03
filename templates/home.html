@@ -75,7 +75,8 @@
             <!-- gallery -->
             <div>
                 <img class="mt-10 md:mt-0 w-full h-[60vw] md:w-[37vw] md:h-[28vw] 2xl:w-[33vw] 2xl:h-[24vw] object-cover rounded-2xl md:rounded-3xl"
-                    src="{{url_for('static', filename='images/uploaded/front.JPG')}}" alt="alex">
+                    src="{{url_for('static', filename='images/uploaded/'+gallery_cover.reference)}}"
+                    alt="{{gallery_cover.reference}}">
             </div>
         </div>
     </section>
@@ -92,13 +93,7 @@
         <!-- about info -->
         <section id="about" class="md:w-1/2 mb-10 scrollable">
             <span class="title">About Us</span>
-            <span class="block text-white-qa font-sans text-lg mt-2 leading-6">We are a Barbershop Chorus located in
-                Christchurch, New Zealand that perform a wide range of music blah lorem ipsum dolor sit amet,
-                consectetur adipiscing elit. Sed maximus semper lectus fa dfaf asdfasdf cucumber f adf asdfasdfasdf asdf
-                asdf a dfasdf asdf asdfasdfringilla rhoncus. In non mauris lorem. Nullam aliquam massa porta, suscipit
-                urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus eget mauris nec
-                elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempor vitae. In commodo risus lacus, et
-                egestas nibh lacinia vitae .</span>
+            <span class="block text-white-qa font-sans text-lg mt-2 leading-6">{{about.description}}</span>
             <div id="map" class="z-0 rounded-2xl md:rounded-3xl w-full h-[50vw] md:h-[20vw] mt-3"></div>
         </section>
 
@@ -106,37 +101,17 @@
         <div id="people" class="w-full md:w-1/2 scrollable">
             <span class="title">Our People</span>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-5">
-                <div class="person">
-                    <img src="{{url_for('static', filename='images/uploaded/willL.png')}}" alt="">
-                    <span class="person-name">Will Lynch</span>
-                    <span>Director, Arranger</span>
-                </div>
-                <div class="person">
-                    <img src="{{url_for('static', filename='images/uploaded/harry.png')}}" alt="">
-                    <span class="person-name">Harry Burt</span>
-                    <span>Director</span>
-                </div>
-                <div class="person">
-                    <img src="{{url_for('static', filename='images/uploaded/nick.png')}}" alt="">
-                    <span class="person-name">Nicolas Davey</span>
-                    <span>Purple President</span>
-                </div>
-                <div class="person">
-                    <img src="{{url_for('static', filename='images/uploaded/brylee.png')}}" alt="">
-                    <span class="person-name">Brylee Marrianaa</span>
-                    <span>Social Media</span>
-                </div>
 
-                <div class="person">
-                    <img src="{{url_for('static', filename='images/uploaded/pingu.png')}}" alt="">
-                    <span class="person-name">Pingu</span>
-                    <span>Mental Support</span>
+                {% for person in people %}
+                <div class="w-full flex flex-col items-center text-center font-round">
+                    <img src="{{url_for('static', filename='images/uploaded/'+person.reference)}}"
+                        alt="{{person.reference}}"
+                        class="rounded-full h-[30vw] w-[30vw] md:h-[12vw] md:w-[12vw] 2xl:h-[10vw] 2xl:w-[10vw]">
+                    <span class="font-semibold mt-1.5 text-xl -mb-0.5 block leading-tight">{{person.name}}</span>
+                    <span>{{person.role}}</span>
                 </div>
-                <div class="person">
-                    <img src="{{url_for('static', filename='images/uploaded/willH.png')}}" alt="">
-                    <span class="person-name">Will Harris</span>
-                    <span>Choreographer</span>
-                </div>
+                {% endfor %}
+
             </div>
         </div>
     </div>
@@ -146,123 +121,36 @@
         <span class="title">Upcoming Events</span>
         <div class="-mt-3 md:grid grid-cols-2 gap-6 md:mt-5">
 
-            <!-- event -->
+            <!-- events -->
+
+            {% for event in events %}
             <div class="event">
                 <div>
                     <div class="event-top">
                         <div>
-                            <span class="event-title">Open Night</span>
+                            <span class="event-title">{{event.title}}</span>
                             <div class="event-location">
                                 <img src="{{url_for('static', filename='images/website/location.png')}}" alt="location">
-                                <span>3 Brake Street</span>
+                                <span>{{event.location}}</span>
                             </div>
                         </div>
                         <div class="event-datetime">
-                            <span>16/02/2023</span> <br>
-                            <span>7:00 PM</span>
-                        </div>
-                    </div>
-                    <span>
-                        Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa
-                        porta,
-                        suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat. Donec
-                        maximus
-                        eget
-                        mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempo.
-                    </span>
-                </div>
-                <a href="https://www.facebook.com/" target="_blank" class="event-button">
-                    <span>Learn more</span>
-                </a>
-            </div>
+                            <span>{{event.scheduled.strftime('%d/%m/%Y')}}</span>
 
-            <!-- event -->
-            <div class="event">
-                <div class="event-top">
-                    <div>
-                        <span class="event-title">Crazy Bananas</span>
-                        <div class="event-location">
-                            <img src="{{url_for('static', filename='images/website/location.png')}}" alt="location">
-                            <span>24541 Fruit Salad Avenue</span>
-                        </div>
-                    </div>
-                    <div class="event-datetime">
-                        <span>16/02/2023</span> <br>
-                    </div>
-                </div>
-                <div class="event-text">
-                    <span>
-                        Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta,
-                        suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus
-                        eget
-                        mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempo. Banana flavoured
-                        ice cream is a disease. We would love for you to nullam aliquam massa porta,
-                        suscipit urna a, fringilla sem. 3fjasdfljaf 34 34 21 asfadf
-                    </span>
-                </div>
-                <a href="https://www.facebook.com/" target="_blank" class="event-button">
-                    <span>Learn more</span>
-                </a>
-            </div>
+                            {% if event.has_time == True %}
+                            <br> <span>{{event.scheduled.strftime('%H:%M')}}</span>
+                            {% endif %}
 
-            <!-- event -->
-            <div class="event">
-                <div class="event-top">
-                    <div>
-                        <span class="event-title">Open Night</span>
-                        <div class="event-location">
-                            <img src="{{url_for('static', filename='images/website/location.png')}}" alt="location">
-                            <span>3 Brake Street</span>
                         </div>
                     </div>
-                    <div class="event-datetime">
-                        <span>16/02/2023</span> <br>
-                        <span>7:00 PM</span>
-                    </div>
+                    <span>{{event.description}}</span>
                 </div>
-                <div class="event-text">
-                    <span>
-                        Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta,
-                        suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus
-                        eget
-                        mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempo. Banana flavoured
-                        ice cream is a disease. We would love for you to nullam aliquam massa porta,
-                        suscipit urna a, fringilla sem. 3fjasdfljaf 34 34 21 asfadf
-                    </span>
-                </div>
-                <a href="https://www.facebook.com/" target="_blank" class="event-button">
+                <a href="{{event.reference}}" target="_blank" class="event-button">
                     <span>Learn more</span>
                 </a>
             </div>
+            {% endfor %}
 
-            <!-- event -->
-            <div class="event">
-                <div class="event-top">
-                    <div>
-                        <span class="event-title">Crazy Bananas</span>
-                        <div class="event-location">
-                            <img src="{{url_for('static', filename='images/website/location.png')}}" alt="location">
-                            <span>24541 Fruit Salad Avenue</span>
-                        </div>
-                    </div>
-                    <div class="event-datetime">
-                        <span>16/02/2023</span> <br>
-                    </div>
-                </div>
-                <div class="event-text">
-                    <span>
-                        Banana flavoured ice cream is a disease. We would love for you to nullam aliquam massa porta,
-                        suscipit urna a, fringilla sem. Quisque sed viverra massa. Nulla sed ipsum erat. Donec maximus
-                        eget
-                        mauris nec elementum. Suspendisse pulvinar mi nisi, eget venenatis felis tempo. Banana flavoured
-                        ice cream is a disease. We would love for you to nullam aliquam massa porta,
-                        suscipit urna a, fringilla sem. 3fjasdfljaf 34 34 21 asfadf
-                    </span>
-                </div>
-                <a href="https://www.facebook.com/" target="_blank" class="event-button">
-                    <span>Learn more</span>
-                </a>
-            </div>
         </div>
     </section>
 
@@ -271,17 +159,15 @@
         <span class="title">Media</span>
         <div class="grid grid-cols-2 gap-5 md:grid-cols-4 mt-5">
 
-            <!-- ! MAKE THE BACKGROUND IMAGES SCALE ON aaaHOVER -->
-
-            {% for image in images %}
-
-            <a href="{{url_for('album', album_id=5)}}" class="">
+            {% for album in albums %}
+            <a href="{{url_for('album_page', album_id=album.id)}}" class="">
                 <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden bg-black">
                     <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
-                        src="{{url_for('static', filename='images/uploaded/'+image)}}" alt="{{image}}">
+                        src="{{url_for('static', filename='images/uploaded/'+album.cover.reference)}}"
+                        alt="{{album.cover.reference}}">
                 </div>
                 <div class="flex items-center justify-center text-center w-full mt-3 mb-4 overflow-hidden">
-                    <span class="font-round text-2xl">Jai is cool</span>
+                    <span class="font-round text-2xl">{{album.title}}</span>
                 </div>
             </a>
             {% endfor %}

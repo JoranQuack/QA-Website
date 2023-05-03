@@ -23,13 +23,14 @@ model User {
 }
 
 model Event {
-    id          Int       @id @default(autoincrement())
+    id          Int      @id @default(autoincrement())
     user_id     Int
-    user        User      @relation(fields: [user_id], references: [id])
+    user        User     @relation(fields: [user_id], references: [id])
     title       String
     description String
-    date        DateTime
-    time        DateTime?
+    location    String
+    scheduled   DateTime
+    has_time    Boolean
     reference   String?
 }
 
@@ -56,16 +57,19 @@ model Album {
     user        User    @relation(fields: [user_id], references: [id])
     title       String
     description String
-    media       Media[]
+    cover       Media   @relation(fields: [cover_id], references: [id])
+    cover_id    Int
+    media       Media[] @relation(name: "albumContent")
 }
 
 model Media {
-    id          Int     @id @default(autoincrement())
-    user_id     Int
-    user        User    @relation(fields: [user_id], references: [id])
-    albums      Album[]
-    type        String
-    reference   String
-    on_gallery  Boolean
-    description String?
+    id           Int     @id @default(autoincrement())
+    user_id      Int
+    user         User    @relation(fields: [user_id], references: [id])
+    albums       Album[] @relation(name: "albumContent")
+    type         String
+    reference    String
+    on_gallery   Boolean
+    description  String?
+    album_covers Album[]
 }
