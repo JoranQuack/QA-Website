@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="flex justify-center items-center min-h-screen">
+    <form action="/api/signin" method="post" class="flex-col items-center">
+        <span class="title">Sign in to an Existing Account</span>
+        <label for="username" class="text-white-qa">Username</label> <br>
+        <input type="text" placeholder="Enter Username" name="username"> <br>
+
+        <label for="password" class="text-white-qa">Password</label> <br>
+        <input type="password" placeholder="Enter Password" name="password"> <br>
+
+        <button type="submit">Sign In</button>
+    </form>
+</div>
+
+{% endblock %}

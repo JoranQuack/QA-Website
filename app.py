@@ -1,14 +1,17 @@
 """root of backend"""
 import os
 from flask import Flask
-from routes import api
+import routes_frontend
+import routes_backend
 from environments import SECRET_KEY
 
 
 app = Flask(__name__, template_folder="templates")
 app.secret_key = SECRET_KEY
 
-app.register_blueprint(api, url_prefix="/")
+app.register_blueprint(routes_frontend.api, url_prefix="/")
+app.register_blueprint(routes_backend.api, url_prefix="/api")
+
 
 UPLOAD_FOLDER = 'static/images/'
 

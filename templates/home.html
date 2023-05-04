@@ -8,7 +8,8 @@
     <header id="header"
         class="flex flex-row items-center justify-between px-9 md:px-16 xl:px-[10vw] pt-7 pb-4 fixed left-0 w-screen z-10">
         <a href="#home">
-            <img src="{{url_for('static', filename='images/website/qa-logo.png')}}" alt="qa-logo" class="h-12 md:h-14">
+            <img src="{{ url_for('static', filename='images/website/qa-logo.png') }}" alt="qa-logo"
+                class="h-12 md:h-14">
         </a>
 
         <!-- desktop menu -->
@@ -43,7 +44,9 @@
     </header>
 
     <!-- welcome section -->
-    <section id="home" class="main">
+    <section id="home" class="text-center md:text-left text-5xl md:text-7xl 
+    text-white-qa font-round font-semibold tracking-wide h-screen w-full
+    flex flex-row items-center justify-center">
 
         <!-- spaces on desktop -->
         <div class="md:flex justify-between items-center w-full">
@@ -57,15 +60,15 @@
                 </span>
                 <div class="flex flex-row justify-center md:justify-start gap-7 mt-6 md:mt-5">
                     <a href="https://www.instagram.com/qachorus/" target="_blank">
-                        <img class="social" src="{{url_for('static', filename='images/website/instagram.png')}}"
+                        <img class="social" src="{{ url_for('static', filename='images/website/instagram.png') }}"
                             alt="Instagram">
                     </a>
                     <a href="https://www.tiktok.com/@quantumacoustics" target="_blank">
-                        <img class="social" src="{{url_for('static', filename='images/website/tiktok.png')}}"
+                        <img class="social" src="{{ url_for('static', filename='images/website/tiktok.png') }}"
                             alt="TikTok">
                     </a>
                     <a href="https://www.facebook.com/qachorus" target="_blank">
-                        <img class="social" src="{{url_for('static', filename='images/website/facebook.png')}}"
+                        <img class="social" src="{{ url_for('static', filename='images/website/facebook.png') }}"
                             alt="Facebook">
                     </a>
                 </div>
@@ -75,8 +78,8 @@
             <!-- gallery -->
             <div>
                 <img class="mt-10 md:mt-0 w-full h-[60vw] md:w-[37vw] md:h-[28vw] 2xl:w-[33vw] 2xl:h-[24vw] object-cover rounded-2xl md:rounded-3xl"
-                    src="{{url_for('static', filename='images/uploaded/'+gallery_cover.reference)}}"
-                    alt="{{gallery_cover.reference}}">
+                    src="{{ url_for('static', filename='images/uploaded/'+gallery_cover.reference) }}"
+                    alt="{{ gallery_cover.reference }}">
             </div>
         </div>
     </section>
@@ -84,7 +87,7 @@
     <!-- scroll arrow -->
     <div class="flex flex-row justify-center">
         <a class="arrow-link animate-bounce -mt-16" href="#about"><img class="arrow h-4"
-                src="{{url_for('static', filename='images/website/arrow.png')}}" alt="arrow"></a>
+                src="{{ url_for('static', filename='images/website/arrow.png') }}" alt="arrow"></a>
     </div>
 
     <!-- about section -->
@@ -93,7 +96,7 @@
         <!-- about info -->
         <section id="about" class="md:w-1/2 mb-10 scrollable">
             <span class="title">About Us</span>
-            <span class="block text-white-qa font-sans text-lg mt-2 leading-6">{{about.description}}</span>
+            <span class="block text-white-qa font-sans text-lg mt-2 leading-6">{{ about.description }}</span>
             <div id="map" class="z-0 rounded-2xl md:rounded-3xl w-full h-[50vw] md:h-[20vw] mt-3"></div>
         </section>
 
@@ -104,11 +107,11 @@
 
                 {% for person in people %}
                 <div class="w-full flex flex-col items-center text-center font-round">
-                    <img src="{{url_for('static', filename='images/uploaded/'+person.reference)}}"
-                        alt="{{person.reference}}"
+                    <img src="{{ url_for('static', filename='images/uploaded/'+person.reference) }}"
+                        alt="{{ person.reference }}"
                         class="rounded-full h-[30vw] w-[30vw] md:h-[12vw] md:w-[12vw] 2xl:h-[10vw] 2xl:w-[10vw]">
-                    <span class="font-semibold mt-1.5 text-xl -mb-0.5 block leading-tight">{{person.name}}</span>
-                    <span>{{person.role}}</span>
+                    <span class="font-semibold mt-1.5 text-xl -mb-0.5 block leading-tight">{{ person.name }}</span>
+                    <span>{{ person.role }}</span>
                 </div>
                 {% endfor %}
 
@@ -124,28 +127,31 @@
             <!-- events -->
 
             {% for event in events %}
-            <div class="event">
-                <div>
-                    <div class="event-top">
+            <div
+                class="border-blue-qa rounded-2xl md:rounded-3xl border-[0.35rem] my-7 md:my-0 flex flex-col justify-between">
+                <div class="p-5 pb-0 md:p-10 md:pb-2">
+                    <div class="flex flex-row justify-between items-start">
                         <div>
-                            <span class="event-title">{{event.title}}</span>
-                            <div class="event-location">
-                                <img src="{{url_for('static', filename='images/website/location.png')}}" alt="location">
-                                <span>{{event.location}}</span>
+                            <span class="font-round text-3xl block leading-7">{{ event.title }}</span>
+                            <div class="flex flex-row justify-start items-center gap-1.5 my-2">
+                                <img src="{{ url_for('static', filename='images/website/location.png') }}"
+                                    alt="location" class="h-4">
+                                <span>{{ event.location }}</span>
                             </div>
                         </div>
-                        <div class="event-datetime">
-                            <span>{{event.scheduled.strftime('%d/%m/%Y')}}</span>
+                        <div class="text-right mt-0.5">
+                            <span>{{ event.scheduled.strftime('%d/%m/%Y') }}</span>
 
                             {% if event.has_time == True %}
-                            <br> <span>{{event.scheduled.strftime('%H:%M')}}</span>
+                            <br> <span>{{ event.scheduled.strftime('%H:%M') }}</span>
                             {% endif %}
 
                         </div>
                     </div>
-                    <span>{{event.description}}</span>
+                    <span>{{ event.description }}</span>
                 </div>
-                <a href="{{event.reference}}" target="_blank" class="event-button">
+                <a href="{{ event.reference }}" target="_blank"
+                    class="button h-14 w-full mt-4 rounded-b-md rounded-t-none md:rounded-full md:w-32 md:h-10 md:mx-10 md:mb-8">
                     <span>Learn more</span>
                 </a>
             </div>
@@ -160,14 +166,14 @@
         <div class="grid grid-cols-2 gap-5 md:grid-cols-4 mt-5">
 
             {% for album in albums %}
-            <a href="{{url_for('album_page', album_id=album.id)}}" class="">
+            <a href="{{ url_for('album_page', album_id=album.id) }}" class="">
                 <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden bg-black">
                     <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
-                        src="{{url_for('static', filename='images/uploaded/'+album.cover.reference)}}"
-                        alt="{{album.cover.reference}}">
+                        src="{{ url_for('static', filename='images/uploaded/'+album.cover.reference) }}"
+                        alt="{{ album.cover.reference }}">
                 </div>
                 <div class="flex items-center justify-center text-center w-full mt-3 mb-4 overflow-hidden">
-                    <span class="font-round text-2xl">{{album.title}}</span>
+                    <span class="font-round text-2xl">{{ album.title }}</span>
                 </div>
             </a>
             {% endfor %}
@@ -182,14 +188,15 @@
         flex flex-row justify-between px-9 md:px-16 xl:px-[10vw] pt-[20vw] md:pt-[10vw]">
         <div class="flex flex-row justify-start gap-3 -ml-5 scale-75">
             <a href="https://www.instagram.com/qachorus/" target="_blank">
-                <img class="social" src="{{url_for('static', filename='images/website/instagram.png')}}"
+                <img class="social" src="{{ url_for('static', filename='images/website/instagram.png') }}"
                     alt="Instagram">
             </a>
             <a href="https://www.tiktok.com/@quantumacoustics" target="_blank">
-                <img class="social" src="{{url_for('static', filename='images/website/tiktok.png')}}" alt="TikTok">
+                <img class="social" src="{{ url_for('static', filename='images/website/tiktok.png') }}" alt="TikTok">
             </a>
             <a href="https://www.facebook.com/qachorus" target="_blank">
-                <img class="social" src="{{url_for('static', filename='images/website/facebook.png')}}" alt="Facebook">
+                <img class="social" src="{{ url_for('static', filename='images/website/facebook.png') }}"
+                    alt="Facebook">
             </a>
         </div>
         <div class="text-right text-[2vw] mt-2 md:text-[1vw]">

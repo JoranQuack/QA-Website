@@ -30,12 +30,6 @@
     @apply transition text-white-qa text-lg font-round font-medium tracking-wide duration-300;
   }
 
-  .main {
-    @apply text-center md:text-left text-5xl md:text-7xl;
-    @apply text-white-qa font-round font-semibold tracking-wide;
-    @apply h-screen w-full flex flex-row items-center justify-center;
-  }
-
   .title {
     @apply text-blue-qa font-round font-semibold text-4xl block;
   }
@@ -45,40 +39,6 @@
     @apply h-[7vw] md:h-[3vw] 2xl:h-10;
   }
 
-  .event {
-    @apply border-blue-qa rounded-2xl md:rounded-3xl border-[0.35rem] p-5 my-7 md:p-10 md:pb-8 md:my-0;
-    @apply flex flex-col justify-between;
-  }
-
-  .event-top {
-    @apply flex flex-row justify-between items-start;
-  }
-
-  .event-title {
-    @apply font-round text-3xl block leading-7;
-  }
-
-  .event-location {
-    @apply flex flex-row justify-start items-center gap-1.5 my-2;
-  }
-
-  .event-location img {
-    @apply h-4;
-  }
-
-  .event-datetime {
-    @apply text-right mt-0.5;
-  }
-
-  .event-button {
-    @apply bg-blue-qa flex justify-center items-center h-14 -m-6 mt-4 rounded-b-3xl md:rounded-full md:w-32 md:h-10 md:m-0 md:mt-3;
-    @apply hover:opacity-50 duration-300 cursor-pointer;
-  }
-
-  .event-button span {
-    @apply font-round font-semibold text-lg text-blue-darker;
-  }
-
   .button {
     @apply bg-blue-qa flex justify-center items-center rounded-full w-32 h-10 m-0 mt-3;
     @apply hover:opacity-50 duration-300 cursor-pointer;
@@ -86,15 +46,6 @@
 
   .button span {
     @apply font-round font-semibold text-lg text-blue-darker;
-  }
-
-  .media-title {
-    @apply h-full w-full flex items-center justify-center backdrop-brightness-[30%] p-3;
-    @apply hover:backdrop-brightness-75 duration-300;
-  }
-
-  .media-title span {
-    @apply text-white-qa font-round text-sm md:text-2xl text-center w-full break-words;
   }
 
   /* DYNAMIC */
