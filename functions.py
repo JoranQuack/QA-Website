@@ -13,7 +13,7 @@ def get_session_data(key: str) -> Any | None:
 
 def signed_in():
     """checks if theres is a user in the session"""
-    return 'user_id' in session
+    return 'user' in session
 
 
 def secure_password(password: str):

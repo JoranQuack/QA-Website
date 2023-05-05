@@ -1,5 +1,5 @@
 '''all backend routes'''
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from functions import signed_in, secure_password
 # from prisma.partials import AlbumWithCover, AlbumWithMedia
 # from datetime import datetime
@@ -12,7 +12,7 @@ api = Blueprint('api', __name__)
 def edit_page():
     """renders the edit page, redirects if not signed in"""
     if signed_in():
-        return render_template('edit.html')
+        return render_template('edit.html', username=session['username'])
     else:
         return redirect(url_for('api.signin_page'))
 
@@ -29,15 +29,24 @@ def signin():
     username = request.form['username']
     password = secure_password(request.form['password'])
 
-    db_user = db.user.find_first(where={
+    user = db.user.find_first(where={
         'username': username
     })
 
-    if db_user is None or db_user.password != password:
+    if user is None or user.password != password:
         flash("Username or password is wrong")
         return redirect(url_for('api.signin_page'))
     else:
+        session['user'] = user.id
+        session['username'] = user.username
         return redirect(url_for('api.edit_page'))
+
+
+@api.get('/logout')
+def logout():
+    """logs out the user"""
+    session.clear()
+    return redirect(url_for('edit_page'))
 
 
 @api.get('/create')
