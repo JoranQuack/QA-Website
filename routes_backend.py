@@ -46,7 +46,7 @@ def signin():
 def logout():
     """logs out the user"""
     session.clear()
-    return redirect(url_for('edit_page'))
+    return redirect(url_for('api.edit_page'))
 
 
 @api.get('/create')

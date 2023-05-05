@@ -16,6 +16,7 @@ module.exports = {
         delayed_fade_in: 'delayed_fade_in 5s ease-in-out',
         fade_in: 'fade 0.3s ease-in forwards',
         fade_out: 'fade 0.3s ease-out forwards reverse',
+        error: 'error 5s ease forwards',
       },
 
       keyframes: theme => ({
@@ -27,7 +28,14 @@ module.exports = {
           '0%': { opacity: 0 },
           '100%': { opacity: 1 },
         },
+        error: {
+          '0%': { transform: 'translateY(310%)' },
+          '10%, 90%': { transform: 'translateY(0%)' },
+          '100%': { transform: 'translateY(310%)' }
+        },
       }),
+
+
 
       colors: {
         'blue-lighter': '#243f53',
