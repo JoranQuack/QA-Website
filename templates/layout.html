@@ -37,7 +37,7 @@
 
         {% if session['username'] %}
         <span>Signed in as {{ session['username'] }}</span>
-        <a href="{{url_for('admin.logout')}}" class="button">Log out</a>
+        <a href="{{url_for('admin.logout')}}" class="button text-blue-darker">Log out</a>
         {% endif %}
 
     </header>
