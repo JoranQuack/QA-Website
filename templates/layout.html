@@ -19,7 +19,11 @@
     {% if messages %}
     <div class="animate-error fixed left-0 w-screen bottom-10 text-center">
         {% for message in messages %}
-        <span class="bg-red-600 text-white-qa rounded-full p-3 w-fit text-center">{{ message }}</span>
+        <span class="
+        {% if '!' in message %} bg-blue-qa text-blue-darker
+        {% else %} bg-red-600 
+        {% endif %}
+        rounded-full p-3 w-fit text-center">{{ message }}</span>
         {% endfor %}
     </div>
     {% endif %}
@@ -27,13 +31,13 @@
 
     <header id="header" class="flex items-center justify-between pt-7 pb-4 w-full z-10">
         <a href="/" class="flex items-center gap-1 opacity-100 hover:opacity-50 duration-300" target="_blank">
-            <img src="{{url_for('static', filename='images/website/arrow.png')}}" alt="back" class="rotate-90 h-2.5">
+            <img src="{{url_for('static', filename='images/website/home.png')}}" alt="back" class="h-3.5">
             <span class="text-white-qa text-2xl md:text-lg font-round font-medium">Home Page</span>
         </a>
 
-        {% if username %}
-        <span>Signed in as "{{username}}"</span>
-        <a href="/api/logout" class="button">Log out</a>
+        {% if session['username'] %}
+        <span>Signed in as "{{ session['username'] }}"</span>
+        <a href="/admin/logout" class="button">Log out</a>
         {% endif %}
 
     </header>

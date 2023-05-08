@@ -5,16 +5,15 @@ from functions import signed_in, secure_password
 # from datetime import datetime
 from database import db
 
-api = Blueprint('api', __name__)
+api = Blueprint('admin', __name__)
 
 
-@api.get('/edit')
+@api.get('/')
 def edit_page():
     """renders the edit page, redirects if not signed in"""
-    if signed_in():
-        return render_template('edit.html', username=session['username'])
-    else:
-        return redirect(url_for('api.signin_page'))
+    if not signed_in():
+        return redirect(url_for('admin.signin_page'))
+    return render_template('edit.html')
 
 
 @api.get('/signin')
@@ -35,18 +34,52 @@ def signin():
 
     if user is None or user.password != password:
         flash("Username or password is wrong")
-        return redirect(url_for('api.signin_page'))
-    else:
-        session['user'] = user.id
-        session['username'] = user.username
-        return redirect(url_for('api.edit_page'))
+        return redirect(url_for('admin.signin_page'))
+    session['user'] = user.id
+    session['username'] = user.username
+    flash(f"Welcome, {username}!")
+    return redirect(url_for('admin.edit_page'))
+
+
+@api.get('/signup')
+def signup_page():
+    """renders the signup page"""
+    return render_template('signup.html')
+
+
+@api.post('/signup')
+def signup():
+    """signs up a new user"""
+    username = request.form['username'].lower()
+    password = secure_password(request.form['password'])
+    confirm_password = secure_password(request.form['confirm-password'])
+
+    user = db.user.find_first(where={
+        'username': username.lower()
+    })
+
+    if password != confirm_password:
+        flash("Passwords don't match")
+        return redirect(url_for('admin.signup'))
+    elif user is not None:
+        flash("Username is already taken")
+        return redirect(url_for('admin.signup'))
+
+    db.user.create(data={
+        'username': username,
+        'password': password,
+        'is_admin': False
+    })
+
+    flash("Account created!")
+    return redirect(url_for('admin.edit_page'))
 
 
 @api.get('/logout')
 def logout():
     """logs out the user"""
     session.clear()
-    return redirect(url_for('api.edit_page'))
+    return redirect(url_for('admin.edit_page'))
 
 
 @api.get('/create')
