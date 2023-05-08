@@ -58,7 +58,11 @@
 
   td,
   th {
-    @apply border-white-qa border-y-[1px] text-left p-3;
+    @apply text-left p-3;
+  }
+
+  td {
+    @apply border-white-qa border-t-[1px];
   }
 
   /* DYNAMIC */

@@ -2,12 +2,13 @@
 {% block content %}
 
 
-<form action="/admin/user_admin" method="post">
+<form action="/admin/update_users" method="post">
     <table class="text-white-qa w-full rounded-2xl mt-5">
         <tr>
             <th>User ID</th>
             <th>Username</th>
             <th>Admin</th>
+            <th>Remove</th>
         </tr>
 
         {% for user in users %}
@@ -15,15 +16,19 @@
             <td>{{user.id}}</td>
             <td>{{user.username}}</td>
             <td>
-                <input type="checkbox" {% if user.is_admin %} checked {% endif %} id="{{user.id}}" name="is_admin"
-                    value="is_admin">
+                <input type="checkbox" class="w-min" {% if user.is_admin %} checked {% endif %} name="admin_users"
+                    value="{{user.id}}">
+            </td>
+            <td>
+                <input type="checkbox" class="w-min" name="remove_users" value="{{user.id}}">
             </td>
         </tr>
         {% endfor %}
 
     </table>
-
-    <button type="submit" class="button mt-3 px-3 py-2">Save changes</button>
+    <div class="flex justify-center">
+        <button type="submit" class="button mt-3 px-3 py-2">Save changes</button>
+    </div>
 </form>
 
 

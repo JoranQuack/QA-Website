@@ -1,8 +1,9 @@
 '''all backend routes'''
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session
-from functions import signed_in, secure_password
+from functions import signed_in, secure_password, strings_to_ints, toggle_admins, remove_users
 # from prisma.partials import AlbumWithCover, AlbumWithMedia
 # from datetime import datetime
+from prisma.errors import ForeignKeyViolationError
 from database import db
 
 api = Blueprint('admin', __name__)
@@ -23,11 +24,27 @@ def users_page():
     return render_template('users.html', users=users)
 
 
-@api.post('/user_admin')
-def user_admin():
-    """makes users admins or not admins"""
-    admins = request.form['is_admin']
-    print(admins)
+@api.post('/update_users')
+def update_users():
+    """admins users and removes users"""
+    admin_ids = strings_to_ints(request.form.getlist('admin_users'))
+    remove_ids = strings_to_ints(request.form.getlist('remove_users'))
+
+    if session['user'] not in admin_ids:
+        flash("Unable to dethrone yourself")
+        return redirect(url_for('admin.users_page'))
+    elif session['user'] in remove_ids:
+        flash("One may not remove oneself")
+        return redirect(url_for('admin.users_page'))
+
+    toggle_admins(admin_ids)
+    try:
+        remove_users(remove_ids)
+    except ForeignKeyViolationError:
+        flash("User cannot be removed as some DB contents belong to them")
+        return redirect(url_for('admin.users_page'))
+
+    flash("Updated users successfully!")
     return redirect(url_for('admin.users_page'))
 
 
