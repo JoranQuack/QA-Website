@@ -2,5 +2,30 @@
 {% block content %}
 
 
+<form action="/admin/user_admin" method="post">
+    <table class="text-white-qa w-full rounded-2xl mt-5">
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Admin</th>
+        </tr>
+
+        {% for user in users %}
+        <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>
+                <input type="checkbox" {% if user.is_admin %} checked {% endif %} id="{{user.id}}" name="is_admin"
+                    value="is_admin">
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <button type="submit" class="button mt-3 px-3 py-2">Save changes</button>
+</form>
+
+
 
 {% endblock %}

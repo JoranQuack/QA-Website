@@ -30,20 +30,34 @@
     {% endwith %}
 
     <header id="header" class="flex items-center justify-between pt-7 pb-4 w-full z-10">
-        <a href="/" class="flex items-center gap-1 opacity-100 hover:opacity-50 duration-300" target="_blank">
+        <a href="{{url_for('home_page')}}" class="flex items-center gap-1" target="_blank">
             <img src="{{url_for('static', filename='images/website/home.png')}}" alt="back" class="h-3.5">
             <span class="text-white-qa text-2xl md:text-lg font-round font-medium">Home Page</span>
         </a>
 
         {% if session['username'] %}
-        <span>Signed in as "{{ session['username'] }}"</span>
-        <a href="/admin/logout" class="button">Log out</a>
+        <span>Signed in as {{ session['username'] }}</span>
+        <a href="{{url_for('admin.logout')}}" class="button">Log out</a>
         {% endif %}
 
     </header>
 
+    {% if session['is_admin'] or sign_page %}
+
     {% block content %}
     {% endblock %}
+
+    {% else %}
+
+    <div class="flex justify-center items-center h-[90vh]">
+        <span class="text-center">
+            Sorry, you do not have editing access. <br>
+            Please contact an admin.
+        </span>
+    </div>
+
+    {% endif %}
+
 </body>
 
 </html>

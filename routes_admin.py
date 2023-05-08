@@ -16,10 +16,25 @@ def edit_page():
     return render_template('edit.html')
 
 
+@api.get('/users')
+def users_page():
+    """the page where admins can manage other users"""
+    users = db.user.find_many()
+    return render_template('users.html', users=users)
+
+
+@api.post('/user_admin')
+def user_admin():
+    """makes users admins or not admins"""
+    admins = request.form['is_admin']
+    print(admins)
+    return redirect(url_for('admin.users_page'))
+
+
 @api.get('/signin')
 def signin_page():
     """renders the signin page"""
-    return render_template('signin.html')
+    return render_template('signin.html', sign_page=True)
 
 
 @api.post('/signin')
@@ -37,6 +52,7 @@ def signin():
         return redirect(url_for('admin.signin_page'))
     session['user'] = user.id
     session['username'] = user.username
+    session['is_admin'] = user.is_admin
     flash(f"Welcome, {username}!")
     return redirect(url_for('admin.edit_page'))
 
@@ -44,7 +60,7 @@ def signin():
 @api.get('/signup')
 def signup_page():
     """renders the signup page"""
-    return render_template('signup.html')
+    return render_template('signup.html', sign_page=True)
 
 
 @api.post('/signup')

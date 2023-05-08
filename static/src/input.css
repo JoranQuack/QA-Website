@@ -6,6 +6,10 @@
     @apply text-white-qa;
   }
 
+  a {
+    @apply text-white-qa opacity-100 hover:opacity-50 duration-300;
+  }
+
   @font-face {
     font-family: 'All Round Gothic';
     src: url('/static/fonts/AllRoundGothic.ttf') format('truetype');
@@ -50,6 +54,11 @@
 
   .button span {
     @apply font-round font-semibold text-lg text-blue-darker;
+  }
+
+  td,
+  th {
+    @apply border-white-qa border-y-[1px] text-left p-3;
   }
 
   /* DYNAMIC */
