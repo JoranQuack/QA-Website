@@ -1,9 +1,12 @@
 '''all backend routes'''
-from flask import Blueprint, render_template, redirect, url_for, request, flash, session
-from functions import signed_in, secure_password, strings_to_ints, toggle_admins, remove_users
-# from prisma.partials import AlbumWithCover, AlbumWithMedia
-# from datetime import datetime
-from prisma.errors import ForeignKeyViolationError
+from typing import List
+from flask import (
+    Blueprint, request, session, render_template, redirect, url_for, flash
+)
+from functions import (
+    signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
+    find_user_entries
+)
 from database import db
 
 api = Blueprint('admin', __name__)
@@ -21,7 +24,11 @@ def edit_page():
 def users_page():
     """the page where admins can manage other users"""
     users = db.user.find_many()
-    return render_template('users.html', users=users)
+    user_entries: List[int] = []
+    for user in users:
+        entries = find_user_entries(user.id)
+        user_entries.append(entries)
+    return render_template('users.html', users=users, entries=user_entries, enumerate=enumerate)
 
 
 @api.post('/update_users')
@@ -31,17 +38,16 @@ def update_users():
     remove_ids = strings_to_ints(request.form.getlist('remove_users'))
 
     if session['user'] not in admin_ids:
-        flash("Unable to dethrone yourself")
+        flash("One may not dethrone oneself")
         return redirect(url_for('admin.users_page'))
     elif session['user'] in remove_ids:
         flash("One may not remove oneself")
         return redirect(url_for('admin.users_page'))
 
     toggle_admins(admin_ids)
-    try:
-        remove_users(remove_ids)
-    except ForeignKeyViolationError:
-        flash("User cannot be removed as some DB contents belong to them")
+    error = remove_users(remove_ids)
+    if error:
+        flash("A user has entries in the DB and cannot be removed")
         return redirect(url_for('admin.users_page'))
 
     flash("Updated users successfully!")
@@ -65,7 +71,7 @@ def signin():
     })
 
     if user is None or user.password != password:
-        flash("Username or password is wrong")
+        flash("Wrong username or password")
         return redirect(url_for('admin.signin_page'))
     session['user'] = user.id
     session['username'] = user.username
@@ -98,12 +104,7 @@ def signup():
         flash("Username is already taken")
         return redirect(url_for('admin.signup'))
 
-    db.user.create(data={
-        'username': username,
-        'password': password,
-        'is_admin': False
-    })
-
+    create_user(username, password)
     flash("Account created!")
     return redirect(url_for('admin.edit_page'))
 
@@ -112,6 +113,7 @@ def signup():
 def logout():
     """logs out the user"""
     session.clear()
+    flash("User has logged out!")
     return redirect(url_for('admin.edit_page'))
 
 

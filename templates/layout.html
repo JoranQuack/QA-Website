@@ -21,7 +21,7 @@
         {% for message in messages %}
         <span class="
         {% if '!' in message %} bg-green-800
-        {% else %} bg-red-600 
+        {% else %} bg-red-800 
         {% endif %}
         rounded-full p-3 w-fit text-center">{{ message }}</span>
         {% endfor %}
@@ -30,14 +30,19 @@
     {% endwith %}
 
     <header id="header" class="flex items-center justify-between pt-7 pb-4 w-full z-10">
-        <a href="{{url_for('home_page')}}" class="flex items-center gap-1" target="_blank">
-            <img src="{{url_for('static', filename='images/website/home.png')}}" alt="back" class="h-3.5">
-            <span class="text-white-qa text-2xl md:text-lg font-round font-medium">Home Page</span>
+        <a href="{{ url_for('home_page') }}" class="flex items-center gap-1" target="_blank">
+            <img src="{{ url_for('static', filename='images/website/home.png') }}" alt="back" class="h-3.5">
+            <span class="text-2xl md:text-lg font-round font-medium">Home Page</span>
         </a>
 
         {% if session['username'] %}
-        <span>Signed in as {{ session['username'] }}</span>
-        <a href="{{url_for('admin.logout')}}" class="button text-blue-darker">Log out</a>
+        <a href="{{ url_for('admin.edit_page') }}" class="font-round font-medium text-2xl md:text-lg">
+            Back to Edit Page
+        </a>
+        <div class="flex justify-between items-center">
+            <span>Signed in as {{ session['username'] }}</span>
+            <a href="{{ url_for('admin.logout') }}" class="button text-blue-darker mb-2 ml-3">Log out</a>
+        </div>
         {% endif %}
 
     </header>

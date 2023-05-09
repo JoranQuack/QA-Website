@@ -52,4 +52,5 @@ def robots():
     """let robots access the .txt"""
     with open('robots.txt', encoding='utf-8') as file:
         contents = file.read()
+        file.close()
     return contents

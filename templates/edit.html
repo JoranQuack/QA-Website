@@ -2,12 +2,16 @@
 {% block content %}
 
 
-<span class="title mb-2">Users</span>
-<a href="{{url_for('admin.users_page')}}" class="underline">Manage users</a>
+<section class="mb-2 w-full">
+    <span class="title">Users</span>
+    <a href="{{ url_for('admin.users_page') }}" class="underline">Manage users</a>
+</section>
 
-<div>
-
-</div>
-
+<!-- <section class="mb-2 w-full">
+    <span class="title">About Section</span>
+    <form action="{{ url_for('admin.update_about') }}">
+        <input type="text" value="{{ about[0].description }}">
+    </form>
+</section> -->
 
 {% endblock %}
