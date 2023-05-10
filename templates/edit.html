@@ -2,12 +2,43 @@
 {% block content %}
 
 
-<section class="mb-5 w-full">
+<section id="users" class="mb-5 w-full">
     <span class="title">Users</span>
-    <a href="{{ url_for('admin.users_page') }}" class="underline">Manage users</a>
+
+    <form action="{{ url_for('admin.update_users') }}" method="post">
+        <table class="text-white-qa w-full rounded-2xl mt-5">
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Entries</th>
+                <th>Admin</th>
+                <th>Remove</th>
+            </tr>
+
+            {% for user in users %}
+            <tr>
+                <td>{{ user['id'] }}</td>
+                <td>{{ user['username'] }}</td>
+                <td>{{ user['entries'] }}</td>
+                <td>
+                    <input type="checkbox" class="w-min" {% if user['is_admin'] %} checked {% endif %}
+                        name="admin_users" value="{{ user['id'] }}">
+                </td>
+                <td>
+                    <input type="checkbox" class="w-min" name="remove_users" value="{{ user['id'] }}">
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+        <div class="flex justify-center">
+            <button type="submit" class="button mt-3 px-3 py-2">Save changes</button>
+        </div>
+    </form>
+
 </section>
 
-<section class="mb-5 w-full">
+<section id="about" class="mb-5 w-full">
     <span class="title mb-3">About Section</span>
     <form action="{{ url_for('admin.update_about') }}" method="post">
         <textarea name="about_description" rows="5">{{ about.description }}</textarea>

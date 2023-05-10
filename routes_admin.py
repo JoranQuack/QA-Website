@@ -1,11 +1,10 @@
 '''all backend routes'''
-from typing import List
 from flask import (
     Blueprint, request, session, render_template, redirect, url_for, flash
 )
 from functions import (
     signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
-    find_user_entries, session_get, session_remove
+    session_get, get_users, get_about
 )
 from database import db
 
@@ -18,27 +17,7 @@ def edit_page():
     if not signed_in():
         return redirect(url_for('admin.signin_page'))
 
-    about = db.about.find_first()
-    assert about is not None
-    try:
-        description = session_get('description')
-        session_remove('description')
-    except KeyError:
-        description = about.description
-
-    return render_template('edit.html', about=about, description=description)
-
-
-@api.get('/users')
-def users_page():
-    """the page where admins can manage other users"""
-    users = db.user.find_many()
-    user_entries: List[int] = []
-    for user in users:
-        entries = find_user_entries(user.id)
-        user_entries.append(entries)
-    users_and_entries = zip(users, user_entries)
-    return render_template('users.html', users_entries=users_and_entries)
+    return render_template('edit.html', users=get_users(), about=get_about())
 
 
 @api.post('/update_users')
@@ -57,7 +36,7 @@ def update_users():
     toggle_admins(admin_ids)
 
     flash(message)
-    return redirect(url_for('admin.users_page'))
+    return redirect(url_for('admin.edit_page'))
 
 
 @api.post('/update_about')

@@ -1,6 +1,5 @@
 """all functions needed in the routes (mostly for backend)"""
 import hashlib
-# from typing import Any
 from flask import session
 from prisma.errors import ForeignKeyViolationError
 from database import db
@@ -83,3 +82,24 @@ def find_user_entries(user_id: int):
     num_entries += len(db.media.find_many(where={'user_id': user_id}))
 
     return num_entries
+
+
+def get_users():
+    """finds all required variables (+ entries) for a list of users"""
+    users = db.user.find_many()
+    filtered_users: list[dict[str, int | str | bool]] = []
+    for user in users:
+        user_data = {}
+        user_data['id'] = user.id
+        user_data['username'] = user.username
+        user_data['entries'] = find_user_entries(user.id)
+        user_data['is_admin'] = user.is_admin
+        filtered_users.append(user_data)
+    return filtered_users
+
+
+def get_about():
+    """finds the about section info"""
+    about = db.about.find_first()
+    assert about is not None
+    return about

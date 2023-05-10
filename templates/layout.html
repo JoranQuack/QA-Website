@@ -35,9 +35,9 @@
         </a>
 
         {% if session['username'] %}
-        <a href="{{ url_for('admin.edit_page') }}" class="font-round font-medium text-2xl md:text-lg">
+        <!-- <a href="{{ url_for('admin.edit_page') }}" class="font-round font-medium text-2xl md:text-lg">
             Back to Edit Page
-        </a>
+        </a> -->
         <div class="flex justify-end items-center w-56">
             <span>Signed in as {{ session['username'] }}</span>
             <a href="{{ url_for('admin.logout') }}" class="button text-blue-darker mb-2 ml-3">Log out</a>
