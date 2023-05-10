@@ -12,11 +12,11 @@
             <th>Remove</th>
         </tr>
 
-        {% for (i, user) in enumerate(users) %}
+        {% for (user, entries) in users_entries %}
         <tr>
             <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
-            <td>{{ entries[i] }}</td>
+            <td>{{ entries }}</td>
             <td>
                 <input type="checkbox" class="w-min" {% if user.is_admin %} checked {% endif %} name="admin_users"
                     value="{{ user.id }}">

@@ -1,6 +1,6 @@
 """all functions needed in the routes (mostly for backend)"""
 import hashlib
-from typing import Any
+# from typing import Any
 from flask import session
 from prisma.errors import ForeignKeyViolationError
 from database import db
@@ -10,9 +10,15 @@ from environments import SALT
 assert SALT is not None
 
 
-def get_session_data(key: str) -> Any | None:
-    '''Gets current userid from session'''
-    return session.get(key)  # type: ignore
+def session_get(key: str) -> str:
+    """returns the session result from the given key"""
+    result: str = session.get(key)  # type: ignore
+    return result
+
+
+def session_remove(key: str):
+    """removes a session variable"""
+    session.pop(key)  # type: ignore
 
 
 def signed_in():
@@ -47,15 +53,14 @@ def toggle_admins(admin_ids: list[int]):
 
 def remove_users(user_ids: list[int]):
     """remove all users specified"""
-    error = False
     try:
         for user_id in user_ids:
             db.user.delete(where={
                 'id': user_id
             })
     except ForeignKeyViolationError:
-        error = True
-    return error
+        return False
+    return True
 
 
 def create_user(username: str, password: str):
@@ -68,7 +73,7 @@ def create_user(username: str, password: str):
 
 
 def find_user_entries(user_id: int):
-    """finds out how many entries"""
+    """finds out how many entries in the database a user has"""
     num_entries = 0
 
     num_entries += len(db.event.find_many(where={'user_id': user_id}))

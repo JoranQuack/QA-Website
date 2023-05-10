@@ -2,16 +2,19 @@
 {% block content %}
 
 
-<section class="mb-2 w-full">
+<section class="mb-5 w-full">
     <span class="title">Users</span>
     <a href="{{ url_for('admin.users_page') }}" class="underline">Manage users</a>
 </section>
 
-<!-- <section class="mb-2 w-full">
-    <span class="title">About Section</span>
-    <form action="{{ url_for('admin.update_about') }}">
-        <input type="text" value="{{ about[0].description }}">
+<section class="mb-5 w-full">
+    <span class="title mb-3">About Section</span>
+    <form action="{{ url_for('admin.update_about') }}" method="post">
+        <textarea name="about_description" rows="5">{{ about.description }}</textarea>
+        <div class="flex justify-center">
+            <button type="submit" class="button mt-3 px-3 py-2">Save changes</button>
+        </div>
     </form>
-</section> -->
+</section>
 
 {% endblock %}

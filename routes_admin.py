@@ -5,7 +5,7 @@ from flask import (
 )
 from functions import (
     signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
-    find_user_entries
+    find_user_entries, session_get, session_remove
 )
 from database import db
 
@@ -17,7 +17,16 @@ def edit_page():
     """renders the edit page, redirects if not signed in"""
     if not signed_in():
         return redirect(url_for('admin.signin_page'))
-    return render_template('edit.html')
+
+    about = db.about.find_first()
+    assert about is not None
+    try:
+        description = session_get('description')
+        session_remove('description')
+    except KeyError:
+        description = about.description
+
+    return render_template('edit.html', about=about, description=description)
 
 
 @api.get('/users')
@@ -28,7 +37,8 @@ def users_page():
     for user in users:
         entries = find_user_entries(user.id)
         user_entries.append(entries)
-    return render_template('users.html', users=users, entries=user_entries, enumerate=enumerate)
+    users_and_entries = zip(users, user_entries)
+    return render_template('users.html', users_entries=users_and_entries)
 
 
 @api.post('/update_users')
@@ -37,21 +47,39 @@ def update_users():
     admin_ids = strings_to_ints(request.form.getlist('admin_users'))
     remove_ids = strings_to_ints(request.form.getlist('remove_users'))
 
+    message = "Updated users successfully!"
     if session['user'] not in admin_ids:
-        flash("One may not dethrone oneself")
-        return redirect(url_for('admin.users_page'))
+        message = "One may not dethrone oneself"
     elif session['user'] in remove_ids:
-        flash("One may not remove oneself")
-        return redirect(url_for('admin.users_page'))
-
+        message = "One may not remove oneself"
+    elif not remove_users(remove_ids):
+        message = "Some accounts could not be removed"
     toggle_admins(admin_ids)
-    error = remove_users(remove_ids)
-    if error:
-        flash("A user has entries in the DB and cannot be removed")
-        return redirect(url_for('admin.users_page'))
 
-    flash("Updated users successfully!")
+    flash(message)
     return redirect(url_for('admin.users_page'))
+
+
+@api.post('/update_about')
+def update_about():
+    """updates the about section"""
+    new_description = request.form['about_description']
+    user_id = int(session_get('user'))
+
+    if len(new_description) > 640:
+        session['description'] = new_description
+        flash("640 character limit passed")
+        return redirect(url_for('admin.edit_page'))
+
+    db.about.delete_many()
+    db.about.create(data={
+        'user_id': user_id,
+        'description': new_description,
+        'location': 'default'
+    })
+
+    flash("Updated about successfully!")
+    return redirect(url_for('admin.edit_page'))
 
 
 @api.get('/signin')
