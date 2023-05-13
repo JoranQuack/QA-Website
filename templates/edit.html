@@ -71,11 +71,11 @@
 
 <section id="people" class="mb-5 w-full">
     <span class="title mb-3">People Section</span>
-    <div class="grid grid-cols-4 gap-12">
+    <div class="grid grid-cols-4 gap-5">
 
         {% for person in people %}
         <form action="{{ url_for('admin.update_person', person_id=person.id) }}" method="post"
-            enctype="multipart/form-data">
+            enctype="multipart/form-data" class="bg-opacity-20 bg-white-qa rounded-2xl p-5">
             <div class="mb-3">
                 <div class="flex justify-center z-10">
                     <img src="{{ url_for('static', filename='images/uploaded/'+person.reference) }}"
@@ -91,7 +91,6 @@
                 </div>
                 <input type="file" name="image" id="image{{ person.id }}" class="hidden" accept="image/*"
                     onchange="previewImage('{{ person.id }}')">
-                <!-- TODO input in front of image for coolness points -->
             </div>
             <input type="text" name="name" value="{{ person.name }}" class="text-center">
             <input type="text" name="role" value="{{ person.role }}" class="text-center">
@@ -112,7 +111,9 @@
         </form>
         {% endfor %}
 
-        <!-- TODO add person (just an a tag probs) -->
+        <div class="flex justify-center items-center w-full h-[420px] bg-opacity-20 bg-white-qa rounded-2xl">
+            <a href="{{ url_for('admin.create_person') }}" class="button text-blue-darker">Create a new person</a>
+        </div>
 
     </div>
 </section>

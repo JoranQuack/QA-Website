@@ -47,7 +47,7 @@ model People {
     user_id   Int
     user      User    @relation(fields: [user_id], references: [id])
     active    Boolean @default(false)
-    reference String
+    reference String  @default("default.jpg")
     name      String
     role      String?
 }

@@ -29,7 +29,7 @@
   }
 
   input, textarea {
-    @apply mb-3 px-2 py-1 rounded-md w-full;
+    @apply mb-3 px-2 py-1 rounded-md w-full bg-white-qa;
   }
 
   /* REPEATS */

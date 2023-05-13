@@ -93,6 +93,17 @@ def update_person(person_id: int):
     return redirect(url_for('admin.edit_page'))
 
 
+@api.get('/create_person')
+def create_person():
+    """makes a new person in the people table"""
+    db.people.create(data={
+        'user_id': session['user'],
+        'name': 'Person name',
+        'role': 'Person role/roles'
+    })
+    return redirect(url_for('admin.edit_page'))
+
+
 @api.get('/signin')
 def signin_page():
     """renders the signin page"""
