@@ -2,6 +2,22 @@
 {% block content %}
 
 
+<!-- script for previewing images before uploading them -->
+<script>
+    function previewImage(id) {
+        console.log("banana")
+        var file = document.getElementById(`image${id}`).files;
+        if (file.length > 0) {
+            var fileReader = new FileReader()
+            fileReader.onload = function (event) {
+                document.getElementById(`preview${id}`).setAttribute("src", event.target.result);
+            };
+            fileReader.readAsDataURL(file[0]);
+        }
+    }
+</script>
+
+
 <section id="users" class="mb-5 w-full">
     <span class="title">Users</span>
 
@@ -55,17 +71,26 @@
 
 <section id="people" class="mb-5 w-full">
     <span class="title mb-3">People Section</span>
-    <div class="grid grid-cols-4 gap-10">
+    <div class="grid grid-cols-4 gap-12">
 
         {% for person in people %}
         <form action="{{ url_for('admin.update_person', person_id=person.id) }}" method="post"
             enctype="multipart/form-data">
-            <div>
-                <div class="flex justify-center">
+            <div class="mb-3">
+                <div class="flex justify-center z-10">
                     <img src="{{ url_for('static', filename='images/uploaded/'+person.reference) }}"
-                        alt="{{ person.reference }}" class="rounded-full object-cover w-52 h-52">
+                        alt="{{ person.reference }}" class="rounded-full object-cover w-52 h-52"
+                        id="preview{{ person.id }}">
                 </div>
-                <input type="file" name="image" id="{{ person.id }}" class="w-52 h-52 rounded-full">
+                <div class="flex justify-center">
+                    <div class="flex justify-center items-center z-20 w-52 h-52 rounded-full bg-black absolute -mt-52
+                        hover:opacity-80 opacity-0 duration-300">
+                        <label for="image{{ person.id }}" class="h-fit text-center cursor-pointer">Upload new
+                            image</label>
+                    </div>
+                </div>
+                <input type="file" name="image" id="image{{ person.id }}" class="hidden" accept="image/*"
+                    onchange="previewImage('{{ person.id }}')">
                 <!-- TODO input in front of image for coolness points -->
             </div>
             <input type="text" name="name" value="{{ person.name }}" class="text-center">
@@ -73,12 +98,12 @@
             <div class="flex justify-between">
                 <div class="flex items-center">
                     <input {% if person.active %} checked {% endif %} type="checkbox" name="active"
-                        class="w-min m-0 mr-1">
-                    <label for="active_person">Active</label>
+                        class="w-min m-0 mr-1" id="active">
+                    <label for="active">Active</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" name="remove" class="w-min m-0 mr-1">
-                    <label for="remove_person">Remove</label>
+                    <input type="checkbox" name="remove" class="w-min m-0 mr-1" id="remove">
+                    <label for="remove">Remove</label>
                 </div>
             </div>
             <div class="flex justify-center">
