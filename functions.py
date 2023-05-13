@@ -1,4 +1,5 @@
 """all functions needed in the routes (mostly for backend)"""
+import os
 import hashlib
 from flask import session
 from prisma.errors import ForeignKeyViolationError
@@ -7,6 +8,8 @@ from environments import SALT
 
 
 assert SALT is not None
+
+UPLOAD_FOLDER = 'static/images/uploaded'
 
 
 def session_get(key: str) -> str:
@@ -87,15 +90,10 @@ def find_user_entries(user_id: int):
 def get_users():
     """finds all required variables (+ entries) for a list of users"""
     users = db.user.find_many()
-    filtered_users: list[dict[str, int | str | bool]] = []
+    entries: list[int] = []
     for user in users:
-        user_data = {}
-        user_data['id'] = user.id
-        user_data['username'] = user.username
-        user_data['entries'] = find_user_entries(user.id)
-        user_data['is_admin'] = user.is_admin
-        filtered_users.append(user_data)
-    return filtered_users
+        entries.append(find_user_entries(user.id))
+    return zip(users, entries)
 
 
 def get_about():
@@ -103,3 +101,15 @@ def get_about():
     about = db.about.find_first()
     assert about is not None
     return about
+
+
+def get_people():
+    """finds all people from the people table"""
+    people = db.people.find_many()
+    return people
+
+
+def get_file_path(file: str):
+    """makes the path for the given file"""
+    path = os.path.join(UPLOAD_FOLDER, file)
+    return path

@@ -29,7 +29,7 @@ def get_home():
     """gets home page contents"""
     events = db.event.find_many()
     albums = AlbumWithCover.prisma().find_many(include={"cover": True})
-    people = db.people.find_many()
+    people = db.people.find_many(where={'active': True})
     gallery_cover = db.media.find_first(where={'on_gallery': True})
     about = db.about.find_first()
     return render_template('home.html', datetime=datetime, albums=albums, events=events,

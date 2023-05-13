@@ -1,10 +1,11 @@
 '''all backend routes'''
+from werkzeug.utils import secure_filename
 from flask import (
     Blueprint, request, session, render_template, redirect, url_for, flash
 )
 from functions import (
     signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
-    session_get, get_users, get_about
+    session_get, get_users, get_about, get_people, get_file_path
 )
 from database import db
 
@@ -16,8 +17,7 @@ def edit_page():
     """renders the edit page, redirects if not signed in"""
     if not signed_in():
         return redirect(url_for('admin.signin_page'))
-
-    return render_template('edit.html', users=get_users(), about=get_about())
+    return render_template('edit.html', users=get_users(), about=get_about(), people=get_people())
 
 
 @api.post('/update_users')
@@ -42,12 +42,16 @@ def update_users():
 @api.post('/update_about')
 def update_about():
     """updates the about section"""
+    lower_limit = 200
+    upper_limit = 700
+    error = f"Please write between {lower_limit} and {upper_limit} characters"
+
     new_description = request.form['about_description']
     user_id = int(session_get('user'))
 
-    if len(new_description) > 640:
+    if lower_limit > len(new_description) > upper_limit:
         session['description'] = new_description
-        flash("640 character limit passed")
+        flash(error)
         return redirect(url_for('admin.edit_page'))
 
     db.about.delete_many()
@@ -58,6 +62,34 @@ def update_about():
     })
 
     flash("Updated about successfully!")
+    return redirect(url_for('admin.edit_page'))
+
+
+@api.post('/update_person/<int:person_id>')
+def update_person(person_id: int):
+    """updates one person in the people table"""
+    name = request.form['name']
+    role = request.form['role']
+    active = len(request.form.getlist('active')) == 1
+    remove = len(request.form.getlist('remove')) == 1
+    file = request.files['image']
+    image = secure_filename(file.filename)  # type: ignore
+
+    db.people.update(where={'id': person_id}, data={
+        'name': name,
+        'role': role,
+        'active': active
+    })
+
+    if image != '':
+        db.people.update(where={'id': person_id}, data={
+            'reference': image
+        })
+        image_path = get_file_path(image)
+        file.save(image_path)  # type: ignore
+
+    if remove:
+        db.people.delete(where={'id': person_id})
     return redirect(url_for('admin.edit_page'))
 
 

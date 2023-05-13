@@ -46,6 +46,7 @@ model People {
     id        Int     @id @default(autoincrement())
     user_id   Int
     user      User    @relation(fields: [user_id], references: [id])
+    active    Boolean @default(false)
     reference String
     name      String
     role      String?

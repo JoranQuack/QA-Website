@@ -15,17 +15,17 @@
                 <th>Remove</th>
             </tr>
 
-            {% for user in users %}
+            {% for (user, entries) in users %}
             <tr>
-                <td>{{ user['id'] }}</td>
-                <td>{{ user['username'] }}</td>
-                <td>{{ user['entries'] }}</td>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ entries }}</td>
                 <td>
-                    <input type="checkbox" class="w-min" {% if user['is_admin'] %} checked {% endif %}
-                        name="admin_users" value="{{ user['id'] }}">
+                    <input type="checkbox" class="w-min" {% if user.is_admin %} checked {% endif %} name="admin_users"
+                        value="{{ user.id }}">
                 </td>
                 <td>
-                    <input type="checkbox" class="w-min" name="remove_users" value="{{ user['id'] }}">
+                    <input type="checkbox" class="w-min" name="remove_users" value="{{ user.id }}">
                 </td>
             </tr>
             {% endfor %}
@@ -38,14 +38,58 @@
 
 </section>
 
+
 <section id="about" class="mb-5 w-full">
     <span class="title mb-3">About Section</span>
+
     <form action="{{ url_for('admin.update_about') }}" method="post">
-        <textarea name="about_description" rows="5">{{ about.description }}</textarea>
+        <textarea name="about_description" rows="5"
+            placeholder="Paste in a new description">{{ about.description }}</textarea>
         <div class="flex justify-center">
-            <button type="submit" class="button mt-3 px-3 py-2">Save changes</button>
+            <button type="submit" class="button mt-2 px-3 py-2">Save changes</button>
         </div>
     </form>
+
+</section>
+
+
+<section id="people" class="mb-5 w-full">
+    <span class="title mb-3">People Section</span>
+    <div class="grid grid-cols-4 gap-10">
+
+        {% for person in people %}
+        <form action="{{ url_for('admin.update_person', person_id=person.id) }}" method="post"
+            enctype="multipart/form-data">
+            <div>
+                <div class="flex justify-center">
+                    <img src="{{ url_for('static', filename='images/uploaded/'+person.reference) }}"
+                        alt="{{ person.reference }}" class="rounded-full object-cover w-52 h-52">
+                </div>
+                <input type="file" name="image" id="{{ person.id }}" class="w-52 h-52 rounded-full">
+                <!-- TODO input in front of image for coolness points -->
+            </div>
+            <input type="text" name="name" value="{{ person.name }}" class="text-center">
+            <input type="text" name="role" value="{{ person.role }}" class="text-center">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <input {% if person.active %} checked {% endif %} type="checkbox" name="active"
+                        class="w-min m-0 mr-1">
+                    <label for="active_person">Active</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" name="remove" class="w-min m-0 mr-1">
+                    <label for="remove_person">Remove</label>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <button type="submit" class="button mt-2">Save person</button>
+            </div>
+        </form>
+        {% endfor %}
+
+        <!-- TODO add person (just an a tag probs) -->
+
+    </div>
 </section>
 
 {% endblock %}

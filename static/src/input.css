@@ -2,7 +2,7 @@
 
 @layer base {
   /* GLOBAL */
-  span {
+  span, label {
     @apply text-white-qa;
   }
 
