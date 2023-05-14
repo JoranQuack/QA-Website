@@ -37,11 +37,11 @@
                 <td>{{ user.username }}</td>
                 <td>{{ entries }}</td>
                 <td>
-                    <input type="checkbox" class="w-min" {% if user.is_admin %} checked {% endif %} name="admin_users"
+                    <input type="checkbox" name="admin_users" {% if user.is_admin %} checked {% endif %}
                         value="{{ user.id }}">
                 </td>
                 <td>
-                    <input type="checkbox" class="w-min" name="remove_users" value="{{ user.id }}">
+                    <input type="checkbox" name="remove_users" value="{{ user.id }}">
                 </td>
             </tr>
             {% endfor %}
@@ -59,8 +59,7 @@
     <span class="title mb-3">About Section</span>
 
     <form action="{{ url_for('admin.update_about') }}" method="post">
-        <textarea name="about_description" rows="5"
-            placeholder="Paste in a new description">{{ about.description }}</textarea>
+        <textarea name="description" rows="5" placeholder="Write a new description">{{ about.description }}</textarea>
         <div class="flex justify-center">
             <button type="submit" class="button mt-2 px-3 py-2">Save changes</button>
         </div>
@@ -75,8 +74,8 @@
 
         {% for person in people %}
         <form action="{{ url_for('admin.update_person', person_id=person.id) }}" method="post"
-            enctype="multipart/form-data" class="bg-opacity-20 bg-white-qa rounded-2xl p-5">
-            <div class="mb-3">
+            enctype="multipart/form-data" class="bg-opacity-10 bg-white-qa rounded-2xl p-5">
+            <div class="mb-4">
                 <div class="flex justify-center z-10">
                     <img src="{{ url_for('static', filename='images/uploaded/'+person.reference) }}"
                         alt="{{ person.reference }}" class="rounded-full object-cover w-52 h-52"
@@ -92,17 +91,17 @@
                 <input type="file" name="image" id="image{{ person.id }}" class="hidden" accept="image/*"
                     onchange="previewImage('{{ person.id }}')">
             </div>
-            <input type="text" name="name" value="{{ person.name }}" class="text-center">
-            <input type="text" name="role" value="{{ person.role }}" class="text-center">
+            <input type="text" name="name" value="{{ person.name }}" class="text-center" placeholder="Person name">
+            <input type="text" name="role" value="{{ person.role }}" class="text-center" placeholder="Person roles">
             <div class="flex justify-between">
-                <div class="flex items-center">
-                    <input {% if person.active %} checked {% endif %} type="checkbox" name="active"
-                        class="w-min m-0 mr-1" id="active">
-                    <label for="active">Active</label>
+                <div class="flex items-center cursor-pointer">
+                    <input {% if person.is_active %} checked {% endif %} type="checkbox" name="is_active"
+                        id="is_active{{ person.id }}">
+                    <label for="is_active{{ person.id }}">Active</label>
                 </div>
-                <div class="flex items-center">
-                    <input type="checkbox" name="remove" class="w-min m-0 mr-1" id="remove">
-                    <label for="remove">Remove</label>
+                <div class="flex items-center cursor-pointer">
+                    <input type="checkbox" name="to_remove" id="to_remove{{ person.id }}">
+                    <label for="to_remove{{ person.id }}">Remove</label>
                 </div>
             </div>
             <div class="flex justify-center">
@@ -111,8 +110,59 @@
         </form>
         {% endfor %}
 
-        <div class="flex justify-center items-center w-full h-[420px] bg-opacity-20 bg-white-qa rounded-2xl">
+        <div class="flex justify-center items-center w-full min-h-[424px] bg-opacity-10 bg-white-qa rounded-2xl">
             <a href="{{ url_for('admin.create_person') }}" class="button text-blue-darker">Create a new person</a>
+        </div>
+
+    </div>
+</section>
+
+
+<section id="events">
+    <span class="title mb-3">Events Section</span>
+
+    <div class="grid grid-cols-3 gap-5 mb-10">
+
+        {% for event in events %}
+        <form action="{{ url_for('admin.update_event', event_id=event.id) }}" method="post"
+            class="bg-opacity-10 bg-white-qa rounded-2xl p-5">
+            <label for="title{{ event.id }}">Title</label>
+            <input type="text" value="{{ event.title }}" name="title" id="title{{ event.id }}">
+
+            <label for="location{{ event.id }}">Location</label>
+            <input type="text" value="{{ event.location }}" name="location" id="location{{ event.id }}">
+
+            <label for="scheduled{{ event.id }}">Schedule</label>
+            <input type="datetime-local" name="scheduled" id="scheduled{{ event.id }}"
+                value="{{ event.scheduled.strftime('%Y-%m-%dT%H:%M') }}">
+
+            <div class="flex justify-start mb-2">
+                <input {% if event.has_time %} checked {% endif %} type="checkbox" name="has_time"
+                    id="has_time{{ event.id }}">
+                <label for="has_time{{ event.id }}">Include time</label>
+            </div>
+
+            <label for="description{{ event.id }}">Description</label>
+            <textarea name="description" id="description{{ event.id }}" rows="3" class="mb-2"
+                placeholder="Write a new description">{{ event.description }}</textarea>
+
+            <label for="reference{{ event.id }}">Reference</label>
+            <input type="text" value="{{ event.reference }}" name="reference" class="mb-0" id="reference{{ event.id }}"
+                placeholder="Paste a link to the relevant page here">
+
+            <div class="flex justify-between">
+                <button type="submit" class="button">Save event</button>
+                <div class="flex items-center">
+                    <input type="checkbox" {% if event.is_active %} checked {% endif %} name="is_active"
+                        id="is_active_event_{{ event.id }}">
+                    <label for="is_active_event_{{ event.id }}">Active</label>
+                </div>
+            </div>
+        </form>
+        {% endfor %}
+
+        <div class="flex justify-center items-center w-full min-h-[505px] bg-opacity-10 bg-white-qa rounded-2xl">
+            <a href="{{ url_for('admin.create_event') }}" class="button text-blue-darker">Create a new event</a>
         </div>
 
     </div>

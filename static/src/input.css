@@ -6,6 +6,10 @@
     @apply text-white-qa;
   }
 
+  label {
+    @apply cursor-pointer select-none;
+  }
+
   a {
     @apply text-white-qa opacity-100 hover:opacity-50 duration-300;
   }
@@ -30,6 +34,10 @@
 
   input, textarea {
     @apply mb-3 px-2 py-1 rounded-md w-full bg-white-qa;
+  }
+
+  input[type='checkbox'] {
+    @apply m-0 mr-1 w-min cursor-pointer;
   }
 
   /* REPEATS */

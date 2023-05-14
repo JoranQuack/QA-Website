@@ -29,8 +29,9 @@ model Event {
     title       String
     description String
     location    String
-    scheduled   DateTime
+    scheduled   DateTime @default(now())
     has_time    Boolean
+    is_active   Boolean  @default(false)
     reference   String?
 }
 
@@ -46,7 +47,7 @@ model People {
     id        Int     @id @default(autoincrement())
     user_id   Int
     user      User    @relation(fields: [user_id], references: [id])
-    active    Boolean @default(false)
+    is_active Boolean @default(false)
     reference String  @default("default.jpg")
     name      String
     role      String?

@@ -142,7 +142,7 @@
                         <div class="text-right mt-0.5">
                             <span>{{ event.scheduled.strftime('%d/%m/%Y') }}</span>
 
-                            {% if event.has_time == True %}
+                            {% if event.has_time %}
                             <br> <span>{{ event.scheduled.strftime('%H:%M') }}</span>
                             {% endif %}
 
@@ -150,10 +150,16 @@
                     </div>
                     <span>{{ event.description }}</span>
                 </div>
+
+                {% if event.reference %}
                 <a href="{{ event.reference }}" target="_blank"
                     class="button h-14 w-full mt-4 rounded-b-md rounded-t-none md:rounded-full md:w-32 md:h-10 md:mx-10 md:mb-8">
                     <span>Learn more</span>
                 </a>
+                {% else %}
+                <div class="h-4"></div>
+                {% endif %}
+
             </div>
             {% endfor %}
 

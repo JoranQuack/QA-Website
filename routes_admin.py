@@ -5,7 +5,8 @@ from flask import (
 )
 from functions import (
     signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
-    session_get, get_users, get_about, get_people, get_file_path
+    session_get, get_users, get_about, get_people, get_events, get_file_path, iso_to_datetime,
+    remove_old_events
 )
 from database import db
 
@@ -17,7 +18,9 @@ def edit_page():
     """renders the edit page, redirects if not signed in"""
     if not signed_in():
         return redirect(url_for('admin.signin_page'))
-    return render_template('edit.html', users=get_users(), about=get_about(), people=get_people())
+    remove_old_events()
+    return render_template('edit.html', users=get_users(), about=get_about(), people=get_people(),
+                           events=get_events())
 
 
 @api.post('/update_users')
@@ -42,16 +45,15 @@ def update_users():
 @api.post('/update_about')
 def update_about():
     """updates the about section"""
-    lower_limit = 200
-    upper_limit = 700
-    error = f"Please write between {lower_limit} and {upper_limit} characters"
+    word_min = 200
+    word_max = 700
 
-    new_description = request.form['about_description']
+    new_description = request.form['description']
     user_id = int(session_get('user'))
 
-    if lower_limit > len(new_description) > upper_limit:
+    if word_min > len(new_description) > word_max:
         session['description'] = new_description
-        flash(error)
+        flash(f"Please write between {word_min} and {word_max} characters")
         return redirect(url_for('admin.edit_page'))
 
     db.about.delete_many()
@@ -68,17 +70,17 @@ def update_about():
 @api.post('/update_person/<int:person_id>')
 def update_person(person_id: int):
     """updates one person in the people table"""
-    name = request.form['name']
-    role = request.form['role']
-    active = len(request.form.getlist('active')) == 1
-    remove = len(request.form.getlist('remove')) == 1
+    name = request.form['name'].title()
+    role = request.form['role'].title()
+    is_active = len(request.form.getlist('is_active')) == 1
+    to_remove = len(request.form.getlist('to_remove')) == 1
     file = request.files['image']
     image = secure_filename(file.filename)  # type: ignore
 
     db.people.update(where={'id': person_id}, data={
         'name': name,
         'role': role,
-        'active': active
+        'is_active': is_active
     })
 
     if image != '':
@@ -88,7 +90,7 @@ def update_person(person_id: int):
         image_path = get_file_path(image)
         file.save(image_path)  # type: ignore
 
-    if remove:
+    if to_remove:
         db.people.delete(where={'id': person_id})
     return redirect(url_for('admin.edit_page'))
 
@@ -98,8 +100,45 @@ def create_person():
     """makes a new person in the people table"""
     db.people.create(data={
         'user_id': session['user'],
-        'name': 'Person name',
-        'role': 'Person role/roles'
+        'name': '',
+        'role': ''
+    })
+    return redirect(url_for('admin.edit_page'))
+
+
+@api.post('/update_event/<int:event_id>')
+def update_event(event_id: int):
+    """updates event specified by id"""
+    title = request.form['title'].title()
+    location = request.form['location'].title()
+    description = request.form['description']
+    reference = request.form['reference']
+    scheduled = iso_to_datetime(request.form['scheduled'])
+    has_time = len(request.form.getlist('has_time')) == 1
+    is_active = len(request.form.getlist('is_active')) == 1
+
+    db.event.update(where={'id':event_id}, data={
+        'title': title,
+        'description': description,
+        'location': location,
+        'reference': reference,
+        'scheduled': scheduled,
+        'has_time': has_time,
+        'is_active': is_active
+    })
+
+    return redirect(url_for('admin.edit_page'))
+
+
+@api.get('/create_event')
+def create_event():
+    """creates an event"""
+    db.event.create(data={
+        'user_id': session['user'],
+        'title': '',
+        'description': '',
+        'has_time': True,
+        'location': ''
     })
     return redirect(url_for('admin.edit_page'))
 
@@ -165,51 +204,3 @@ def logout():
     session.clear()
     flash("User has logged out!")
     return redirect(url_for('admin.edit_page'))
-
-
-@api.get('/create')
-def create():
-    """create temp database entries"""
-    # db.event.create(data={
-    #     "title": "Mayo Bday",
-    #     "has_time": False,
-    #     "description": "banana",
-    #     "reference": "www.google.com",
-    #     "user_id": 1,
-    #     "location": "tinos' house",
-    #     "scheduled": datetime(2006, 3, 1, 19, 00),
-    # })
-
-    # image_names = ["front.JPG", "front2.jfif", "front4.jpg", "front3.jpg", "front5.jpg",
-    #                "front6.jpg", "front7.jpg", "front8.jpg", "front9.jpg",
-    #                "front10.png", "front11.png"]
-
-    # created_media = [db.media.create(data={
-    #     "user_id": 1,
-    #     "type": "image",
-    #     "reference": image_name,
-    #     "on_gallery": False,
-    # }) for image_name in image_names]
-
-    album_contents = db.album.create(data={
-        "title": "LETS GO WOOOOOO",
-        "user_id": 1,
-        "description": "mayonaise everywhere",
-        "cover_id": 49,
-    })
-
-    print('album contents', album_contents)
-
-    # for image in created_media:
-    #     db.media.update(data={
-    #         "albums": {
-    #             "connect": [{
-    #                 "id": album_contents.id
-    #             }]
-    #         }
-    #     }, where={
-    #         "id": image.id,
-    #     })
-    #     print(album_contents.id)
-
-    return redirect(url_for('home'))

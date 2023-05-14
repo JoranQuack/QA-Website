@@ -1,7 +1,8 @@
 """all functions needed in the routes (mostly for backend)"""
 import os
 import hashlib
-from flask import session
+from datetime import datetime
+from flask import session, flash
 from prisma.errors import ForeignKeyViolationError
 from database import db
 from environments import SALT
@@ -54,7 +55,7 @@ def toggle_admins(admin_ids: list[int]):
 
 
 def remove_users(user_ids: list[int]):
-    """remove all users specified"""
+    """remove all users specified, return bool representing whether or not it was successful"""
     try:
         for user_id in user_ids:
             db.user.delete(where={
@@ -109,7 +110,33 @@ def get_people():
     return people
 
 
+def get_events():
+    """finds all events from the event table"""
+    events = db.event.find_many()
+    return events
+
+
 def get_file_path(file: str):
     """makes the path for the given file"""
     path = os.path.join(UPLOAD_FOLDER, file)
     return path
+
+
+def iso_to_datetime(iso_datetime: str):
+    """returns a datetime object of the iso_datetime"""
+    date, time = iso_datetime.split('T')
+    year, month, day = date.split('-')
+    hour, minute = time.split(':')
+    datetime_object = datetime(int(year), int(month), int(day), int(hour), int(minute))
+    return datetime_object
+
+
+def remove_old_events():
+    """removes events that have already passed that are stored in the database"""
+    events = db.event.find_many()
+    current_datetime = datetime.now().timestamp()
+    for event in events:
+        event_datetime = event.scheduled.timestamp()
+        if event_datetime + 86400 < current_datetime:
+            db.event.delete(where={'id': event.id})
+            flash("Removed an old event")
