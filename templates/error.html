@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/output.css') }}">
+</head>
+
+<body class="flex justify-center items-center w-screen h-screen bg-black m- p-0">
+    <div class="text-center">
+        <span class="text-5xl font-black">{{ name }}</span> <br>
+        <br>
+        <span>{{ message }}</span> <br>
+        <div class="flex justify-center mt-2">
+            <a href="{{url_for('home_page')}}" class="button text-black">Go home</a>
+        </div>
+    </div>
+</body>
+
+</html>
