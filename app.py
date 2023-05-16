@@ -24,6 +24,13 @@ def page_not_found(error: str):
     return render_template('error.html', name=name, message=message), 404
 
 
+@app.errorhandler(500)
+def application_error(error: str):
+    """500 errors"""
+    name, message = str(error).split(':')
+    return render_template('error.html', name=name, message=message), 500
+
+
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)

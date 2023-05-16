@@ -9,13 +9,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/output.css') }}">
 </head>
 
-<body class="flex justify-center items-center w-screen h-screen bg-black m- p-0">
-    <div class="text-center">
-        <span class="text-5xl font-black">{{ name }}</span> <br>
-        <br>
-        <span>{{ message }}</span> <br>
-        <div class="flex justify-center mt-2">
-            <a href="{{url_for('home_page')}}" class="button text-black">Go home</a>
+<body class="flex justify-center items-center w-screen h-screen bg-black m-0 p-0">
+    <div class="flex justify-center items-center w-screen h-screen bg-black m-0 p-0">
+        <div class="text-center">
+            <span class="text-5xl font-black">{{ name }}</span> <br>
+            <br>
+            <span>{{ message }}</span> <br>
+            <div class="flex justify-center mt-2">
+                <a href="{{url_for('home_page')}}" class="button text-black">Go home</a>
+            </div>
         </div>
     </div>
 </body>

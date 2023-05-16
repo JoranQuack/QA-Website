@@ -77,12 +77,6 @@ def update_person(person_id: int):
     file = request.files['image']
     image = secure_filename(file.filename)  # type: ignore
 
-    db.people.update(where={'id': person_id}, data={
-        'name': name,
-        'role': role,
-        'is_active': is_active
-    })
-
     if image != '':
         db.people.update(where={'id': person_id}, data={
             'reference': image
@@ -90,8 +84,21 @@ def update_person(person_id: int):
         image_path = get_file_path(image)
         file.save(image_path)  # type: ignore
 
+    has_filled = name != '' and role != ''
+    styled_name = f" {name}".rstrip()
+
     if to_remove:
         db.people.delete(where={'id': person_id})
+        flash(f"Removed{styled_name}!")
+    elif has_filled:
+        db.people.update(where={'id': person_id}, data={
+            'name': name,
+            'role': role,
+            'is_active': is_active
+        })
+        flash(f"Updated{styled_name}!")
+    else:
+        flash("Name and role are required")
     return redirect(url_for('admin.edit_page'))
 
 
@@ -103,6 +110,7 @@ def create_person():
         'name': '',
         'role': ''
     })
+    flash("New person created!")
     return redirect(url_for('admin.edit_page'))
 
 
@@ -116,17 +124,27 @@ def update_event(event_id: int):
     scheduled = iso_to_datetime(request.form['scheduled'])
     has_time = len(request.form.getlist('has_time')) == 1
     is_active = len(request.form.getlist('is_active')) == 1
+    to_remove = len(request.form.getlist('to_remove')) == 1
 
-    db.event.update(where={'id':event_id}, data={
-        'title': title,
-        'description': description,
-        'location': location,
-        'reference': reference,
-        'scheduled': scheduled,
-        'has_time': has_time,
-        'is_active': is_active
-    })
+    has_filled = title != '' and description != '' and location != ''
+    styled_title = f" {title}".rstrip()
 
+    if to_remove:
+        db.event.delete(where={'id': event_id})
+        flash(f"Removed{styled_title}!")
+    elif has_filled:
+        db.event.update(where={'id': event_id}, data={
+            'title': title,
+            'description': description,
+            'location': location,
+            'reference': reference,
+            'scheduled': scheduled,
+            'has_time': has_time,
+            'is_active': is_active
+        })
+        flash(f"Updated{styled_title}!")
+    else:
+        flash("Title, location, and description are required")
     return redirect(url_for('admin.edit_page'))
 
 
@@ -140,6 +158,7 @@ def create_event():
         'has_time': True,
         'location': ''
     })
+    flash("New event created!")
     return redirect(url_for('admin.edit_page'))
 
 

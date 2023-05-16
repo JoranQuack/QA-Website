@@ -29,8 +29,8 @@ def album_page(album_id: int):
 def get_home():
     """gets home page contents"""
     remove_old_events()
-    events = db.event.find_many(where={'is_active': True})
-    # TODO sort events by date
+    events = db.event.find_many(
+        where={'is_active': True}, order={'scheduled': 'asc'})
     albums = AlbumWithCover.prisma().find_many(include={"cover": True})
     people = db.people.find_many(where={'is_active': True})
     gallery_cover = db.media.find_first(where={'on_gallery': True})
@@ -53,7 +53,7 @@ def get_album(album_id: int):
 @api.get('/robots.txt')
 def robots():
     """let robots access the .txt"""
-    with open('robots.txt', encoding='utf-8') as file:
+    with open(file='robots.txt', encoding='utf-8', mode="r") as file:
         contents = file.read()
         file.close()
     return contents

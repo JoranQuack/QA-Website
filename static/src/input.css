@@ -75,7 +75,7 @@
 
   /* DYNAMIC */
   .body-loaded {
-    @apply antialiased h-full bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in overflow-x-hidden;
+    @apply antialiased min-h-screen bg-gradient-to-br from-blue-lighter to-blue-darker px-9 md:px-16 xl:px-[10vw] animate-fade_in overflow-x-hidden;
   }
 
   .active {
@@ -100,6 +100,14 @@
 
   .header-condense {
     @apply transform -translate-y-3 transition bg-opacity-75 bg-blue-darker duration-300;
+  }
+
+  .submit-hidden {
+    @apply h-0 opacity-0 hover:opacity-0 cursor-default -mb-5;
+  }
+
+  .submit-shown {
+    @apply h-10 opacity-100 hover:opacity-50 cursor-pointer mb-0;
   }
 
   /* SCROLLBAR */

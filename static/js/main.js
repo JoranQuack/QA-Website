@@ -104,7 +104,7 @@ if (document.title == "Home") {
     // UPDATE NAV BAR WHEN CLICKED
     function navOnClick(_navId) {
         scrolling = false;
-        var inactives = document.getElementsByClassName("link");
+        const inactives = document.getElementsByClassName("link");
         for (let inactive of inactives) {
             inactive.classList.remove("active");
         };
