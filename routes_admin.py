@@ -5,9 +5,10 @@ from flask import (
 )
 from functions import (
     signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
-    session_get, get_users, get_about, get_people, get_events, get_file_path, iso_to_datetime,
-    remove_old_events
+    session_get, get_users, get_about, get_people, get_events, get_albums, get_file_path,
+    iso_to_datetime, remove_old_events, find_unused_media
 )
+from prisma.partials import AlbumWithMedia
 from database import db
 
 api = Blueprint('admin', __name__)
@@ -20,7 +21,7 @@ def edit_page():
         return redirect(url_for('admin.signin_page'))
     remove_old_events()
     return render_template('edit.html', users=get_users(), about=get_about(), people=get_people(),
-                           events=get_events())
+                           events=get_events(), albums=get_albums())
 
 
 @api.post('/update_users')
@@ -160,6 +161,21 @@ def create_event():
     })
     flash("New event created!")
     return redirect(url_for('admin.edit_page'))
+
+
+@api.get('/edit_album/<int:album_id>')
+def edit_album_page(album_id: int):
+    """displays the inside of an album in a form to allow update"""
+    album = AlbumWithMedia.prisma().find_first(
+        where={'id': album_id}, include={'media': True})
+    unused_media = find_unused_media(album_id)
+    return render_template('edit_album.html', album=album, unused_media=unused_media)
+
+
+@api.post('/update_album/<int:album_id>')
+def update_album(album_id: int):
+    """updates an album in the album table"""
+    return redirect(url_for('admin.edit_album_page', album_id=album_id))
 
 
 @api.get('/signin')

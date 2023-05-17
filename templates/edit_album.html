@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<form action="{{ url_for('admin.update_album', album_id=album.id) }}" method="post">
+    <label for="title">Title*</label>
+    <input id="title" name="title" type="text" placeholder="Enter album title" value="{{ album.title }}">
+    <label for="description">Description*</label>
+    <input id="description" name="description" type="text" placeholder="Enter album description"
+        value="{{ album.description }}">
+    <div class="flex justify-center mb-3">
+        <button type="submit" class="button">Save changes</button>
+    </div>
+
+    <span>Selected Media*</span>
+    <div class="grid grid-cols-6 gap-3 mb-5 mt-1">
+
+        {% for media in album.media %}
+        <div class="cursor-pointer w-full h-32 rounded-2xl overflow-hidden bg-black">
+            <img class="object-cover object-center h-full w-full"
+                src="{{ url_for('static', filename='images/uploaded/'+media.reference) }}" alt="{{ media.reference }}">
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <span class="mt-5">Add Media</span>
+    <div class="grid grid-cols-6 gap-3 mt-1">
+
+        {% for media in unused_media %}
+        <div class="cursor-pointer w-full h-32 rounded-2xl overflow-hidden bg-black">
+            <img class="object-cover object-center h-full w-full"
+                src="{{ url_for('static', filename='images/uploaded/'+media.reference) }}" alt="{{ media.reference }}">
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="flex justify-center mb-5 mt-3">
+        <button type="submit" class="button">Save changes</button>
+    </div>
+
+</form>
+
+
+{% endblock %}

@@ -4,6 +4,7 @@ import hashlib
 from datetime import datetime
 from flask import session, flash
 from prisma.errors import ForeignKeyViolationError
+from prisma.partials import AlbumWithCover, MediaWithAlbums
 from database import db
 from environments import SALT
 
@@ -116,6 +117,12 @@ def get_events():
     return events
 
 
+def get_albums():
+    """finds all the albums from the album table"""
+    albums = AlbumWithCover.prisma().find_many(include={'cover': True})
+    return albums
+
+
 def get_file_path(file: str):
     """makes the path for the given file"""
     path = os.path.join(UPLOAD_FOLDER, file)
@@ -127,7 +134,8 @@ def iso_to_datetime(iso_datetime: str):
     date, time = iso_datetime.split('T')
     year, month, day = date.split('-')
     hour, minute = time.split(':')
-    datetime_object = datetime(int(year), int(month), int(day), int(hour), int(minute))
+    datetime_object = datetime(int(year), int(
+        month), int(day), int(hour), int(minute))
     return datetime_object
 
 
@@ -140,3 +148,16 @@ def remove_old_events():
         if event_datetime + 86400 < current_datetime:
             db.event.delete(where={'id': event.id})
             flash("Removed an old event")
+
+
+def find_unused_media(album_id: int):
+    """finds all the media from the media table that is not used in a specific album"""
+    all_media = MediaWithAlbums.prisma().find_many(include={'albums': True})
+    unused_media: list[MediaWithAlbums] = []
+    for media in all_media:
+        album_ids: list[int] = []
+        for album in media.albums:
+            album_ids.append(album.id)
+        if album_id not in album_ids:
+            unused_media.append(media)
+    return unused_media

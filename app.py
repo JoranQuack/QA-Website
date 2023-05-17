@@ -6,6 +6,9 @@ import routes_admin
 from environments import SECRET_KEY
 
 
+DEBUG_MODE = True
+
+
 app = Flask(__name__, template_folder="templates")
 app.secret_key = SECRET_KEY
 
@@ -33,4 +36,4 @@ def application_error(error: str):
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=DEBUG_MODE, host='0.0.0.0', port=port)
