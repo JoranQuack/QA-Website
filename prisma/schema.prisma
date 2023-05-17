@@ -57,6 +57,7 @@ model Album {
     id          Int     @id @default(autoincrement())
     user_id     Int
     user        User    @relation(fields: [user_id], references: [id])
+    is_active   Boolean @default(false)
     title       String
     description String
     cover       Media   @relation(fields: [cover_id], references: [id])

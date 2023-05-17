@@ -17,7 +17,7 @@
 <body class="body-loaded min-h-screen">
     {% with messages = get_flashed_messages() %}
     {% if messages %}
-    <div class="animate-error fixed left-0 w-screen bottom-10 text-center">
+    <div class="animate-error fixed left-0 w-screen bottom-10 text-center z-50">
         {% for message in messages %}
         <span class="rounded-full p-3 w-fit text-center
         {% if '!' in message %} bg-green-800
@@ -35,9 +35,13 @@
         </a>
 
         {% if session['username'] %}
-        <!-- <a href="{{ url_for('admin.edit_page') }}" class="font-round font-medium text-2xl md:text-lg">
+
+        {% if is_forward %}
+        <a href="{{ url_for('admin.edit_page') }}" class="font-round font-medium text-2xl md:text-lg">
             Back to Edit Page
-        </a> -->
+        </a>
+        {% endif %}
+
         <div class="flex justify-end items-center w-56">
             <span>Signed in as {{ session['username'] }}</span>
             <a href="{{ url_for('admin.logout') }}" class="button text-blue-darker mb-2 ml-3">Log out</a>

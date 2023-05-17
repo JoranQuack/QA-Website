@@ -166,16 +166,48 @@ def create_event():
 @api.get('/edit_album/<int:album_id>')
 def edit_album_page(album_id: int):
     """displays the inside of an album in a form to allow update"""
+
     album = AlbumWithMedia.prisma().find_first(
         where={'id': album_id}, include={'media': True})
     unused_media = find_unused_media(album_id)
-    return render_template('edit_album.html', album=album, unused_media=unused_media)
+
+    return render_template('edit_album.html', album=album, unused_media=unused_media,
+                           is_forward=True)
 
 
 @api.post('/update_album/<int:album_id>')
 def update_album(album_id: int):
     """updates an album in the album table"""
+    is_active = len(request.form.getlist('is_active')) == 1
+    print(is_active)
+    title = request.form['title']
+    description = request.form['description']
+    selected_media = strings_to_ints(request.form.getlist('selected_media'))
+
+    if len(selected_media) < 2:
+        flash("Select at least 2 media for one album")
+    elif title == '' or description == '':
+        flash("Title and description are required")
+    else:
+        db.album.update(where={'id': album_id}, data={
+            'title': title,
+            'description': description,
+            'is_active': is_active,
+            'media': {
+                'set': [{'id': media_id} for media_id in selected_media],
+            },
+            'cover': {
+                'connect': {'id': selected_media[0]}
+            }
+        })
+        flash("Updated album!")
+
     return redirect(url_for('admin.edit_album_page', album_id=album_id))
+
+
+# @api.post('/create_media')
+# def create_media():
+#     """adds """
 
 
 @api.get('/signin')
