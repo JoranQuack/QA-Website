@@ -28,7 +28,7 @@ function waitForElm(selector) {
 
 // HEADER SCROLL FUNCTIONS
 document.documentElement.dataset.scroll_position = window.scrollY.toString();
-var scrollValue = 50
+let scrollValue = 50
 
 document.addEventListener('scroll', () => {
     document.documentElement.dataset.scroll_position = window.scrollY.toString();
@@ -44,7 +44,7 @@ document.addEventListener('scroll', () => {
 
 // FUNCTIONS ONLY APPLICABLE TO HOME PAGE
 if (document.title == "Home") {
-    var scrollValue = 120
+    let scrollValue = 120
 
 
     // MOBILE MENU
@@ -77,11 +77,11 @@ if (document.title == "Home") {
 
 
     // UPDATE NAV BAR WHEN SCROLLING
-    var scrolling = true;
+    let scrolling = true;
 
     window.onscroll = () => {
         if (scrolling) {
-            var current = "";
+            let current = "";
 
             document.querySelectorAll("section").forEach((section) => {
                 const sectionTop = section.offsetTop;

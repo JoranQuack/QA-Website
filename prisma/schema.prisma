@@ -1,5 +1,4 @@
 datasource db {
-    // could be postgresql or mysql
     provider = "sqlite"
     url      = "file:../database/qa.db"
 }
@@ -32,7 +31,7 @@ model Event {
     scheduled   DateTime @default(now())
     has_time    Boolean
     is_active   Boolean  @default(false)
-    reference   String?
+    reference   String   @default("")
 }
 
 model About {
@@ -60,19 +59,16 @@ model Album {
     is_active   Boolean @default(false)
     title       String
     description String
-    cover       Media   @relation(fields: [cover_id], references: [id])
-    cover_id    Int
     media       Media[] @relation(name: "albumContent")
 }
 
 model Media {
-    id           Int     @id @default(autoincrement())
-    user_id      Int
-    user         User    @relation(fields: [user_id], references: [id])
-    albums       Album[] @relation(name: "albumContent")
-    type         String
-    reference    String
-    on_gallery   Boolean
-    description  String?
-    album_covers Album[]
+    id          Int     @id @default(autoincrement())
+    user_id     Int
+    user        User    @relation(fields: [user_id], references: [id])
+    albums      Album[] @relation(name: "albumContent")
+    type        String
+    reference   String
+    on_gallery  Boolean
+    description String?
 }

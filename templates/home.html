@@ -175,7 +175,7 @@
             <a href="{{ url_for('album_page', album_id=album.id) }}" class="">
                 <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden bg-black">
                     <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
-                        src="{{ url_for('static', filename='images/uploaded/'+album.cover.reference) }}"
+                        src="{{ url_for('static', filename='images/uploaded/'+album.media[0].reference) }}"
                         alt="{{ album.cover.reference }}">
                 </div>
                 <div class="flex items-center justify-center text-center w-full mt-3 mb-4 overflow-hidden">

@@ -1,6 +1,7 @@
 @tailwind base;
 
 @layer base {
+
   /* GLOBAL */
   span, label {
     @apply text-white-qa;
@@ -114,12 +115,15 @@
   ::-webkit-scrollbar {
     @apply w-[1.1vw];
   }
+
   ::-webkit-scrollbar-track {
     @apply bg-blue-darker;
   }
+
   ::-webkit-scrollbar-thumb {
     @apply bg-blue-lighter border-[0.3vw] border-solid border-blue-darker rounded-full;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-slate-300 duration-300;
   }

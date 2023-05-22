@@ -6,9 +6,9 @@
 <script>
     function previewImage(id) {
         console.log("banana")
-        var file = document.getElementById(`image${id}`).files;
+        const file = document.getElementById(`image${id}`).files;
         if (file.length > 0) {
-            var fileReader = new FileReader()
+            const fileReader = new FileReader()
             fileReader.onload = function (event) {
                 document.getElementById(`preview${id}`).setAttribute("src", event.target.result);
             };
@@ -134,10 +134,12 @@
         <form action="{{ url_for('admin.update_event', event_id=event.id) }}" method="post"
             class="bg-opacity-10 bg-white-qa rounded-2xl p-5" onchange="onFormFieldChange(this)">
             <label for="title{{ event.id }}">Title*</label>
-            <input type="text" value="{{ event.title }}" name="title" id="title{{ event.id }}">
+            <input type="text" value="{{ event.title }}" name="title" id="title{{ event.id }}"
+                placeholder="Enter title">
 
             <label for="location{{ event.id }}">Location*</label>
-            <input type="text" value="{{ event.location }}" name="location" id="location{{ event.id }}">
+            <input type="text" value="{{ event.location }}" name="location" id="location{{ event.id }}"
+                placeholder="Enter location">
 
             <label for="scheduled{{ event.id }}">Scheduled on</label>
             <input type="datetime-local" name="scheduled" id="scheduled{{ event.id }}"
@@ -191,8 +193,8 @@
         <a href="{{ url_for('admin.edit_album_page', album_id=album.id) }}">
             <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden bg-black">
                 <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
-                    src="{{ url_for('static', filename='images/uploaded/'+album.cover.reference) }}"
-                    alt="{{ album.cover.reference }}">
+                    src="{{ url_for('static', filename='images/uploaded/'+album.media[0].reference) }}"
+                    alt="{{ album.media[0].reference }}">
             </div>
             <div class="flex items-center justify-center text-center w-full mt-3 mb-4 overflow-hidden">
                 <span class="font-round text-2xl">{{ album.title }}</span>
@@ -203,5 +205,42 @@
     </div>
 </section>
 
+
+<section id="media">
+
+    <span class="title mt-3">Media Uploads</span>
+    <form action="{{ url_for('admin.create_media') }}" method="post">
+        <label for="upload_media" class="button text-blue-darker">Upload New Media</label>
+        <input type="file" name="upload_media" id="upload_media" class="hidden" accept="image/*"
+            onchange="form.submit()">
+    </form>
+
+    <span class="title mt-5">Manage Media</span>
+    <form action="{{ url_for('admin.update_media') }}" method="post">
+
+        <div class="grid grid-cols-8 gap-3 mt-3">
+            {% for media in media %}
+            <div class="w-full h-24 rounded-2xl overflow-hidden flex justify-center items-center bg-black">
+                <input id="selected_media{{ media.id }}" type="checkbox" name="selected_media"
+                    class="absolute z-20 scale-[250%] cursor-pointer" value="{{ media.id }}">
+                <label for="selected_media{{ media.id }}" class="h-full w-full">
+                    <img class="object-cover object-center h-full w-full z-10 hover:opacity-50 duration-300"
+                        src="{{ url_for('static', filename='images/uploaded/'+media.reference) }}"
+                        alt="{{ media.reference }}">
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="flex w-full justify-center gap-3">
+            <input type="submit" class="button" name="remove_or_update" value="Remove all selected">
+            <input type="submit" class="button" name="remove_or_update" value="Set 1 as gallery image">
+        </div>
+    </form>
+
+</section>
+
+<div class="h-10">
+
+</div>
 
 {% endblock %}

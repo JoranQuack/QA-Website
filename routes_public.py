@@ -1,7 +1,7 @@
 '''all frontend route functions'''
 from datetime import datetime
 from flask import Blueprint, render_template
-from prisma.partials import AlbumWithCover, AlbumWithMedia
+from prisma.partials import AlbumWithMedia
 from functions import remove_old_events
 from database import db
 
@@ -31,7 +31,7 @@ def get_home():
     remove_old_events()
     events = db.event.find_many(
         where={'is_active': True}, order={'scheduled': 'asc'})
-    albums = AlbumWithCover.prisma().find_many(include={"cover": True})
+    albums = AlbumWithMedia.prisma().find_many(include={"media": True})
     people = db.people.find_many(where={'is_active': True})
     gallery_cover = db.media.find_first(where={'on_gallery': True})
     about = db.about.find_first()

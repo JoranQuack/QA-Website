@@ -4,7 +4,7 @@ import hashlib
 from datetime import datetime
 from flask import session, flash
 from prisma.errors import ForeignKeyViolationError
-from prisma.partials import AlbumWithCover, MediaWithAlbums
+from prisma.partials import AlbumWithMedia, MediaWithAlbums
 from database import db
 from environments import SALT
 
@@ -119,8 +119,14 @@ def get_events():
 
 def get_albums():
     """finds all the albums from the album table"""
-    albums = AlbumWithCover.prisma().find_many(include={'cover': True})
+    albums = AlbumWithMedia.prisma().find_many(include={'media': True})
     return albums
+
+
+def get_media():
+    """finds all the media from the media table"""
+    media = db.media.find_many()
+    return media
 
 
 def get_file_path(file: str):
@@ -161,3 +167,80 @@ def find_unused_media(album_id: int):
         if album_id not in album_ids:
             unused_media.append(media)
     return unused_media
+
+
+def get_used_media():
+    """get all media that is being used in any album"""
+    albums = AlbumWithMedia.prisma().find_many(include={'media': True})
+    used_media: list[int] = []
+    for album in albums:
+        used_media += [album.media[i].id for i in range(len(album.media))]
+    return used_media
+
+
+def find_used_albums(media_id: int):
+    """finds all used albums associated with a specific media"""
+    used_albums = AlbumWithMedia.prisma().find_many(include={'media': True}, where={
+        'media': {
+            'some': {
+                'id': media_id
+            }
+        }
+    })
+    return used_albums
+
+
+def can_delete_media(media_id: int, used_albums: list[AlbumWithMedia]):
+    """returns whether or not the media can be deleted"""
+    can_delete = True
+
+    gallery_media = db.media.find_first(where={'on_gallery': True})
+    assert gallery_media is not None
+
+    if media_id != gallery_media.id:
+
+        for album in used_albums:
+
+            if len(album.media) < 3:
+                can_delete = False
+
+    return can_delete
+
+
+def disconnect_and_delete_media(media_id: int, used_albums: list[AlbumWithMedia]):
+    """removes a media from existance in the database and all its foreign relationships"""
+    for album in used_albums:
+        db.album.update(where={'id': album.id}, data={
+            'media': {
+                'disconnect': [{'id': media_id}]
+            }
+        })
+    db.media.delete(where={'id': media_id})
+
+
+def replace_gallery_media(media_id: int):
+    """replaces the current gallery media on the gallery with a new one"""
+    db.media.update_many(where={'on_gallery': True}, data={
+        'on_gallery': False})
+    db.media.update(where={'id': media_id}, data={'on_gallery': True})
+
+
+def remove_media(remove_media_ids: list[int]):
+    """removes list of media"""
+    used_media = get_used_media()
+
+    message = "Deleted all media selected!"
+
+    for media_id in remove_media_ids:
+        if media_id in used_media:
+
+            used_albums = find_used_albums(media_id)
+
+            if can_delete_media(media_id, used_albums):
+                disconnect_and_delete_media(media_id, used_albums)
+            else:
+                message = "Couldn't delete all media"
+        else:
+            db.media.delete(where={'id': media_id})
+
+    flash(message)

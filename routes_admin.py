@@ -5,8 +5,9 @@ from flask import (
 )
 from functions import (
     signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
-    session_get, get_users, get_about, get_people, get_events, get_albums, get_file_path,
-    iso_to_datetime, remove_old_events, find_unused_media
+    session_get, get_users, get_about, get_people, get_events, get_albums, get_media,
+    get_file_path, iso_to_datetime, remove_old_events, find_unused_media, replace_gallery_media,
+    remove_media
 )
 from prisma.partials import AlbumWithMedia
 from database import db
@@ -21,7 +22,7 @@ def edit_page():
         return redirect(url_for('admin.signin_page'))
     remove_old_events()
     return render_template('edit.html', users=get_users(), about=get_about(), people=get_people(),
-                           events=get_events(), albums=get_albums())
+                           events=get_events(), albums=get_albums(), media=get_media())
 
 
 @api.post('/update_users')
@@ -111,6 +112,7 @@ def create_person():
         'name': '',
         'role': ''
     })
+
     flash("New person created!")
     return redirect(url_for('admin.edit_page'))
 
@@ -118,11 +120,15 @@ def create_person():
 @api.post('/update_event/<int:event_id>')
 def update_event(event_id: int):
     """updates event specified by id"""
+
     title = request.form['title'].title()
     location = request.form['location'].title()
+
     description = request.form['description']
     reference = request.form['reference']
+
     scheduled = iso_to_datetime(request.form['scheduled'])
+
     has_time = len(request.form.getlist('has_time')) == 1
     is_active = len(request.form.getlist('is_active')) == 1
     to_remove = len(request.form.getlist('to_remove')) == 1
@@ -132,7 +138,8 @@ def update_event(event_id: int):
 
     if to_remove:
         db.event.delete(where={'id': event_id})
-        flash(f"Removed{styled_title}!")
+        message = f"Removed{styled_title}!"
+
     elif has_filled:
         db.event.update(where={'id': event_id}, data={
             'title': title,
@@ -143,9 +150,12 @@ def update_event(event_id: int):
             'has_time': has_time,
             'is_active': is_active
         })
-        flash(f"Updated{styled_title}!")
+        message = f"Updated{styled_title}!"
+
     else:
-        flash("Title, location, and description are required")
+        message = "Title, location, and description are required"
+
+    flash(message)
     return redirect(url_for('admin.edit_page'))
 
 
@@ -179,7 +189,6 @@ def edit_album_page(album_id: int):
 def update_album(album_id: int):
     """updates an album in the album table"""
     is_active = len(request.form.getlist('is_active')) == 1
-    print(is_active)
     title = request.form['title']
     description = request.form['description']
     selected_media = strings_to_ints(request.form.getlist('selected_media'))
@@ -195,9 +204,6 @@ def update_album(album_id: int):
             'is_active': is_active,
             'media': {
                 'set': [{'id': media_id} for media_id in selected_media],
-            },
-            'cover': {
-                'connect': {'id': selected_media[0]}
             }
         })
         flash("Updated album!")
@@ -205,9 +211,27 @@ def update_album(album_id: int):
     return redirect(url_for('admin.edit_album_page', album_id=album_id))
 
 
-# @api.post('/create_media')
-# def create_media():
-#     """adds """
+@api.post('/create_media')
+def create_media():
+    """adds new media to db and uploads the image"""
+    return redirect(url_for('admin.edit_page'))
+
+
+@api.post('/update_media')
+def update_media():
+    """remove or update a media to be gallery"""
+    is_removing = request.form['remove_or_update'] == "Remove all selected"
+    selected_media = strings_to_ints(request.form.getlist('selected_media'))
+
+    if is_removing:
+        remove_media(selected_media)
+    elif len(selected_media) == 1:
+        replace_gallery_media(int(selected_media[0]))
+        flash("Replaced gallery image!")
+    else:
+        flash("Only select 1 media to set as gallery image")
+
+    return redirect(url_for('admin.edit_page'))
 
 
 @api.get('/signin')
@@ -229,9 +253,11 @@ def signin():
     if user is None or user.password != password:
         flash("Wrong username or password")
         return redirect(url_for('admin.signin_page'))
+
     session['user'] = user.id
     session['username'] = user.username
     session['is_admin'] = user.is_admin
+
     flash(f"Welcome, {username}!")
     return redirect(url_for('admin.edit_page'))
 
@@ -261,6 +287,7 @@ def signup():
         return redirect(url_for('admin.signup'))
 
     create_user(username, password)
+
     flash("Account created!")
     return redirect(url_for('admin.edit_page'))
 
@@ -269,5 +296,6 @@ def signup():
 def logout():
     """logs out the user"""
     session.clear()
+
     flash("User has logged out!")
     return redirect(url_for('admin.edit_page'))
