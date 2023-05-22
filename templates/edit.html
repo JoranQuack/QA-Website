@@ -219,18 +219,19 @@
     <form action="{{ url_for('admin.update_media') }}" method="post">
 
         <div class="grid grid-cols-8 gap-3 mt-3">
+
             {% for media in media %}
             <div class="w-full h-24 rounded-2xl overflow-hidden flex justify-center items-center bg-black relative">
-                <label for="selected_media{{ media.id }}" class="relative h-full w-full">
-                    <img class="object-cover object-center h-full w-full hover:opacity-50 duration-300"
-                        src="{{ url_for('static', filename='images/uploaded/'+media.reference) }}"
-                        alt="{{ media.reference }}">
-                </label>
+                <img class="object-cover object-center h-full w-full"
+                    src="{{ url_for('static', filename='images/uploaded/'+media.reference) }}"
+                    alt="{{ media.reference }}">
+                <label for="selected_media{{ media.id }}"
+                    class="absolute w-full h-full bg-black opacity-0 hover:opacity-50 duration-300 cursor-pointer"></label>
 
                 {% if media.on_gallery %}
                 <div class="absolute flex justify-end w-full left-0 top-0 pointer-events-none">
                     <img src="{{ url_for('static', filename='images/website/star.png') }}" alt="star.png"
-                        class="w-7 h-7 mr-1 mt-1">
+                        class="w-5 h-5 mr-1 mt-1">
                 </div>
                 {% endif %}
 
@@ -239,6 +240,7 @@
                     value="{{ media.id }}">
             </div>
             {% endfor %}
+
         </div>
         <div class="flex w-full justify-center gap-3">
             <input type="submit" class="button" name="remove_or_update" value="Remove all selected">

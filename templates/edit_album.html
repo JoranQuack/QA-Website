@@ -25,15 +25,15 @@
     <span>Selected Media*</span>
     <div class="grid grid-cols-6 gap-3 mb-5 mt-1">
 
-        {% for media in album.media %}
-        <div class="w-full h-32 rounded-2xl overflow-hidden flex justify-center items-center bg-black">
-            <input id="selected_media{{ media.id }}" type="checkbox" name="selected_media" checked
-                class="absolute z-20 scale-[250%] cursor-pointer" value="{{ media.id }}">
-            <label for="selected_media{{ media.id }}" class="h-full w-full">
-                <img class="object-cover object-center h-full w-full z-10 hover:opacity-50 duration-300"
-                    src="{{ url_for('static', filename='images/uploaded/'+media.reference) }}"
-                    alt="{{ media.reference }}">
-            </label>
+        {% for media in media %}
+        <div class="w-full h-24 rounded-2xl overflow-hidden flex justify-center items-center bg-black relative">
+            <img class="object-cover object-center h-full w-full"
+                src="{{ url_for('static', filename='images/uploaded/'+media.reference) }}" alt="{{ media.reference }}">
+            <label for="selected_media{{ media.id }}"
+                class="absolute w-full h-full bg-black opacity-0 hover:opacity-50 duration-300 cursor-pointer"></label>
+            <input id="selected_media{{ media.id }}" type="checkbox" name="selected_media"
+                class="absolute scale-[250%] cursor-pointer pointer-events-none opacity-0 checked:opacity-100"
+                value="{{ media.id }}">
         </div>
         {% endfor %}
 
@@ -42,15 +42,15 @@
     <span class="mt-5">Add Media</span>
     <div class="grid grid-cols-6 gap-3 mt-1">
 
-        {% for media in unused_media %}
-        <div class="w-full h-32 rounded-2xl overflow-hidden flex justify-center items-center bg-black">
+        {% for media in media %}
+        <div class="w-full h-24 rounded-2xl overflow-hidden flex justify-center items-center bg-black relative">
+            <img class="object-cover object-center h-full w-full"
+                src="{{ url_for('static', filename='images/uploaded/'+media.reference) }}" alt="{{ media.reference }}">
+            <label for="selected_media{{ media.id }}"
+                class="absolute w-full h-full bg-black opacity-0 hover:opacity-50 duration-300 cursor-pointer"></label>
             <input id="selected_media{{ media.id }}" type="checkbox" name="selected_media"
-                class="absolute z-20 scale-[250%] cursor-pointer" value="{{ media.id }}">
-            <label for="selected_media{{ media.id }}" class="h-full w-full">
-                <img class="object-cover object-center h-full w-full z-10 hover:opacity-50 duration-300"
-                    src="{{ url_for('static', filename='images/uploaded/'+media.reference) }}"
-                    alt="{{ media.reference }}">
-            </label>
+                class="absolute scale-[250%] cursor-pointer pointer-events-none opacity-0 checked:opacity-100"
+                value="{{ media.id }}">
         </div>
         {% endfor %}
 
