@@ -69,6 +69,6 @@ model Media {
     albums      Album[] @relation(name: "albumContent")
     type        String
     reference   String
-    on_gallery  Boolean
+    on_gallery  Boolean @default(false)
     description String?
 }

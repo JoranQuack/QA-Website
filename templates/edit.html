@@ -209,7 +209,7 @@
 <section id="media">
 
     <span class="title mt-3">Media Uploads</span>
-    <form action="{{ url_for('admin.create_media') }}" method="post">
+    <form action="{{ url_for('admin.create_media') }}" method="post" enctype="multipart/form-data">
         <label for="upload_media" class="button text-blue-darker">Upload New Media</label>
         <input type="file" name="upload_media" id="upload_media" class="hidden" accept="image/*"
             onchange="form.submit()">

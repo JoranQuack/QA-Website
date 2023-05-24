@@ -7,7 +7,7 @@ from functions import (
     signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
     session_get, get_users, get_about, get_people, get_events, get_albums, get_media,
     get_file_path, iso_to_datetime, remove_old_events, find_unused_media, replace_gallery_media,
-    remove_media
+    remove_media, filename_from_datetime
 )
 from prisma.partials import AlbumWithMedia
 from database import db
@@ -77,13 +77,14 @@ def update_person(person_id: int):
     is_active = len(request.form.getlist('is_active')) == 1
     to_remove = len(request.form.getlist('to_remove')) == 1
     file = request.files['image']
-    image = secure_filename(file.filename)  # type: ignore
+    image_upload = secure_filename(file.filename)  # type: ignore
 
-    if image != '':
+    if image_upload != '':
+        image_name = filename_from_datetime(image_upload)
         db.people.update(where={'id': person_id}, data={
-            'reference': image
+            'reference': image_name
         })
-        image_path = get_file_path(image)
+        image_path = get_file_path(image_name)
         file.save(image_path)  # type: ignore
 
     has_filled = name != '' and role != ''
@@ -123,12 +124,10 @@ def update_event(event_id: int):
 
     title = request.form['title'].title()
     location = request.form['location'].title()
-
     description = request.form['description']
     reference = request.form['reference']
 
     scheduled = iso_to_datetime(request.form['scheduled'])
-
     has_time = len(request.form.getlist('has_time')) == 1
     is_active = len(request.form.getlist('is_active')) == 1
     to_remove = len(request.form.getlist('to_remove')) == 1
@@ -214,6 +213,25 @@ def update_album(album_id: int):
 @api.post('/create_media')
 def create_media():
     """adds new media to db and uploads the image"""
+    file = request.files['upload_media']
+    image_upload = secure_filename(file.filename)  # type: ignore
+
+    if image_upload != '':
+        image_name = filename_from_datetime(image_upload)
+        db.media.create(data={
+            'user_id': session['user'],
+            'reference': image_name,
+            'type': 'image'
+        })
+
+        image_path = get_file_path(image_name)
+        file.save(image_path)  # type: ignore
+        message = "Added media!"
+
+    else:
+        message = "No file uploaded"
+
+    flash(message)
     return redirect(url_for('admin.edit_page'))
 
 

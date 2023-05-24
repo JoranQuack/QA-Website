@@ -1,5 +1,6 @@
 """all functions needed in the routes (mostly for backend)"""
 import os
+import time
 import hashlib
 from datetime import datetime
 from flask import session, flash
@@ -133,9 +134,9 @@ def get_file_path(file: str):
 
 def iso_to_datetime(iso_datetime: str):
     """returns a datetime object of the iso_datetime"""
-    date, time = iso_datetime.split('T')
+    date, times = iso_datetime.split('T')
     year, month, day = date.split('-')
-    hour, minute = time.split(':')
+    hour, minute = times.split(':')
 
     datetime_object = datetime(int(year), int(
         month), int(day), int(hour), int(minute))
@@ -197,23 +198,19 @@ def find_used_albums(media_id: int):
 
 def can_delete_media(media_id: int, used_albums: list[AlbumWithMedia]):
     """returns whether or not the media can be deleted"""
-    can_delete = True
 
-    gallery_media = db.media.find_first(where={'on_gallery': True})
-    assert gallery_media is not None
+    gallery_media = db.media.find_first(
+        where={'on_gallery': True, 'id': media_id})
 
-    if media_id != gallery_media.id:
+    if gallery_media is None:
+        return False
 
-        for album in used_albums:
-
-            if len(album.media) < 3:
-                can_delete = False
-
-    return can_delete
+    return all(len(album.media) >= 3 for album in used_albums)
 
 
 def disconnect_and_delete_media(media_id: int, used_albums: list[AlbumWithMedia]):
     """removes a media from existance in the database and all its foreign relationships"""
+    
     for album in used_albums:
         db.album.update(where={'id': album.id}, data={
             'media': {
@@ -252,3 +249,11 @@ def remove_media(remove_media_ids: list[int]):
             db.media.delete(where={'id': media_id})
 
     flash(message)
+
+
+def filename_from_datetime(name: str):
+    """makes a unique image name from datetime"""
+    extension = name.split('.')[-1]
+    datetime_name = int(time.mktime(datetime.now().timetuple()))
+
+    return f"{datetime_name}.{extension}"
