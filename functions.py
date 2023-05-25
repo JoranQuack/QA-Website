@@ -1,7 +1,7 @@
 """all functions needed in the routes (mostly for backend)"""
 import os
-import time
 import hashlib
+import secrets
 from datetime import datetime
 from flask import session, flash
 from prisma.errors import ForeignKeyViolationError
@@ -196,21 +196,14 @@ def find_used_albums(media_id: int):
     return used_albums
 
 
-def can_delete_media(media_id: int, used_albums: list[AlbumWithMedia]):
+def can_delete_media(used_albums: list[AlbumWithMedia]):
     """returns whether or not the media can be deleted"""
-
-    gallery_media = db.media.find_first(
-        where={'on_gallery': True, 'id': media_id})
-
-    if gallery_media is None:
-        return False
-
     return all(len(album.media) >= 3 for album in used_albums)
 
 
 def disconnect_and_delete_media(media_id: int, used_albums: list[AlbumWithMedia]):
     """removes a media from existance in the database and all its foreign relationships"""
-    
+
     for album in used_albums:
         db.album.update(where={'id': album.id}, data={
             'media': {
@@ -229,6 +222,16 @@ def replace_gallery_media(media_id: int):
     db.media.update(where={'id': media_id}, data={'on_gallery': True})
 
 
+def is_on_gallery(media_id: int):
+    """checks if a media is on gallery"""
+
+    media = db.media.find_first(
+        where={'on_gallery': True, 'id': media_id})
+    assert media is not None
+
+    return media.on_gallery
+
+
 def remove_media(remove_media_ids: list[int]):
     """removes list of media"""
     used_media = get_used_media()
@@ -240,10 +243,13 @@ def remove_media(remove_media_ids: list[int]):
         if media_id in used_media:
             used_albums = find_used_albums(media_id)
 
-            if can_delete_media(media_id, used_albums):
+            if can_delete_media(used_albums):
                 disconnect_and_delete_media(media_id, used_albums)
             else:
                 message = "Couldn't delete all media"
+
+        elif is_on_gallery(media_id):
+            message = "A media is used in the gallery"
 
         else:
             db.media.delete(where={'id': media_id})
@@ -251,9 +257,9 @@ def remove_media(remove_media_ids: list[int]):
     flash(message)
 
 
-def filename_from_datetime(name: str):
-    """makes a unique image name from datetime"""
+def random_filename(name: str):
+    """makes a random filename"""
     extension = name.split('.')[-1]
-    datetime_name = int(time.mktime(datetime.now().timetuple()))
+    filename = secrets.token_bytes(32).hex()
 
-    return f"{datetime_name}.{extension}"
+    return f"{filename}.{extension}"
