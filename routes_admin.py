@@ -7,7 +7,7 @@ from functions import (
     signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
     session_get, get_users, get_about, get_people, get_events, get_albums, get_media,
     get_file_path, iso_to_datetime, remove_old_events, find_unused_media, replace_gallery_media,
-    remove_media, filename_from_datetime
+    remove_media, random_filename
 )
 from prisma.partials import AlbumWithMedia
 from database import db
@@ -80,7 +80,7 @@ def update_person(person_id: int):
     image_upload = secure_filename(file.filename)  # type: ignore
 
     if image_upload != '':
-        image_name = filename_from_datetime(image_upload)
+        image_name = random_filename(image_upload)
         db.people.update(where={'id': person_id}, data={
             'reference': image_name
         })
@@ -217,7 +217,7 @@ def create_media():
     image_upload = secure_filename(file.filename)  # type: ignore
 
     if image_upload != '':
-        image_name = filename_from_datetime(image_upload)
+        image_name = random_filename(image_upload)
         db.media.create(data={
             'user_id': session['user'],
             'reference': image_name,
