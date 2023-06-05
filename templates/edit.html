@@ -205,8 +205,9 @@
         </a>
         {% endfor %}
 
-        <form action="{{url_for('admin.create_album')}}" method="post">
-            <button type="submit">Create a new album</button>
+        <form action="{{url_for('admin.create_album')}}" method="post"
+            class="flex justify-center items-center w-full h-full bg-opacity-10 bg-white-qa rounded-2xl">
+            <button type="submit" class="button">Create a new album</button>
         </form>
 
     </div>
