@@ -193,14 +193,21 @@
         <a href="{{ url_for('admin.edit_album_page', album_id=album.id) }}">
             <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden bg-black">
                 <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
+                    {% if album.media|length !=0 %}
                     src="{{ url_for('static', filename='images/uploaded/'+album.media[0].reference) }}"
-                    alt="{{ album.media[0].reference }}">
+                    alt="{{ album.media[0].reference }}" {% else %}
+                    src="{{ url_for('static', filename='images/uploaded/default-album.svg') }}" alt="default-album.svg"
+                    {% endif %}>
             </div>
             <div class="flex items-center justify-center text-center w-full mt-3 mb-4 overflow-hidden">
                 <span class="font-round text-2xl">{{ album.title }}</span>
             </div>
         </a>
         {% endfor %}
+
+        <form action="{{url_for('admin.create_album')}}" method="post">
+            <button type="submit">Create a new album</button>
+        </form>
 
     </div>
 </section>

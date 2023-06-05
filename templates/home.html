@@ -9,7 +9,7 @@
         class="flex flex-row items-center justify-between px-9 md:px-16 xl:px-[10vw] pt-7 pb-4 fixed left-0 w-screen z-10">
         <a href="#home">
             <img src="{{ url_for('static', filename='images/website/qa-logo.png') }}" alt="qa-logo"
-                class="h-12 md:h-14">
+                class="h-12 md:h-14 rounded-full">
         </a>
 
         <!-- desktop menu -->
@@ -60,15 +60,15 @@
                 </span>
                 <div class="flex flex-row justify-center md:justify-start gap-7 mt-6 md:mt-5">
                     <a href="https://www.instagram.com/qachorus/" target="_blank">
-                        <img class="social" src="{{ url_for('static', filename='images/website/instagram.png') }}"
+                        <img class="thumb social" src="{{ url_for('static', filename='images/website/instagram.png') }}"
                             alt="Instagram">
                     </a>
                     <a href="https://www.tiktok.com/@quantumacoustics" target="_blank">
-                        <img class="social" src="{{ url_for('static', filename='images/website/tiktok.png') }}"
+                        <img class="thumb social" src="{{ url_for('static', filename='images/website/tiktok.png') }}"
                             alt="TikTok">
                     </a>
                     <a href="https://www.facebook.com/qachorus" target="_blank">
-                        <img class="social" src="{{ url_for('static', filename='images/website/facebook.png') }}"
+                        <img class="thumb social" src="{{ url_for('static', filename='images/website/facebook.png') }}"
                             alt="Facebook">
                     </a>
                 </div>
@@ -76,11 +76,9 @@
 
 
             <!-- gallery -->
-            <div>
-                <img class="mt-10 md:mt-0 w-full h-[60vw] md:w-[37vw] md:h-[28vw] 2xl:w-[33vw] 2xl:h-[24vw] object-cover rounded-2xl md:rounded-3xl"
-                    src="{{ url_for('static', filename='images/uploaded/'+gallery_cover.reference) }}"
-                    alt="{{ gallery_cover.reference }}">
-            </div>
+            <img class="thumb mt-10 md:mt-0 w-full h-[60vw] md:w-[37vw] md:h-[28vw] 2xl:w-[33vw] 2xl:h-[24vw] object-cover rounded-2xl md:rounded-3xl"
+                src="{{ url_for('static', filename='images/uploaded/'+gallery_cover.reference) }}"
+                alt="{{ gallery_cover.reference }}">
         </div>
     </section>
 
@@ -107,9 +105,11 @@
 
                 {% for person in people %}
                 <div class="w-full flex flex-col items-center text-center font-round">
+                    <!-- <div class="shimmer rounded-full"> -->
                     <img src="{{ url_for('static', filename='images/uploaded/'+person.reference) }}"
                         alt="{{ person.reference }}"
-                        class="rounded-full h-[30vw] w-[30vw] md:h-[12vw] md:w-[12vw] 2xl:h-[10vw] 2xl:w-[10vw] object-cover">
+                        class="thumb rounded-full h-[30vw] w-[30vw] md:h-[12vw] md:w-[12vw] 2xl:h-[10vw] 2xl:w-[10vw] object-cover">
+                    <!-- </div> -->
                     <span class="font-semibold mt-1.5 text-xl -mb-0.5 block leading-tight">{{ person.name }}</span>
                     <span>{{ person.role }}</span>
                 </div>
@@ -135,7 +135,7 @@
                             <span class="font-round text-3xl block leading-7">{{ event.title }}</span>
                             <div class="flex flex-row justify-start items-center gap-1.5 my-2">
                                 <img src="{{ url_for('static', filename='images/website/location.png') }}"
-                                    alt="location" class="h-4">
+                                    alt="location" class="thumb h-4">
                                 <span>{{ event.location }}</span>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
             {% for album in albums %}
             <a href="{{ url_for('album_page', album_id=album.id) }}" class="">
                 <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden bg-black">
-                    <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
+                    <img class="thumb hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
                         src="{{ url_for('static', filename='images/uploaded/'+album.media[0].reference) }}"
                         alt="{{ album.cover.reference }}">
                 </div>
@@ -194,14 +194,15 @@
         flex flex-row justify-between px-9 md:px-16 xl:px-[10vw] pt-[20vw] md:pt-[10vw]">
         <div class="flex flex-row justify-start gap-3 -ml-5 scale-75">
             <a href="https://www.instagram.com/qachorus/" target="_blank">
-                <img class="social" src="{{ url_for('static', filename='images/website/instagram.png') }}"
+                <img class="thumb social" src="{{ url_for('static', filename='images/website/instagram.png') }}"
                     alt="Instagram">
             </a>
             <a href="https://www.tiktok.com/@quantumacoustics" target="_blank">
-                <img class="social" src="{{ url_for('static', filename='images/website/tiktok.png') }}" alt="TikTok">
+                <img class="thumb social" src="{{ url_for('static', filename='images/website/tiktok.png') }}"
+                    alt="TikTok">
             </a>
             <a href="https://www.facebook.com/qachorus" target="_blank">
-                <img class="social" src="{{ url_for('static', filename='images/website/facebook.png') }}"
+                <img class="thumb social" src="{{ url_for('static', filename='images/website/facebook.png') }}"
                     alt="Facebook">
             </a>
         </div>

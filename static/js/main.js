@@ -42,6 +42,31 @@ document.addEventListener('scroll', () => {
 });
 
 
+// LOADING IMAGES
+waitForElm(".thumb").then(function () {
+    let images = document.getElementsByTagName('img');
+
+    for (const image of images) {
+        const rounded_classes = [...image.classList].filter((x) => x.includes('rounded'));
+
+        let new_image = document.createElement('div', {});
+        new_image.classList.add(...rounded_classes);
+        new_image.classList.add('shimmer');
+        $(image).wrap(new_image)
+    };
+
+    $("img").on("load", function () {
+        $(this).get(0)?.style.setProperty("opacity", "1");
+        $(this).parent().removeClass("shimmer");
+        const placeholder = $(this).parent().find("#placeholder");
+        if (placeholder) placeholder.fadeOut("medium");
+    }).each(function () {
+        if (!(this instanceof HTMLImageElement)) return;
+        if (this.complete) $(this).trigger("load");
+    });
+});
+
+
 // FUNCTIONS ONLY APPLICABLE TO HOME PAGE
 if (document.title == "Home") {
     let scrollValue = 120

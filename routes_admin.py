@@ -113,7 +113,6 @@ def create_person():
         'name': '',
         'role': ''
     })
-
     flash("New person created!")
     return redirect(url_for('admin.edit_page'))
 
@@ -182,6 +181,17 @@ def edit_album_page(album_id: int):
 
     return render_template('edit_album.html', album=album, unused_media=unused_media,
                            is_forward=True)
+
+
+@api.post('/create_album')
+def create_album():
+    """creates a new album"""
+    db.album.create(data={
+        'user_id': session['user'],
+        'description': '',
+        'title': ''
+    })
+    return redirect(url_for('admin.edit_page'))
 
 
 @api.post('/update_album/<int:album_id>')

@@ -31,7 +31,7 @@ def get_home():
     remove_old_events()
     events = db.event.find_many(
         where={'is_active': True}, order={'scheduled': 'asc'})
-    albums = AlbumWithMedia.prisma().find_many(include={"media": True})
+    albums = AlbumWithMedia.prisma().find_many(include={'media': True}, where={'is_active': True})
     people = db.people.find_many(where={'is_active': True})
     gallery_cover = db.media.find_first(where={'on_gallery': True})
     about = db.about.find_first()
