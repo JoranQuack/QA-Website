@@ -107,24 +107,35 @@ def get_about():
     return db.about.find_first()
 
 
-def get_people():
+def get_people(is_public: bool):
     """finds all people from the people table"""
+    if is_public:
+        return db.people.find_many(where={'is_active': True})
     return db.people.find_many()
 
 
-def get_events():
+def get_events(is_public: bool):
     """finds all events from the event table"""
+    if is_public:
+        return db.event.find_many(where={'is_active': True}, order={'scheduled': 'asc'})
     return db.event.find_many()
 
 
-def get_albums():
+def get_albums(is_public: bool):
     """finds all the albums from the album table"""
+    if is_public:
+        return AlbumWithMedia.prisma().find_many(include={'media': True}, where={'is_active': True})
     return AlbumWithMedia.prisma().find_many(include={'media': True})
 
 
 def get_media():
     """finds all the media from the media table"""
     return db.media.find_many()
+
+
+def get_gallery():
+    """gets the gallery image for the homepage"""
+    return db.media.find_first(where={'on_gallery': True})
 
 
 def get_file_path(file: str):

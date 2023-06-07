@@ -2,8 +2,7 @@
 from datetime import datetime
 from flask import Blueprint, render_template
 from prisma.partials import AlbumWithMedia
-from functions import remove_old_events
-from database import db
+from functions import get_about, get_people, get_events, get_albums, get_gallery, remove_old_events
 
 
 api = Blueprint('', __name__)
@@ -29,14 +28,9 @@ def album_page(album_id: int):
 def get_home():
     """gets home page contents"""
     remove_old_events()
-    events = db.event.find_many(
-        where={'is_active': True}, order={'scheduled': 'asc'})
-    albums = AlbumWithMedia.prisma().find_many(include={'media': True}, where={'is_active': True})
-    people = db.people.find_many(where={'is_active': True})
-    gallery_cover = db.media.find_first(where={'on_gallery': True})
-    about = db.about.find_first()
-    return render_template('home.html', datetime=datetime, albums=albums, events=events,
-                           people=people, gallery_cover=gallery_cover, about=about)
+    return render_template('home.html', datetime=datetime, albums=get_albums(True),
+                           events=get_events(True), people=get_people(True),
+                           gallery_cover=get_gallery(), about=get_about())
 
 
 @api.get('/album/get_album_contents/<int:album_id>')
