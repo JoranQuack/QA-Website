@@ -41,7 +41,9 @@ module.exports = {
         'blue-lighter': '#243f53',
         'blue-darker': '#030b13',
         'blue-qa': '#18C0DE',
-        'white-qa': '#ced0de'
+        'white-qa': '#ced0de',
+        'success': '#166534',
+        'error': '#991b1b'
       }
     },
 

@@ -90,9 +90,11 @@
                 </div>
                 <div class="flex justify-center">
                     <div class="flex justify-center items-center z-20 w-52 h-52 rounded-full bg-black absolute -mt-52
-                        hover:opacity-80 opacity-0 duration-300">
-                        <label for="image{{ person.id }}" class="h-fit text-center cursor-pointer">Upload new
-                            image</label>
+                        hover:opacity-50 opacity-0 duration-300">
+                        <label for="image{{ person.id }}"
+                            class="h-full w-full rounded-full cursor-pointer flex justify-center items-center">
+                            <span>Upload new image</span>
+                        </label>
                     </div>
                 </div>
                 <input type="file" name="image" id="image{{ person.id }}" class="hidden" accept="image/*"
@@ -190,7 +192,8 @@
     <div class="grid grid-cols-4 gap-5 mt-5">
 
         {% for album in albums %}
-        <a href="{{ url_for('admin.edit_album_page', album_id=album.id) }}">
+        <a href="{{ url_for('admin.edit_album_page', album_id=album.id) }}"
+            class="bg-opacity-10 bg-white-qa rounded-2xl">
             <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden bg-black">
                 <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
                     {% if album.media|length !=0 %}
@@ -251,7 +254,8 @@
 
         </div>
         <div class="flex w-full justify-center gap-3">
-            <input type="submit" class="button" name="remove_or_update" value="Remove all selected">
+            <input type="submit" class="button bg-error text-white-qa" name="remove_or_update"
+                value="Remove all selected">
             <input type="submit" class="button" name="remove_or_update" value="Set as gallery image ★">
         </div>
     </form>

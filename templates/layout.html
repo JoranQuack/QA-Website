@@ -42,7 +42,7 @@
         </a>
         {% endif %}
 
-        <div class="flex justify-end items-center w-56">
+        <div class="flex justify-end items-center w-fit">
             <span>Signed in as {{ session['username'] }}</span>
             <a href="{{ url_for('admin.logout') }}" class="button text-blue-darker mb-2 ml-3">Log out</a>
         </div>

@@ -174,9 +174,10 @@
             {% for album in albums %}
             <a href="{{ url_for('album_page', album_id=album.id) }}" class="">
                 <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden bg-black">
-                    <img class="thumb hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
+                    <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-50 opacity-100"
                         src="{{ url_for('static', filename='images/uploaded/'+album.media[0].reference) }}"
-                        alt="{{ album.cover.reference }}">
+                        alt="{{ album.media[0].reference }}">
+                    <!-- <div class=""></div> -->
                 </div>
                 <div class="flex items-center justify-center text-center w-full mt-3 mb-4 overflow-hidden">
                     <span class="font-round text-2xl">{{ album.title }}</span>

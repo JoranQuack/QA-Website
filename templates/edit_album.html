@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 
-
+<form action="{{ url_for('admin.remove_album', album_id=album.id) }}" method="post" class="flex justify-center mb-5">
+    <button type="submit" class="button bg-error text-white-qa">Remove album</button>
+</form>
 <form action="{{ url_for('admin.update_album', album_id=album.id) }}" method="post">
     <div class="flex justify-between gap-5">
         <div class="w-full">
@@ -18,7 +20,7 @@
                 placeholder="Enter album description">{{ album.description }}</textarea>
         </div>
     </div>
-    <div class="flex justify-center mb-3">
+    <div class="flex justify-center mb-3 gap-3">
         <button type="submit" class="button">Save changes</button>
     </div>
 
@@ -33,7 +35,7 @@
                 class="absolute w-full h-full bg-black opacity-0 hover:opacity-50 duration-300 cursor-pointer"></label>
             <input id="selected_media{{ media.id }}" type="checkbox" name="selected_media"
                 class="absolute scale-[250%] cursor-pointer pointer-events-none opacity-0 checked:opacity-100"
-                value="{{ media.id }}">
+                value="{{ media.id }}" checked>
         </div>
         {% endfor %}
 

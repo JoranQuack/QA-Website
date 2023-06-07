@@ -26,7 +26,7 @@
             {% for media_item in media %}
             <div class="cursor-pointer w-full h-[25vw] md:h-[13vw] rounded-2xl overflow-hidden bg-black"
                 onclick="lightboxOpen('{{ media_item.reference }}')">
-                <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-75 opacity-100"
+                <img class="hover:scale-110 duration-300 object-cover object-center h-full w-full hover:opacity-50 opacity-100"
                     src="{{ url_for('static', filename='images/uploaded/'+media_item.reference) }}"
                     alt="{{ media_item.reference }}">
             </div>
@@ -38,10 +38,7 @@
         <div class="flex justify-center items-center h-screen w-full text-white-qa">No Media</div>
         {% endif %}
 
-        <script>
-
-        </script>
-        <!-- Lightbox -->
+        <!-- lightbox -->
         <div id="lightbox" onclick="lightboxClose()"
             class="fixed w-screen h-screen top-0 left-0 lightbox-closed z-20 bg-opacity-75 bg-blue-darker justify-between px-10 py-8 select-none">
             <div class="w-8"></div>

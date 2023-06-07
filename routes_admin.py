@@ -220,6 +220,13 @@ def update_album(album_id: int):
     return redirect(url_for('admin.edit_album_page', album_id=album_id))
 
 
+@api.post('/remove_album/<int:album_id>')
+def remove_album(album_id: int):
+    """removes and album"""
+    db.album.delete(where={'id': album_id})
+    return redirect(url_for('admin.edit_page'))
+
+
 @api.post('/create_media')
 def create_media():
     """adds new media to db and uploads the image"""
