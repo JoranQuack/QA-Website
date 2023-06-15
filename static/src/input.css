@@ -1,5 +1,9 @@
 @tailwind base;
 
+:root {
+  color-scheme: dark;
+}
+
 @layer base {
 
   /* GLOBAL */
@@ -34,7 +38,14 @@
   }
 
   input, textarea {
-    @apply mb-3 px-2 py-1 rounded-md w-full bg-white-qa;
+    @apply mb-3 px-3 py-2 rounded-md w-full bg-white-qa bg-opacity-10 text-white-qa;
+    @apply focus:bg-opacity-25 transition-colors duration-300;
+    @apply outline-none resize-none;
+  }
+
+  input:autofill {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: #fff !important;
   }
 
   input[type='checkbox'] {
@@ -58,7 +69,7 @@
 
   .button {
     @apply bg-blue-qa flex justify-center items-center rounded-full w-fit h-fit px-3 py-2 m-0 mt-3;
-    @apply hover:opacity-50 duration-300 cursor-pointer;
+    @apply hover:opacity-50 duration-300 cursor-pointer text-blue-darker;
   }
 
   .button span {
