@@ -19,6 +19,10 @@
     @apply text-white-qa opacity-100 hover:opacity-50 duration-300;
   }
 
+  ::selection {
+    @apply bg-blue-qa bg-opacity-70;
+  }
+
   @font-face {
     font-family: 'All Round Gothic';
     src: url('/static/fonts/AllRoundGothic.ttf') format('truetype');
