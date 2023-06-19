@@ -41,6 +41,7 @@
     @apply mb-3 px-3 py-2 rounded-md w-full bg-white-qa bg-opacity-10 text-white-qa;
     @apply focus:bg-opacity-25 transition-colors duration-300;
     @apply outline-none resize-none;
+    @apply accent-blue-qa;
   }
 
   input:autofill {
