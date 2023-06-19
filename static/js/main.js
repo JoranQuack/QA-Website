@@ -44,7 +44,7 @@ document.addEventListener('scroll', () => {
 
 // LOADING IMAGES
 waitForElm(".thumb").then(function () {
-    let images = document.getElementsByTagName('img');
+    let images = document.getElementsByClassName('thumb');
 
     for (const image of images) {
         const rounded_classes = [...image.classList].filter((x) => x.includes('rounded'));
@@ -55,7 +55,7 @@ waitForElm(".thumb").then(function () {
         $(image).wrap(new_image)
     };
 
-    $("img").on("load", function () {
+    $(".thumb").on("load", function () {
         $(this).get(0)?.style.setProperty("opacity", "1");
         $(this).parent().removeClass("shimmer");
         const placeholder = $(this).parent().find("#placeholder");
