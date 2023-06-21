@@ -4,9 +4,7 @@ from flask import Flask, render_template
 import routes_public
 import routes_admin
 from environments import SECRET_KEY
-
-
-DEBUG_MODE = True
+from constants import UPLOAD_FOLDER, MAX_CONTENT_PATH, UPLOAD_EXTENSIONS, DEBUG_MODE
 
 
 app = Flask(__name__, template_folder="templates")
@@ -15,9 +13,9 @@ app.secret_key = SECRET_KEY
 app.register_blueprint(routes_public.api, url_prefix="/")
 app.register_blueprint(routes_admin.api, url_prefix="/admin")
 
-app.config['UPLOAD_FOLDER'] = 'static/images/uploaded'
-app.config['MAX_CONTENT_PATH'] = 16000000
-app.config['UPLOAD_EXTENSIONS'] = ['.jpeg', '.jpg', '.png', '.gif', '.JPG']
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_PATH'] = MAX_CONTENT_PATH
+app.config['UPLOAD_EXTENSIONS'] = UPLOAD_EXTENSIONS
 
 
 @app.errorhandler(404)

@@ -237,7 +237,7 @@ def is_on_gallery(media_id: int):
 
     media = db.media.find_first(
         where={'id': media_id})
-    
+
     assert media is not None
 
     return media.on_gallery

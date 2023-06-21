@@ -21,8 +21,9 @@ def edit_page():
     if not signed_in():
         return redirect(url_for('admin.signin_page'))
     remove_old_events()
-    return render_template('edit.html', users=get_users(), about=get_about(), people=get_people(False),
-                           events=get_events(False), albums=get_albums(False), media=get_media())
+    return render_template('edit.html', users=get_users(), about=get_about(),
+                           people=get_people(False), events=get_events(False),
+                           albums=get_albums(False), media=get_media())
 
 
 @api.post('/update_users')
