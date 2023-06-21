@@ -119,9 +119,10 @@
         </form>
         {% endfor %}
 
-        <div class="flex justify-center items-center w-full min-h-[380px] bg-opacity-10 bg-white-qa rounded-2xl">
-            <a href="{{ url_for('admin.create_person') }}" class="button text-blue-darker">Create a new person</a>
-        </div>
+        <form class="flex justify-center items-center w-full min-h-[380px] bg-opacity-10 bg-white-qa rounded-2xl"
+            method="post" action="{{ url_for('admin.create_person')}}">
+            <button type="submit" class="button text-blue-darker">Create a new person</button>
+        </form>
 
     </div>
 </section>
@@ -178,9 +179,10 @@
         </form>
         {% endfor %}
 
-        <div class="flex justify-center items-center w-full min-h-[476.4px] bg-opacity-10 bg-white-qa rounded-2xl">
-            <a href="{{ url_for('admin.create_event') }}" class="button text-blue-darker">Create a new event</a>
-        </div>
+        <form class="flex justify-center items-center w-full min-h-[476.4px] bg-opacity-10 bg-white-qa rounded-2xl"
+            method="post" action="{{ url_for('admin.create_event') }}">
+            <button type="submit" class="button text-blue-darker">Create a new event</button>
+        </form>
 
     </div>
 </section>

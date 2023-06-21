@@ -106,7 +106,7 @@ def update_person(person_id: int):
     return redirect(url_for('admin.edit_page'))
 
 
-@api.get('/create_person')
+@api.post('/create_person')
 def create_person():
     """makes a new person in the people table"""
     db.people.create(data={
@@ -158,7 +158,7 @@ def update_event(event_id: int):
     return redirect(url_for('admin.edit_page'))
 
 
-@api.get('/create_event')
+@api.post('/create_event')
 def create_event():
     """creates an event"""
     db.event.create(data={
