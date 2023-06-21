@@ -8,11 +8,10 @@ from prisma.errors import ForeignKeyViolationError
 from prisma.partials import AlbumWithMedia, MediaWithAlbums
 from database import db
 from environments import SALT
+from constants import UPLOAD_FOLDER, UPLOAD_EXTENSIONS
 
 
 assert SALT is not None
-
-UPLOAD_FOLDER = 'static/images/uploaded'
 
 
 def session_get(key: str) -> str:
@@ -237,7 +236,8 @@ def is_on_gallery(media_id: int):
     """checks if a media is on gallery"""
 
     media = db.media.find_first(
-        where={'on_gallery': True, 'id': media_id})
+        where={'id': media_id})
+    
     assert media is not None
 
     return media.on_gallery
@@ -271,6 +271,10 @@ def remove_media(remove_media_ids: list[int]):
 def random_filename(name: str):
     """makes a random filename"""
     extension = name.split('.')[-1]
+
+    if extension not in UPLOAD_EXTENSIONS:
+        raise ValueError('Invalid file extension')
+
     filename = secrets.token_bytes(32).hex()
 
     return f"{filename}.{extension}"
