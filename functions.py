@@ -278,3 +278,16 @@ def random_filename(name: str):
     filename = secrets.token_bytes(32).hex()
 
     return f"{filename}.{extension}"
+
+
+def image_clean():
+    """removes unused images"""
+    used_images: list[str] = []
+    used_images += [media.reference for media in get_media()]
+    used_images += [person.reference for person in get_people(False)]
+
+    images = os.listdir(UPLOAD_FOLDER)
+
+    for image in images:
+        if image not in used_images and 'default' not in image:
+            os.remove(f"{UPLOAD_FOLDER}{image}")

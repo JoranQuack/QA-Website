@@ -157,4 +157,4 @@ cython_debug/
 node_modules/
 .VSCodeCounter/
 database/qa.db
-static/images/
+static/images/uploaded/

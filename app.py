@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template
 import routes_public
 import routes_admin
+from functions import image_clean
 from environments import SECRET_KEY
 from constants import UPLOAD_FOLDER, MAX_CONTENT_PATH, UPLOAD_EXTENSIONS, DEBUG_MODE
 
@@ -16,6 +17,12 @@ app.register_blueprint(routes_admin.api, url_prefix="/admin")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_PATH'] = MAX_CONTENT_PATH
 app.config['UPLOAD_EXTENSIONS'] = UPLOAD_EXTENSIONS
+
+
+@app.before_first_request
+def start_up():
+    """runs on app startup"""
+    image_clean()
 
 
 @app.errorhandler(404)
