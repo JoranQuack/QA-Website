@@ -272,7 +272,7 @@ def random_filename(name: str):
     """makes a random filename"""
     extension = name.split('.')[-1]
 
-    if extension not in UPLOAD_EXTENSIONS:
+    if extension.lower() not in UPLOAD_EXTENSIONS:
         raise ValueError('Invalid file extension')
 
     filename = secrets.token_bytes(32).hex()
@@ -290,4 +290,4 @@ def image_clean():
 
     for image in images:
         if image not in used_images and 'default' not in image:
-            os.remove(f"{UPLOAD_FOLDER}{image}")
+            os.remove(f"{UPLOAD_FOLDER}/{image}")
