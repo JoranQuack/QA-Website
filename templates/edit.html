@@ -4,6 +4,10 @@
 
 <!-- script for previewing images before uploading them -->
 <script>
+    async function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
     function previewImage(id) {
         console.log("banana")
         const file = document.getElementById(`image${id}`).files;
@@ -15,13 +19,38 @@
             fileReader.readAsDataURL(file[0]);
         }
     }
-</script>
-<script>
-    function onFormFieldChange(e) {
+
+    async function onFormFieldChange(e) {
         const btn = e.querySelector("#submit")
+        await sleep(300)
         btn.classList.remove('submit-hidden')
         btn.classList.add('submit-shown')
     }
+
+    // HIDE USERS ON DELETE
+    async function hideObject(object_name, ID, confirm_req) {
+        let object = document.getElementById(`${object_name}_${ID}`);
+
+        if (object_name === 'user_row') {
+            let tds = document.getElementsByClassName(`user_td_${ID}`)
+            for (var td of tds) {
+                td.classList.add("animate-collapse_row")
+            };
+            object.classList.add("animate-collapse_row")
+        }
+        else {
+            object.classList.add("animate-fade_out");
+        };
+
+        object.classList.add("hidden");
+        if (confirm_req) {
+            let remove_btn = document.getElementById(`${object_name}_remove_${ID}`)
+            console.log(remove_btn)
+            remove_btn.classList.remove("hidden");
+            remove_btn.classList.add("flex");
+            remove_btn.classList.add("animate-fade_in");
+        };
+    };
 </script>
 
 
@@ -39,16 +68,22 @@
             </tr>
 
             {% for (user, entries) in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ entries }}</td>
-                <td>
+            <tr id="user_row_{{ user.id }}">
+                <td class="user_td_{{ user.id }}">{{ user.id }}</td>
+                <td class="user_td_{{ user.id }}">{{ user.username }}</td>
+                <td class="user_td_{{ user.id }}">{{ entries }}</td>
+                <td class="user_td_{{ user.id }}">
                     <input type="checkbox" name="admin_users" {% if user.is_admin %} checked {% endif %}
                         value="{{ user.id }}">
                 </td>
-                <td>
-                    <input type="checkbox" name="remove_users" value="{{ user.id }}">
+                <td class="user_td_{{ user.id }}">
+                    <input id="user_remove_{{ user.id }}" type="checkbox" name="remove_users" value="{{ user.id }}"
+                        class="hidden">
+                    <label for="user_remove_{{ user.id }}" onclick="hideObject('user_row', '{{ user.id }}', false)"
+                        class="w-4">
+                        <img src="{{ url_for('static', filename='images/website/remove.png') }}" alt="remove.png"
+                            class="h-4 w-4">
+                    </label>
                 </td>
             </tr>
             {% endfor %}
@@ -80,46 +115,55 @@
 
         {% for person in people %}
         <form action="{{ url_for('admin.update_person', person_id=person.id) }}" method="post"
-            enctype="multipart/form-data" class="bg-opacity-10 bg-white-qa rounded-2xl p-5"
+            enctype="multipart/form-data" class="bg-opacity-10 bg-white-qa rounded-2xl p-5 min-h-[25rem]"
             onchange="onFormFieldChange(this)">
-            <div class="mb-4">
-                <div class="flex justify-center z-10">
-                    <img src="{{ url_for('static', filename='images/uploaded/'+person.reference) }}"
-                        alt="{{ person.reference }}" class="rounded-full object-cover w-52 h-52"
-                        id="preview{{ person.id }}">
-                </div>
-                <div class="flex justify-center">
-                    <div class="flex justify-center items-center z-20 w-52 h-52 rounded-full bg-black absolute -mt-52
+            <div id="person_remove_{{ person.id }}" class="h-full w-full justify-center items-center hidden">
+                <button type="submit" class="button bg-error text-white-qa">Confirm delete</button>
+            </div>
+            <div id="person_{{ person.id }}">
+                <div class="mb-4">
+                    <div class="flex justify-center z-10">
+                        <img src="{{ url_for('static', filename='images/uploaded/'+person.reference) }}"
+                            alt="{{ person.reference }}" class="rounded-full object-cover w-52 h-52"
+                            id="preview{{ person.id }}">
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="flex justify-center items-center z-20 w-52 h-52 rounded-full bg-black absolute -mt-52
                         hover:opacity-50 opacity-0 duration-300">
-                        <label for="image{{ person.id }}"
-                            class="h-full w-full rounded-full cursor-pointer flex justify-center items-center">
-                            <span>Upload new image</span>
+                            <label for="image{{ person.id }}"
+                                class="h-full w-full rounded-full cursor-pointer flex justify-center items-center">
+                                <span>Upload new image</span>
+                            </label>
+                        </div>
+                    </div>
+                    <input type="file" name="image" id="image{{ person.id }}" class="hidden" accept="image/*"
+                        onchange="previewImage('{{ person.id }}')">
+                </div>
+                <input type="text" name="name" value="{{ person.name }}" class="text-center" placeholder="Person name">
+                <input type="text" name="role" value="{{ person.role }}" class="text-center" placeholder="Person roles">
+                <div class="flex justify-between">
+                    <div class="flex items-center cursor-pointer">
+                        <input {% if person.is_active %} checked {% endif %} type="checkbox" name="is_active"
+                            id="is_active_person_{{ person.id }}">
+                        <label for="is_active_person_{{ person.id }}">Active</label>
+                    </div>
+                    <div class="flex items-center cursor-pointer">
+                        <input type="checkbox" name="to_remove" id="to_remove_person_{{ person.id }}" class="hidden">
+                        <label for="to_remove_person_{{ person.id }}"
+                            onclick="hideObject('person', '{{ person.id }}', true)">
+                            <img src="{{ url_for('static', filename='images/website/remove.png') }}" alt="remove.png"
+                                class="h-4 w-4">
                         </label>
                     </div>
                 </div>
-                <input type="file" name="image" id="image{{ person.id }}" class="hidden" accept="image/*"
-                    onchange="previewImage('{{ person.id }}')">
-            </div>
-            <input type="text" name="name" value="{{ person.name }}" class="text-center" placeholder="Person name">
-            <input type="text" name="role" value="{{ person.role }}" class="text-center" placeholder="Person roles">
-            <div class="flex justify-between">
-                <div class="flex items-center cursor-pointer">
-                    <input {% if person.is_active %} checked {% endif %} type="checkbox" name="is_active"
-                        id="is_active{{ person.id }}">
-                    <label for="is_active{{ person.id }}">Active</label>
+                <div class="flex justify-center">
+                    <button id="submit" type="submit" class="button mt-2 submit-hidden">Save person</button>
                 </div>
-                <div class="flex items-center cursor-pointer">
-                    <input type="checkbox" name="to_remove" id="to_remove{{ person.id }}">
-                    <label for="to_remove{{ person.id }}">Remove</label>
-                </div>
-            </div>
-            <div class="flex justify-center">
-                <button id="submit" type="submit" class="button mt-2 submit-hidden">Save person</button>
             </div>
         </form>
         {% endfor %}
 
-        <form class="flex justify-center items-center w-full min-h-[380px] bg-opacity-10 bg-white-qa rounded-2xl"
+        <form class="flex justify-center items-center w-full min-h-[25rem] bg-opacity-10 bg-white-qa rounded-2xl"
             method="post" action="{{ url_for('admin.create_person')}}">
             <button type="submit" class="button text-blue-darker">Create a new person</button>
         </form>
@@ -131,55 +175,64 @@
 <section id="events">
     <span class="title">Events Section</span>
     <span>Events are automatically deleted once they have passed.</span>
-    <div class="grid grid-cols-3 gap-3 my-5">
+    <div class="grid grid-cols-3 gap-5 my-5">
 
         {% for event in events %}
         <form action="{{ url_for('admin.update_event', event_id=event.id) }}" method="post"
-            class="bg-opacity-10 bg-white-qa rounded-2xl p-5" onchange="onFormFieldChange(this)">
-            <label for="title{{ event.id }}">Title*</label>
-            <input type="text" value="{{ event.title }}" name="title" id="title{{ event.id }}"
-                placeholder="Enter title">
-
-            <label for="location{{ event.id }}">Location*</label>
-            <input type="text" value="{{ event.location }}" name="location" id="location{{ event.id }}"
-                placeholder="Enter location">
-
-            <label for="scheduled{{ event.id }}">Scheduled on</label>
-            <input type="datetime-local" name="scheduled" id="scheduled{{ event.id }}"
-                value="{{ event.scheduled.strftime('%Y-%m-%dT%H:%M') }}">
-
-            <div class="flex justify-start mb-2">
-                <input {% if event.has_time %} checked {% endif %} type="checkbox" name="has_time"
-                    id="has_time{{ event.id }}">
-                <label for="has_time{{ event.id }}">Include time</label>
+            class="bg-opacity-10 bg-white-qa rounded-2xl p-5 min-h-[33rem]" onchange="onFormFieldChange(this)">
+            <div id="event_remove_{{ event.id }}" class="h-full w-full justify-center items-center hidden">
+                <button type="submit" class="button bg-error text-white-qa">Confirm delete</button>
             </div>
+            <div id="event_{{ event.id }}">
+                <label for="title{{ event.id }}">Title*</label>
+                <input type="text" value="{{ event.title }}" name="title" id="title{{ event.id }}"
+                    placeholder="Enter title">
 
-            <label for="description{{ event.id }}">Description*</label>
-            <textarea name="description" id="description{{ event.id }}" rows="3" class="mb-2"
-                placeholder="Write a new description">{{ event.description }}</textarea>
+                <label for="location{{ event.id }}">Location*</label>
+                <input type="text" value="{{ event.location }}" name="location" id="location{{ event.id }}"
+                    placeholder="Enter location">
 
-            <label for="reference{{ event.id }}">Reference</label>
-            <input type="text" value="{{ event.reference }}" name="reference" class="mb-0" id="reference{{ event.id }}"
-                placeholder="Paste a link to the relevant page here">
+                <label for="scheduled{{ event.id }}">Scheduled on</label>
+                <input type="datetime-local" name="scheduled" id="scheduled{{ event.id }}"
+                    value="{{ event.scheduled.strftime('%Y-%m-%dT%H:%M') }}">
 
-            <div class="flex justify-between mt-3 items-start">
-                <button id="submit" type="submit" class="button submit-hidden mt-0">Save event</button>
-                <div class="flex justify-end gap-3">
-                    <div class="flex items-center">
-                        <input type="checkbox" name="to_remove" id="to_remove_event_{{ event.id }}">
-                        <label for="to_remove_event_{{ event.id }}">Remove</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input type="checkbox" {% if event.is_active %} checked {% endif %} name="is_active"
-                            id="is_active_event_{{ event.id }}">
-                        <label for="is_active_event_{{ event.id }}">Active</label>
+                <div class="flex justify-start mb-2">
+                    <input {% if event.has_time %} checked {% endif %} type="checkbox" name="has_time"
+                        id="has_time{{ event.id }}">
+                    <label for="has_time{{ event.id }}">Include time</label>
+                </div>
+
+                <label for="description{{ event.id }}">Description*</label>
+                <textarea name="description" id="description{{ event.id }}" rows="3" class="mb-2"
+                    placeholder="Write a new description">{{ event.description }}</textarea>
+
+                <label for="reference{{ event.id }}">Reference</label>
+                <input type="text" value="{{ event.reference }}" name="reference" class="mb-0"
+                    id="reference{{ event.id }}" placeholder="Paste a link to the relevant page here">
+
+                <div class="flex justify-between mt-3 items-start">
+                    <button id="submit" type="submit" class="button submit-hidden mt-0">Save event</button>
+                    <div class="flex justify-end gap-5">
+                        <div class="flex items-center">
+                            <input type="checkbox" name="to_remove" id="to_remove_event_{{ event.id }}" class="hidden">
+                            <label for="to_remove_event_{{ event.id }}"
+                                onclick="hideObject('event', '{{ event.id }}', true)">
+                                <img src="{{ url_for('static', filename='images/website/remove.png') }}"
+                                    alt="remove.png" class="h-4 w-4">
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" {% if event.is_active %} checked {% endif %} name="is_active"
+                                id="is_active_event_{{ event.id }}">
+                            <label for="is_active_event_{{ event.id }}">Active</label>
+                        </div>
                     </div>
                 </div>
             </div>
         </form>
         {% endfor %}
 
-        <form class="flex justify-center items-center w-full min-h-[476.4px] bg-opacity-10 bg-white-qa rounded-2xl"
+        <form class="flex justify-center items-center w-full min-h-[30rem] bg-opacity-10 bg-white-qa rounded-2xl"
             method="post" action="{{ url_for('admin.create_event') }}">
             <button type="submit" class="button text-blue-darker">Create a new event</button>
         </form>
@@ -188,7 +241,7 @@
 </section>
 
 
-<section id="album mt-5">
+<section id="album mt-10">
     <span class="title">Album Section</span>
     <span>This is known as the general "Media" section in homepage.</span>
     <div class="grid grid-cols-4 gap-5 mt-5">
@@ -211,7 +264,7 @@
         {% endfor %}
 
         <form action="{{url_for('admin.create_album')}}" method="post"
-            class="flex justify-center items-center w-full h-full bg-opacity-10 bg-white-qa rounded-2xl">
+            class="flex justify-center items-center w-full h-full bg-opacity-10 bg-white-qa rounded-2xl min-h-[14rem]">
             <button type="submit" class="button">Create a new album</button>
         </form>
 
@@ -221,14 +274,14 @@
 
 <section id="media">
 
-    <span class="title mt-3">Media Uploads</span>
+    <span class="title mt-10">Media Uploads</span>
     <form action="{{ url_for('admin.create_media') }}" method="post" enctype="multipart/form-data">
         <label for="upload_media" class="button text-blue-darker">Upload New Media</label>
         <input type="file" name="upload_media" id="upload_media" class="hidden" accept="image/*"
             onchange="form.submit()">
     </form>
 
-    <span class="title mt-5">Manage Media</span>
+    <span class="title mt-10">Manage Media</span>
     <form action="{{ url_for('admin.update_media') }}" method="post">
 
         <div class="grid grid-cols-8 gap-3 mt-3">
@@ -255,7 +308,7 @@
             {% endfor %}
 
         </div>
-        <div class="flex w-full justify-center gap-3">
+        <div class="flex w-full justify-center gap-3 mt-3">
             <input type="submit" class="button bg-error text-white-qa" name="remove_or_update"
                 value="Remove all selected">
             <input type="submit" class="button" name="remove_or_update" value="Set as gallery image ★">

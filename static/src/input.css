@@ -88,6 +88,7 @@
 
   td {
     @apply border-white-qa border-t-[1px];
+    @apply transition-transform duration-300;
   }
 
   /* DYNAMIC */
@@ -127,6 +128,10 @@
     @apply h-10 opacity-100 hover:opacity-50 cursor-pointer mb-0;
   }
 
+  .hide {
+    @apply transition opacity-0 duration-300;
+  }
+
   /* SCROLLBAR */
   ::-webkit-scrollbar {
     @apply w-[1.1vw];
@@ -152,7 +157,7 @@
   }
 
   li a {
-    @apply hidden opacity-0 mt-5 hover:text-white-qa;
+    @apply hidden opacity-0 mt-5 text-blue-darker hover:text-white-qa;
   }
 
   .menu-bg {
@@ -161,7 +166,7 @@
   }
 
   .change .bar {
-    @apply bg-blue-lighter;
+    @apply bg-blue-darker;
   }
 
   .change #menu-bar {

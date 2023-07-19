@@ -17,6 +17,7 @@ module.exports = {
         fade_in: 'fade 0.3s ease-in forwards',
         fade_out: 'fade 0.3s ease-out forwards reverse',
         error: 'error 5s ease forwards',
+        collapse_row: 'collapse_row 0.3s ease-in-out forwards',
       },
 
       keyframes: theme => ({
@@ -32,6 +33,10 @@ module.exports = {
           '0%': { transform: 'translateY(310%)' },
           '10%, 90%': { transform: 'translateY(0%)' },
           '100%': { transform: 'translateY(310%)' }
+        },
+        collapse_row: {
+          '0%': {},
+          '100%': { 'padding-bottom': '0', 'padding-top': '0', transform: 'scaleY(0)' },
         },
       }),
 
