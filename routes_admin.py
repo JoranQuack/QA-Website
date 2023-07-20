@@ -38,7 +38,7 @@ def update_users():
     elif session['user'] in remove_ids:
         message = "One may not remove oneself"
     elif not remove_users(remove_ids):
-        message = "Some accounts could not be removed"
+        message = "Some users could not be removed"
     toggle_admins(admin_ids)
 
     flash(message)
@@ -192,6 +192,7 @@ def create_album():
         'description': '',
         'title': ''
     })
+    flash("New album created!")
     return redirect(url_for('admin.edit_page'))
 
 
@@ -225,6 +226,7 @@ def update_album(album_id: int):
 def remove_album(album_id: int):
     """removes and album"""
     db.album.delete(where={'id': album_id})
+    flash("Removed album!")
     return redirect(url_for('admin.edit_page'))
 
 

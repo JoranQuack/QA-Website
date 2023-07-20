@@ -21,7 +21,8 @@ def session_get(key: str) -> str:
 
 def session_remove(key: str):
     """removes a session variable"""
-    session.pop(key)  # type: ignore
+    if key in session:
+        session.pop(key)  # type: ignore
 
 
 def signed_in():

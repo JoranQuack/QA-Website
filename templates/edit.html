@@ -214,17 +214,17 @@
                     <button id="submit" type="submit" class="button submit-hidden mt-0">Save event</button>
                     <div class="flex justify-end gap-5">
                         <div class="flex items-center">
+                            <input type="checkbox" {% if event.is_active %} checked {% endif %} name="is_active"
+                                id="is_active_event_{{ event.id }}">
+                            <label for="is_active_event_{{ event.id }}">Active</label>
+                        </div>
+                        <div class="flex items-center">
                             <input type="checkbox" name="to_remove" id="to_remove_event_{{ event.id }}" class="hidden">
                             <label for="to_remove_event_{{ event.id }}"
                                 onclick="hideObject('event', '{{ event.id }}', true)">
                                 <img src="{{ url_for('static', filename='images/website/remove.png') }}"
                                     alt="remove.png" class="h-4 w-4">
                             </label>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" {% if event.is_active %} checked {% endif %} name="is_active"
-                                id="is_active_event_{{ event.id }}">
-                            <label for="is_active_event_{{ event.id }}">Active</label>
                         </div>
                     </div>
                 </div>
