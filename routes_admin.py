@@ -62,8 +62,7 @@ def update_about():
     db.about.delete_many()
     db.about.create(data={
         'user_id': user_id,
-        'description': new_description,
-        'location': 'default'
+        'description': new_description
     })
 
     flash("Updated about successfully!")

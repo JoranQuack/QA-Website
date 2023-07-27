@@ -31,7 +31,7 @@ model Event {
     scheduled   DateTime @default(now())
     has_time    Boolean
     is_active   Boolean  @default(false)
-    reference   String   @default("")
+    reference   String   @default("not set")
 }
 
 model About {
@@ -39,7 +39,7 @@ model About {
     user_id     Int
     user        User   @relation(fields: [user_id], references: [id])
     description String
-    location    String
+    location    String @default("not set")
 }
 
 model People {
