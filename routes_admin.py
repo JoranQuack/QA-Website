@@ -280,7 +280,7 @@ def signin_page():
 @api.post('/signin')
 def signin():
     """signs in the user"""
-    username = request.form['username']
+    username = request.form['username'].lower().title()
     password = secure_password(request.form['password'])
 
     user = db.user.find_first(where={
@@ -308,12 +308,12 @@ def signup_page():
 @api.post('/signup')
 def signup():
     """signs up a new user"""
-    username = request.form['username'].lower()
+    username = request.form['username'].lower().title()
     password = secure_password(request.form['password'])
     confirm_password = secure_password(request.form['confirm-password'])
 
     user = db.user.find_first(where={
-        'username': username.lower()
+        'username': username
     })
 
     if password != confirm_password:

@@ -13,7 +13,8 @@ model User {
     id       Int      @id @default(autoincrement())
     username String
     password String
-    is_admin Boolean
+    is_admin Boolean  @default(false)
+    is_owner Boolean  @default(false)
     events   Event[]
     about    About[]
     people   People[]

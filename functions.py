@@ -56,17 +56,27 @@ def toggle_admins(admin_ids: list[int]):
 
 def remove_users(user_ids: list[int]):
     """remove all users specified, return bool representing whether or not it was successful"""
+    removed_all = True
 
-    try:
-        for user_id in user_ids:
-            db.user.delete(where={
-                'id': user_id
-            })
+    for user_id in user_ids:
+        try:
+            if not is_owner(user_id):
+                db.user.delete(where={
+                    'id': user_id
+                })
+            else:
+                removed_all = False
+        except ForeignKeyViolationError:
+            removed_all = False
 
-    except ForeignKeyViolationError:
-        return False
+    return removed_all
 
-    return True
+
+def is_owner(user_id: int):
+    """returns whether a user is the owner"""
+    user = db.user.find_first(where={'id': user_id})
+    assert user is not None
+    return user.is_owner
 
 
 def create_user(username: str, password: str):
@@ -76,6 +86,14 @@ def create_user(username: str, password: str):
         'password': password,
         'is_admin': False
     })
+
+
+def create_owner():
+    """decides the owner on app startup"""
+    admin_users = db.user.find_many(where={'is_admin': True})
+    if len(admin_users) == 1:
+        db.user.update(where={'id': admin_users[0].id}, data={
+                       'is_owner': True})
 
 
 def find_user_entries(user_id: int):
