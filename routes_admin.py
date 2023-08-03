@@ -133,6 +133,12 @@ def update_event(event_id: int):
 
     has_filled = title != '' and description != '' and location != ''
     styled_title = f" {title}".rstrip()
+    message = f"Updated{styled_title}!"
+
+    if reference != "":
+        if not reference.startswith('https://'):
+            message = "Reference link needs must start with 'https://'"
+            reference = ''
 
     if to_remove:
         db.event.delete(where={'id': event_id})
@@ -148,7 +154,6 @@ def update_event(event_id: int):
             'has_time': has_time,
             'is_active': is_active
         })
-        message = f"Updated{styled_title}!"
 
     else:
         message = "Title, location, and description are required"

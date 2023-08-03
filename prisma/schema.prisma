@@ -32,7 +32,7 @@ model Event {
     scheduled   DateTime @default(now())
     has_time    Boolean
     is_active   Boolean  @default(false)
-    reference   String   @default("not set")
+    reference   String?
 }
 
 model About {
