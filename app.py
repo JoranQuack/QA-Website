@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template
 import routes_public
 import routes_admin
-from functions import image_clean, create_owner
+from functions import image_clean, create_owner, users_clean
 from environments import SECRET_KEY
 from constants import UPLOAD_FOLDER, MAX_CONTENT_PATH, UPLOAD_EXTENSIONS, DEBUG_MODE
 
@@ -23,6 +23,7 @@ app.config['UPLOAD_EXTENSIONS'] = UPLOAD_EXTENSIONS
 def start_up():
     """runs on app startup"""
     image_clean()
+    users_clean()
     create_owner()
 
 

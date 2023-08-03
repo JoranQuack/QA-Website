@@ -310,3 +310,11 @@ def image_clean():
     for image in images:
         if image not in used_images and 'default' not in image:
             os.remove(f"{UPLOAD_FOLDER}/{image}")
+
+
+def users_clean():
+    """removes all supposed spam users"""
+    users = db.user.find_many()
+    for user in users:
+        if not user.is_admin and find_user_entries(user.id) == 0:
+            db.user.delete(where={'id': user.id})
