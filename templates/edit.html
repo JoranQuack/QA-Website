@@ -70,7 +70,7 @@
             {% for (user, entries) in users %}
             <tr id="user_row_{{ user.id }}">
                 <td class="user_td_{{ user.id }}">{{ user.id }}</td>
-                <td class="user_td_{{ user.id }}">{{ user.username }}</td>
+                <td class="user_td_{{ user.id }}">{{ user.username }} {% if user.is_owner %} 👑 {% endif %}</td>
                 <td class="user_td_{{ user.id }}">{{ entries }}</td>
                 <td class="user_td_{{ user.id }}">
                     <input type="checkbox" name="admin_users" {% if user.is_admin %} checked {% endif %}
