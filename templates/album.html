@@ -42,10 +42,11 @@
         <div id="lightbox" onclick="lightboxClose()"
             class="fixed w-screen h-screen top-0 left-0 lightbox-closed z-20 bg-opacity-75 bg-blue-darker justify-between px-10 py-8 select-none">
             <div class="w-8"></div>
-            <div class="w-3/4 h-full overflow-hidden flex items-center" onclick="event.stopPropagation()">
-                <img class="w-full h-full object-cover rounded-2xl" src="" id="lightbox-img" alt="lightbox-img">
+            <div class="md:w-3/4 w-full h-full overflow-hidden flex items-center justify-center"
+                onclick="event.stopPropagation()">
+                <img class="max-w-full max-h-full rounded-2xl" src="" id="lightbox-img" alt="lightbox-img">
             </div>
-            <a class="cursor-pointer opacity-100 hover:opacity-50 duration-300 h-fit">
+            <a class="cursor-pointer opacity-100 hover:opacity-50 duration-300 h-fit w-8">
                 <img class="w-6 h-6" src="{{ url_for('static', filename='images/website/close.png') }}"
                     alt="close-button">
             </a>
