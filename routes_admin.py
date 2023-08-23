@@ -7,7 +7,7 @@ from functions import (
     signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
     session_get, get_users, get_about, get_people, get_events, get_albums, get_media,
     get_file_path, iso_to_datetime, remove_old_events, find_unused_media, replace_gallery_media,
-    remove_media, random_filename, valid_album_id
+    remove_media, random_filename, valid_album_id, is_owner
 )
 from prisma.partials import AlbumWithMedia
 from database import db
@@ -37,9 +37,13 @@ def update_users():
         message = "One may not dethrone oneself"
     elif session['user'] in remove_ids:
         message = "One may not remove oneself"
+    elif not is_owner(int(session_get('user'))):
+        message = "Only the owner can make such changes"
     elif not remove_users(remove_ids):
         message = "Some users could not be removed"
-    toggle_admins(admin_ids)
+
+    if message == "Updated users successfully!":
+        toggle_admins(admin_ids)
 
     flash(message)
     return redirect(url_for('admin.edit_page'))
@@ -295,17 +299,8 @@ def signin():
         'username': username
     })
 
-    error = "none"
-
     if user is None or user.password != password:
-        error = "Wrong username or password"
-    elif len(username) < 5 or len(username) > 15:
-        error = "Username character count should be between 5 and 15"
-    elif len(password) < 5:
-        error = "Password should be at least 5 characters long"
-
-    if error != "none":
-        flash(error)
+        flash("Wrong username or password")
         return redirect(url_for('admin.signin_page'))
 
     assert user is not None
@@ -335,12 +330,20 @@ def signup():
         'username': username
     })
 
+    error = "none"
+
     if password != confirm_password:
-        flash("Passwords don't match")
-        return redirect(url_for('admin.signup'))
+        error = "Passwords don't match"
     elif user is not None:
-        flash("Username is already taken")
-        return redirect(url_for('admin.signup'))
+        error = "Username is already taken"
+    elif len(username) < 5 or len(username) > 15:
+        error = "Username character count should be between 5 and 15"
+    elif len(password) < 5:
+        error = "Password should be at least 5 characters long"
+
+    if error != "none":
+        flash(error)
+        return redirect(url_for('admin.signup_page'))
 
     create_user(username, password)
 
