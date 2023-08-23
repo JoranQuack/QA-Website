@@ -295,9 +295,20 @@ def signin():
         'username': username
     })
 
+    error = "none"
+
     if user is None or user.password != password:
-        flash("Wrong username or password")
+        error = "Wrong username or password"
+    elif len(username) < 5 or len(username) > 15:
+        error = "Username character count should be between 5 and 15"
+    elif len(password) < 5:
+        error = "Password should be at least 5 characters long"
+
+    if error != "none":
+        flash(error)
         return redirect(url_for('admin.signin_page'))
+
+    assert user is not None
 
     session['user'] = user.id
     session['username'] = user.username
