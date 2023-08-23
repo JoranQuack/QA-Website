@@ -1,9 +1,10 @@
 '''all frontend route functions'''
 from datetime import datetime
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, abort
 from prisma.partials import AlbumWithMedia
-from functions import get_about, get_people, get_events, get_albums, get_gallery, remove_old_events
-
+from functions import (
+    get_about, get_people, get_events, get_albums, get_gallery, remove_old_events, valid_album_id
+)
 
 api = Blueprint('', __name__)
 
@@ -36,6 +37,8 @@ def get_home():
 @api.get('/album/get_album_contents/<int:album_id>')
 def get_album(album_id: int):
     """gets album contents"""
+    if not valid_album_id(album_id):
+        abort(404)
     album = AlbumWithMedia.prisma().find_first(
         where={'id': album_id}, include={'media': True})
     assert album is not None

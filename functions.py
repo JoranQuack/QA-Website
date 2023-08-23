@@ -318,3 +318,11 @@ def users_clean():
     for user in users:
         if not user.is_admin and find_user_entries(user.id) == 0:
             db.user.delete(where={'id': user.id})
+
+
+def valid_album_id(album_id: int):
+    """checks the id and makes sure it exists in album table"""
+    if not album_id.bit_length() <= 63:
+        return False
+    in_db = db.album.find_first(where={'id': album_id}) is not None
+    return in_db

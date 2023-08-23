@@ -1,13 +1,13 @@
 '''all backend routes'''
 from werkzeug.utils import secure_filename
 from flask import (
-    Blueprint, request, session, render_template, redirect, url_for, flash
+    Blueprint, request, session, render_template, redirect, url_for, flash, abort
 )
 from functions import (
     signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
     session_get, get_users, get_about, get_people, get_events, get_albums, get_media,
     get_file_path, iso_to_datetime, remove_old_events, find_unused_media, replace_gallery_media,
-    remove_media, random_filename
+    remove_media, random_filename, valid_album_id
 )
 from prisma.partials import AlbumWithMedia
 from database import db
@@ -179,6 +179,9 @@ def create_event():
 @api.get('/edit_album/<int:album_id>')
 def edit_album_page(album_id: int):
     """displays the inside of an album in a form to allow update"""
+
+    if not valid_album_id(album_id):
+        abort(404)
 
     album = AlbumWithMedia.prisma().find_first(
         where={'id': album_id}, include={'media': True})
