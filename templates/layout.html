@@ -14,58 +14,67 @@
     <link rel="icon" href="{{ url_for('static', filename='images/website/qa-logo.png') }}">
 </head>
 
-<body class="body-loaded min-h-screen">
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <div class="animate-error fixed left-0 w-screen bottom-10 text-center z-50">
-        {% for message in messages %}
-        <span class="rounded-full p-3 w-fit text-center
+
+
+<body>
+
+    <div
+        class="absolute w-full h-full flex justify-center items-center md:hidden bg-gradient-to-br from-blue-lighter to-blue-darker z-50">
+        <span>This part of the website is not mobile friendly.</span>
+    </div>
+
+    <div class="body-loaded min-h-screen">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="animate-error fixed left-0 w-screen bottom-10 text-center z-50">
+            {% for message in messages %}
+            <span class="rounded-full p-3 w-fit text-center
         {% if '!' in message %} bg-green-800
         {% else %} bg-red-800 
         {% endif %}">{{ message }}</span>
-        {% endfor %}
-    </div>
-    {% endif %}
-    {% endwith %}
-
-    <header id="header" class="flex items-center justify-between pt-7 pb-4 w-full z-10">
-        <a href="{{ url_for('home_page') }}" class="flex items-center gap-1 w-56">
-            <img src="{{ url_for('static', filename='images/website/home.png') }}" alt="back" class="h-3.5">
-            <span class="text-2xl md:text-lg font-round font-medium">Home Page</span>
-        </a>
-
-        {% if session['username'] %}
-
-        {% if is_forward %}
-        <a href="{{ url_for('admin.edit_page') }}" class="font-round font-medium text-2xl md:text-lg">
-            Back to Edit Page
-        </a>
-        {% endif %}
-
-        <div class="flex justify-end items-center w-fit">
-            <span>Signed in as {{ session['username'] }}</span>
-            <a href="{{ url_for('admin.logout') }}" class="button text-blue-darker mb-2 ml-3">Log out</a>
+            {% endfor %}
         </div>
         {% endif %}
+        {% endwith %}
 
-    </header>
+        <header id="header" class="flex items-center justify-between pt-7 pb-4 w-full z-10">
+            <a href="{{ url_for('home_page') }}" class="flex items-center gap-1 w-56">
+                <img src="{{ url_for('static', filename='images/website/home.png') }}" alt="back" class="h-3.5">
+                <span class="text-2xl md:text-lg font-round font-medium">Home Page</span>
+            </a>
 
-    {% if session['is_admin'] or sign_page %}
+            {% if session['username'] %}
 
-    {% block content %}
-    {% endblock %}
+            {% if is_forward %}
+            <a href="{{ url_for('admin.edit_page') }}" class="font-round font-medium text-2xl md:text-lg">
+                Back to Edit Page
+            </a>
+            {% endif %}
 
-    {% else %}
+            <div class="flex justify-end items-center w-fit">
+                <span>Signed in as {{ session['username'] }}</span>
+                <a href="{{ url_for('admin.logout') }}" class="button text-blue-darker mb-2 ml-3">Log out</a>
+            </div>
+            {% endif %}
 
-    <div class="flex justify-center items-center h-[85vh]">
-        <span class="text-center">
-            Sorry, you do not have editing access. <br>
-            Please contact an admin.
-        </span>
+        </header>
+
+        {% if session['is_admin'] or sign_page %}
+
+        {% block content %}
+        {% endblock %}
+
+        {% else %}
+
+        <div class="flex justify-center items-center h-[85vh]">
+            <span class="text-center">
+                Sorry, you do not have editing access. <br>
+                Please contact an admin.
+            </span>
+        </div>
+
+        {% endif %}
     </div>
-
-    {% endif %}
-
 </body>
 
 <!-- remembers scroll position on page reload -->
