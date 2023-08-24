@@ -133,11 +133,12 @@
                     <div class="flex flex-row justify-between items-start">
                         <div>
                             <span class="font-round text-3xl block leading-7">{{ event.title }}</span>
-                            <div class="flex flex-row justify-start items-center gap-1.5 my-2">
+                            <a href="https://www.google.com/maps/search/{{ event.location }}" target="_blank"
+                                class="flex flex-row justify-start items-center gap-1.5 my-2">
                                 <img src="{{ url_for('static', filename='images/website/location.png') }}"
                                     alt="location" class="thumb h-4">
                                 <span>{{ event.location }}</span>
-                            </div>
+                            </a>
                         </div>
                         <div class="text-right mt-0.5">
                             <span>{{ event.scheduled.strftime('%d/%m/%Y') }}</span>
