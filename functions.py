@@ -3,7 +3,7 @@ import os
 import hashlib
 import secrets
 from datetime import datetime
-from flask import session, flash
+from flask import session, flash, abort, redirect, url_for
 from prisma.errors import ForeignKeyViolationError
 from prisma.partials import AlbumWithMedia, MediaWithAlbums
 from database import db
@@ -26,8 +26,22 @@ def session_remove(key: str):
 
 
 def signed_in():
-    """checks if theres is a user in the session"""
-    return 'user' in session
+    """checks if theres is a user in the session and updates admin mode"""
+    is_signed_in = 'user' in session
+    if is_signed_in:
+        user = db.user.find_first(where={'id': session['user']})
+        assert user is not None
+        session['is_admin'] = user.is_admin
+    return is_signed_in
+
+
+def check_signed_user():
+    """checks if signed in user is still admin"""
+    if signed_in():
+        if session['is_admin'] != is_admin(int(session_get('user'))):
+            return redirect(url_for('logout'))
+    else:
+        abort(404)
 
 
 def secure_password(password: str):
@@ -46,11 +60,11 @@ def toggle_admins(admin_ids: list[int]):
     user_ids = [user.id for user in users]
 
     for user_id in user_ids:
-        is_admin = user_id in admin_ids
+        make_admin = user_id in admin_ids
         db.user.update(where={
             'id': user_id
         }, data={
-            'is_admin': is_admin
+            'is_admin': make_admin
         })
 
 
@@ -70,6 +84,13 @@ def remove_users(user_ids: list[int]):
             removed_all = False
 
     return removed_all
+
+
+def is_admin(user_id: int):
+    """returns whether a user is the admin"""
+    user = db.user.find_first(where={'id': user_id})
+    assert user is not None
+    return user.is_admin
 
 
 def is_owner(user_id: int):
