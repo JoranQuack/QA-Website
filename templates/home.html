@@ -140,14 +140,15 @@
                                 <span>{{ event.location }}</span>
                             </a>
                         </div>
-                        <div class="text-right mt-0.5">
+                        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Quantum Acoustics - {{ event.title }}&details={{ event.description }}&dates={{ event.scheduled.strftime('%Y%m%dT%H%M00') }}/{{ event.scheduled.strftime('%Y%m%dT%H%M00') }}&location={{ event.location }}"
+                            class="text-right mt-0.5" target="_blank">
                             <span>{{ event.scheduled.strftime('%d/%m/%Y') }}</span>
 
                             {% if event.has_time %}
                             <br> <span>{{ event.scheduled.strftime('%H:%M') }}</span>
                             {% endif %}
 
-                        </div>
+                        </a>
                     </div>
                     <span>{{ event.description }}</span>
                 </div>
