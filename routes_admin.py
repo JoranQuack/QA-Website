@@ -7,7 +7,7 @@ from functions import (
     signed_in, secure_password, strings_to_ints, toggle_admins, remove_users, create_user,
     session_get, get_users, get_about, get_people, get_events, get_albums, get_media,
     get_file_path, iso_to_datetime, remove_old_events, find_unused_media, replace_gallery_media,
-    remove_media, random_filename, valid_album_id, is_owner
+    remove_media, random_filename, valid_album_id
 )
 from prisma.partials import AlbumWithMedia
 from database import db
@@ -32,13 +32,18 @@ def update_users():
     admin_ids = strings_to_ints(request.form.getlist('admin_users'))
     remove_ids = strings_to_ints(request.form.getlist('remove_users'))
 
+    owner = db.user.find_first(where={'is_owner': True})
+    assert owner is not None
+
     message = "Updated users successfully!"
     if session['user'] not in admin_ids:
         message = "One may not dethrone oneself"
     elif session['user'] in remove_ids:
         message = "One may not remove oneself"
-    elif not is_owner(int(session_get('user'))):
+    elif session['user'] != owner.id:
         message = "Only the owner can make such changes"
+    elif owner.id not in admin_ids or owner.id in remove_ids:
+        message = "Cannot change owner"
     elif not remove_users(remove_ids):
         message = "Some users could not be removed"
 
