@@ -2,6 +2,8 @@
 import os
 import hashlib
 import secrets
+from typing import Any
+from functools import wraps
 from datetime import datetime
 from flask import session, flash, abort, redirect, url_for
 from prisma.errors import ForeignKeyViolationError
@@ -35,13 +37,19 @@ def signed_in():
     return is_signed_in
 
 
-def check_signed_user():
+def check_signed_user(func: Any) -> Any:
     """checks if signed in user is still admin"""
-    if signed_in():
-        if session['is_admin'] != is_admin(int(session_get('user'))):
-            return redirect(url_for('logout'))
-    else:
-        abort(404)
+    @wraps(func)
+    def decorator(*args: Any, **kwargs: Any) -> Any:
+        if signed_in():
+            if session['is_admin'] != is_admin(int(session_get('user'))):
+                return redirect(url_for('logout'))
+        else:
+            abort(404)
+
+        return func(*args, **kwargs)
+
+    return decorator
 
 
 def secure_password(password: str):

@@ -20,7 +20,6 @@ def edit_page():
     """renders the edit page, redirects if not signed in"""
     if not signed_in():
         return redirect(url_for('admin.signin_page'))
-    check_signed_user()
     remove_old_events()
     return render_template('edit.html', users=get_users(), about=get_about(),
                            people=get_people(False), events=get_events(False),
@@ -28,9 +27,9 @@ def edit_page():
 
 
 @api.post('/update_users')
+@check_signed_user
 def update_users():
     """admins users and removes users"""
-    check_signed_user()
 
     admin_ids = strings_to_ints(request.form.getlist('admin_users'))
     remove_ids = strings_to_ints(request.form.getlist('remove_users'))
@@ -58,9 +57,9 @@ def update_users():
 
 
 @api.post('/update_about')
+@check_signed_user
 def update_about():
     """updates the about section"""
-    check_signed_user()
 
     word_min = 200
     word_max = 700
@@ -84,9 +83,9 @@ def update_about():
 
 
 @api.post('/update_person/<int:person_id>')
+@check_signed_user
 def update_person(person_id: int):
     """updates one person in the people table"""
-    check_signed_user()
 
     name = request.form['name'].title()
     role = request.form['role'].title()
@@ -122,9 +121,9 @@ def update_person(person_id: int):
 
 
 @api.post('/create_person')
+@check_signed_user
 def create_person():
     """makes a new person in the people table"""
-    check_signed_user()
 
     db.people.create(data={
         'user_id': session['user'],
@@ -136,9 +135,9 @@ def create_person():
 
 
 @api.post('/update_event/<int:event_id>')
+@check_signed_user
 def update_event(event_id: int):
     """updates event specified by id"""
-    check_signed_user()
 
     title = request.form['title'].title()
     location = request.form['location'].title()
@@ -182,9 +181,9 @@ def update_event(event_id: int):
 
 
 @api.post('/create_event')
+@check_signed_user
 def create_event():
     """creates an event"""
-    check_signed_user()
 
     db.event.create(data={
         'user_id': session['user'],
@@ -213,9 +212,9 @@ def edit_album_page(album_id: int):
 
 
 @api.post('/create_album')
+@check_signed_user
 def create_album():
     """creates a new album"""
-    check_signed_user()
 
     db.album.create(data={
         'user_id': session['user'],
@@ -227,9 +226,9 @@ def create_album():
 
 
 @api.post('/update_album/<int:album_id>')
+@check_signed_user
 def update_album(album_id: int):
     """updates an album in the album table"""
-    check_signed_user()
 
     is_active = len(request.form.getlist('is_active')) == 1
     title = request.form['title']
@@ -255,9 +254,9 @@ def update_album(album_id: int):
 
 
 @api.post('/remove_album/<int:album_id>')
+@check_signed_user
 def remove_album(album_id: int):
     """removes and album"""
-    check_signed_user()
 
     db.album.delete(where={'id': album_id})
     flash("Removed album!")
@@ -265,9 +264,9 @@ def remove_album(album_id: int):
 
 
 @api.post('/create_media')
+@check_signed_user
 def create_media():
     """adds new media to db and uploads the image"""
-    check_signed_user()
 
     file = request.files['upload_media']
     image_upload = secure_filename(file.filename)  # type: ignore
@@ -292,9 +291,9 @@ def create_media():
 
 
 @api.post('/update_media')
+@check_signed_user
 def update_media():
     """remove or update a media to be gallery"""
-    check_signed_user()
 
     is_removing = request.form['remove_or_update'] == "Remove all selected"
     selected_media = strings_to_ints(request.form.getlist('selected_media'))
