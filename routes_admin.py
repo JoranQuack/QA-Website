@@ -196,6 +196,7 @@ def create_event():
 
 
 @api.get('/edit_album/<int:album_id>')
+@check_signed_user
 def edit_album_page(album_id: int):
     """displays the inside of an album in a form to allow update"""
 
