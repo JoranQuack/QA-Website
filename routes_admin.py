@@ -31,6 +31,7 @@ def edit_page():
 def update_users():
     """admins users and removes users"""
     check_signed_user()
+
     admin_ids = strings_to_ints(request.form.getlist('admin_users'))
     remove_ids = strings_to_ints(request.form.getlist('remove_users'))
 
@@ -60,6 +61,7 @@ def update_users():
 def update_about():
     """updates the about section"""
     check_signed_user()
+
     word_min = 200
     word_max = 700
 
@@ -85,6 +87,7 @@ def update_about():
 def update_person(person_id: int):
     """updates one person in the people table"""
     check_signed_user()
+
     name = request.form['name'].title()
     role = request.form['role'].title()
     is_active = len(request.form.getlist('is_active')) == 1
@@ -122,6 +125,7 @@ def update_person(person_id: int):
 def create_person():
     """makes a new person in the people table"""
     check_signed_user()
+
     db.people.create(data={
         'user_id': session['user'],
         'name': '',
@@ -135,6 +139,7 @@ def create_person():
 def update_event(event_id: int):
     """updates event specified by id"""
     check_signed_user()
+
     title = request.form['title'].title()
     location = request.form['location'].title()
     description = request.form['description']
@@ -180,6 +185,7 @@ def update_event(event_id: int):
 def create_event():
     """creates an event"""
     check_signed_user()
+
     db.event.create(data={
         'user_id': session['user'],
         'title': '',
@@ -210,6 +216,7 @@ def edit_album_page(album_id: int):
 def create_album():
     """creates a new album"""
     check_signed_user()
+
     db.album.create(data={
         'user_id': session['user'],
         'description': '',
@@ -223,6 +230,7 @@ def create_album():
 def update_album(album_id: int):
     """updates an album in the album table"""
     check_signed_user()
+
     is_active = len(request.form.getlist('is_active')) == 1
     title = request.form['title']
     description = request.form['description']
@@ -250,6 +258,7 @@ def update_album(album_id: int):
 def remove_album(album_id: int):
     """removes and album"""
     check_signed_user()
+
     db.album.delete(where={'id': album_id})
     flash("Removed album!")
     return redirect(url_for('admin.edit_page'))
@@ -259,6 +268,7 @@ def remove_album(album_id: int):
 def create_media():
     """adds new media to db and uploads the image"""
     check_signed_user()
+
     file = request.files['upload_media']
     image_upload = secure_filename(file.filename)  # type: ignore
 
@@ -285,6 +295,7 @@ def create_media():
 def update_media():
     """remove or update a media to be gallery"""
     check_signed_user()
+
     is_removing = request.form['remove_or_update'] == "Remove all selected"
     selected_media = strings_to_ints(request.form.getlist('selected_media'))
 
