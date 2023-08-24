@@ -6,7 +6,6 @@ from typing import Any
 from functools import wraps
 from datetime import datetime
 from flask import session, flash, abort, redirect, url_for
-from prisma.errors import ForeignKeyViolationError
 from prisma.partials import AlbumWithMedia, MediaWithAlbums
 from database import db
 from environments import SALT
@@ -77,21 +76,51 @@ def toggle_admins(admin_ids: list[int]):
 
 
 def remove_users(user_ids: list[int]):
-    """remove all users specified, return bool representing whether or not it was successful"""
-    removed_all = True
+    """remove all users specified"""
 
     for user_id in user_ids:
-        try:
-            if not is_owner(user_id):
-                db.user.delete(where={
-                    'id': user_id
-                })
-            else:
-                removed_all = False
-        except ForeignKeyViolationError:
-            removed_all = False
 
-    return removed_all
+        about = db.about.find_first(where={'user_id': user_id})
+        if about is not None:
+            db.about.update(where={'id': about.id}, data={'user': {
+                'connect': {
+                    'id': session['user']
+                }
+            }})
+
+        events = db.event.find_many(where={'user_id': user_id})
+        for event in events:
+            db.event.update(where={'id': event.id}, data={'user': {
+                'connect': {
+                    'id': session['user']
+                }
+            }})
+
+        people = db.people.find_many(where={'user_id': user_id})
+        for person in people:
+            db.people.update(where={'id': person.id}, data={'user': {
+                'connect': {
+                    'id': session['user']
+                }
+            }})
+
+        albums = db.album.find_many(where={'user_id': user_id})
+        for album in albums:
+            db.album.update(where={'id': album.id}, data={'user': {
+                'connect': {
+                    'id': session['user']
+                }
+            }})
+
+        media = db.media.find_many(where={'user_id': user_id})
+        for sing_media in media:
+            db.media.update(where={'id': sing_media.id}, data={'user': {
+                'connect': {
+                    'id': session['user']
+                }
+            }})
+
+        db.user.delete(where={'id': user_id})
 
 
 def is_admin(user_id: int):

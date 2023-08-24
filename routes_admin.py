@@ -46,11 +46,10 @@ def update_users():
         message = "Only the owner can make such changes"
     elif owner.id not in admin_ids or owner.id in remove_ids:
         message = "Cannot change owner"
-    elif not remove_users(remove_ids):
-        message = "Some users could not be removed"
 
     if message == "Updated users successfully!":
         toggle_admins(admin_ids)
+        remove_users(remove_ids)
 
     flash(message)
     return redirect(url_for('admin.edit_page'))
