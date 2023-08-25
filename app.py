@@ -48,6 +48,13 @@ def large_file_error(_error: str):
     return redirect(url_for('admin.edit_page'))
 
 
+@app.errorhandler(422)
+def invalid_file_error(_error: str):
+    """422 errors"""
+    flash("Selected file must be an image")
+    return redirect(url_for('admin.edit_page'))
+
+
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=DEBUG_MODE, host='0.0.0.0', port=port)

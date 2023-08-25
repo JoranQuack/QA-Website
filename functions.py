@@ -347,7 +347,7 @@ def random_filename(name: str):
     extension = name.split('.')[-1]
 
     if extension.lower() not in UPLOAD_EXTENSIONS:
-        raise ValueError('Invalid file extension')
+        abort(422)
 
     filename = secrets.token_bytes(32).hex()
 
