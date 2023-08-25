@@ -5,7 +5,7 @@ import secrets
 from typing import Any
 from functools import wraps
 from datetime import datetime
-from flask import session, flash, abort, redirect, url_for
+from flask import session, flash, abort
 from prisma.partials import AlbumWithMedia, MediaWithAlbums
 from database import db
 from environments import SALT
@@ -40,14 +40,11 @@ def check_signed_user(func: Any) -> Any:
     """checks if signed in user is still admin"""
     @wraps(func)
     def decorator(*args: Any, **kwargs: Any) -> Any:
-        if signed_in():
-            if session['is_admin'] != is_admin(int(session_get('user'))):
-                return redirect(url_for('logout'))
-        else:
+
+        if not signed_in() or not session['is_admin']:
             abort(404)
 
         return func(*args, **kwargs)
-
     return decorator
 
 
