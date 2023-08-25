@@ -60,15 +60,14 @@ def update_users():
 def update_about():
     """updates the about section"""
 
-    word_min = 200
-    word_max = 700
+    character_min = 300
+    character_max = 700
 
     new_description = request.form['description']
     user_id = int(session_get('user'))
 
-    if word_min > len(new_description) > word_max:
-        session['description'] = new_description
-        flash(f"Please write between {word_min} and {word_max} characters")
+    if len(new_description) > character_max or len(new_description) < character_min:
+        flash(f"Please write between {character_min} and {character_max} characters")
         return redirect(url_for('admin.edit_page'))
 
     db.about.delete_many()
