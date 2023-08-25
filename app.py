@@ -1,6 +1,6 @@
 """root of backend"""
 import os
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, session
 import routes_public
 import routes_admin
 from functions import image_clean, create_owner, users_clean
@@ -30,6 +30,7 @@ def start_up():
 @app.errorhandler(404)
 def page_not_found(error: str):
     """404 errors"""
+    session.clear()
     name, message = str(error).split(':')
     return render_template('error.html', name=name, message=message), 404
 
@@ -37,6 +38,7 @@ def page_not_found(error: str):
 @app.errorhandler(500)
 def application_error(error: str):
     """500 errors"""
+    session.clear()
     name, message = str(error).split(':')
     return render_template('error.html', name=name, message=message), 500
 
