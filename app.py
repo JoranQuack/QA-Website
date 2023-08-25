@@ -1,11 +1,11 @@
 """root of backend"""
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, flash
 import routes_public
 import routes_admin
 from functions import image_clean, create_owner, users_clean
 from environments import SECRET_KEY
-from constants import UPLOAD_FOLDER, MAX_CONTENT_PATH, UPLOAD_EXTENSIONS, DEBUG_MODE
+from constants import UPLOAD_FOLDER, MAX_CONTENT_LENGTH, UPLOAD_EXTENSIONS, DEBUG_MODE
 
 
 app = Flask(__name__, template_folder="templates")
@@ -15,7 +15,7 @@ app.register_blueprint(routes_public.api, url_prefix="/")
 app.register_blueprint(routes_admin.api, url_prefix="/admin")
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_PATH'] = MAX_CONTENT_PATH
+app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 app.config['UPLOAD_EXTENSIONS'] = UPLOAD_EXTENSIONS
 
 
@@ -39,6 +39,13 @@ def application_error(error: str):
     """500 errors"""
     name, message = str(error).split(':')
     return render_template('error.html', name=name, message=message), 500
+
+
+@app.errorhandler(413)
+def large_file_error(_error: str):
+    """413 errors"""
+    flash("Selected file is too large")
+    return redirect(url_for('admin.edit_page'))
 
 
 if __name__ == "__main__":
