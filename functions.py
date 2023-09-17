@@ -377,7 +377,6 @@ def users_clean():
 
 def valid_album_id(album_id: int):
     """checks the id and makes sure it exists in album table"""
-    if not album_id.bit_length() <= 63:
+    if album_id.bit_length() > 64:
         return False
-    in_db = db.album.find_first(where={'id': album_id}) is not None
-    return in_db
+    return db.album.find_first(where={'id': album_id}) is not None
